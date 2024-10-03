@@ -1,3 +1,8 @@
+
+// Задаем переменную задержки
+const delayBetweenCommands = 200; // Задержка между командами в миллисекундах
+
+
 // ________________class SlideRecord2D_____________________
 class SlideRecord2D {
 	constructor (slideElement, toolsElement, slideSRC) {
@@ -190,7 +195,9 @@ class SlidePlay2D {
 			this.startTime = (new Date ()).getTime();
 			this.setTimeID = setTimeout (this.nextCMD, this.interval);
 		}			
-	}	
+	}
+
+
 	
 	nextCMD () {
 		console.log (this.iCMD);
@@ -201,7 +208,8 @@ class SlidePlay2D {
 			let t0 = cmd0[0];
 			let cmd1 = this.cmdArr[this.iCMD];
 			let t1 = cmd1[0];
-			this.interval = t1-t0;
+			// this.interval = t1-t0;
+			this.interval = (t1 - t0) + delayBetweenCommands; // Добавляем задержку
 			this.startTime = (new Date ()).getTime();
 			this.setTimeID = setTimeout (this.nextCMD, this.interval);
 		}

@@ -3,9 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JS Application</title>
+    <title>Slide Interaction Demo</title>
 </head>
 <body>
+<div id="slide-container" style="width: 600px; height: 400px; border: 1px solid black;"></div>
+<div id="tools-container">
+    <!-- Инструменты для рисования -->
+</div>
+
+
+
+<div id="controls-container">
+    <button id="start-recording">Начать запись</button>
+    <button id="stop-recording">Остановить запись</button>
+    <button id="play-slide">Воспроизвести слайд</button>
+    <button id="stop-slide">Остановить воспроизведение</button>
+    <span id="timer">00:00</span>
+</div>
+
+
+
+<!-- Подключаем библиотеки -->
+<script src="diploma-libs/slideRastr2d.js"></script>
+<script src="slideRecorder.js"></script>
+<script src="slidePlayer.js"></script>
 <script src="index.js"></script>
 </body>
 </html>
