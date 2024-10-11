@@ -2,7 +2,7 @@
 const slideElement = document.getElementById('slide-container');
 const toolsElement = document.getElementById('tools-container');
 
-const slideSrc = 'img/first_image_english.jpg';
+const slideSrc = 'img/first_image.jpg';
 
 // Создаем объект SlideRecord2D для записи взаимодействий
 const slideRecorder = new SlideRecord2D(slideElement, toolsElement, slideSrc);
@@ -45,7 +45,7 @@ function stopTimer() {
     timerElement.textContent = '00:00';
 }
 
-recordedCommands = slideRecorder.getControls(); // Получаем записанные команд
+const recordedCommands = slideRecorder.getControls(); // Получаем записанные команд
 const slidePlayer = new SlidePlay2D(slideElement, slideSrc, recordedCommands);
 
 // Добавление обработчика кнопки для запуска воспроизведения
