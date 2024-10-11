@@ -1,6 +1,8 @@
-import { norm, denorm } from './utils.js';
+import {norm, denorm} from './utils.js';
+import { penWidths, penColors } from './penSettings.js';
 
 export class SlideRecord2D {
+
     constructor(slideElement, toolsElement, slideSRC) {
         this.slideBlock = slideElement;
         this.toolsBlock = toolsElement;
@@ -9,7 +11,6 @@ export class SlideRecord2D {
         this.height1 = this.slideBlock.clientHeight;
         this.cmdArr = [];
 
-        // создаем элемент 2D
         this.createCanvas(slideSRC);
         this.createTools();
         this.bindEvents();
@@ -21,54 +22,43 @@ export class SlideRecord2D {
         this.slideCanvas.width = this.width1;
         this.slideCanvas.height = this.height1;
 //		this.slideCanvas.style.borderStyle= 'double';
-        this.slideBlock.appendChild (this.slideCanvas);
-        this.slideContext = this.slideCanvas.getContext ('2d');
-        let slideImg = new Image ();
-        slideImg.onload = (function () {this.slideContext.drawImage (slideImg, 0, 0, this.width1, this.height1)}).bind(this);
+        this.slideBlock.appendChild(this.slideCanvas);
+        this.slideContext = this.slideCanvas.getContext('2d');
+        let slideImg = new Image();
+        slideImg.onload = (function () {
+            this.slideContext.drawImage(slideImg, 0, 0, this.width1, this.height1)
+        }).bind(this);
         slideImg.src = slideSRC;
     }
 
     createTools() {
-        //--tools
-        this.thinPen = document.createElement ('button');
-        this.thinPen.textContent = '❘';
-        this.thinPen.setAttribute ('title','thin pen');
-        this.toolsBlock.appendChild (this.thinPen);
-        this.thinPen.onclick = (function() {this.penWidth = 3}).bind(this);
+        // импортируем набор ширины ручки
+        this.addPenWidthTools();
+        // импортируем набор цветов для ручки
+        this.addPenColorTools();
+    }
 
-        this.mediumPen = document.createElement ('button');
-        this.mediumPen.textContent = '❙';
-        this.mediumPen.setAttribute ('title','medium pen');
-        this.toolsBlock.appendChild (this.mediumPen);
-        this.mediumPen.onclick = (function() {this.penWidth = 5}).bind(this);
+    addPenWidthTools() {
+        penWidths.forEach(({ label, width, title }) => {
+            const button = document.createElement('button');
+            button.textContent = label;
+            button.setAttribute('title', title);
+            this.toolsBlock.appendChild(button);
+            button.onclick = () => { this.penWidth = width };
+        });
+    }
 
-        this.thickPen = document.createElement ('button');
-        this.thickPen.textContent = '❚';
-        this.thickPen.setAttribute ('title','thick pen');
-        this.toolsBlock.appendChild (this.thickPen);
-        this.thickPen.onclick = (function() {this.penWidth = 7}).bind(this);
-
-        this.redPen = document.createElement ('button');
-        this.redPen.textContent = '🟥';
-        this.redPen.setAttribute ('title','red color');
-        this.toolsBlock.appendChild (this.redPen);
-        this.redPen.onclick = (function() {this.penColor = 'red'}).bind(this);
-
-        this.greenPen = document.createElement ('button');
-        this.greenPen.textContent = '🟩';
-        this.greenPen.setAttribute ('title','green color');
-        this.toolsBlock.appendChild (this.greenPen);
-        this.greenPen.onclick = (function() {this.penColor = 'green'}).bind(this);
-
-        this.bluePen = document.createElement ('button');
-        this.bluePen.textContent = '🟦';
-        this.bluePen.setAttribute ('title','blue color');
-        this.toolsBlock.appendChild (this.bluePen);
-        this.bluePen.onclick = (function() {this.penColor = 'blue'}).bind(this);
+    addPenColorTools() {
+        penColors.forEach(({ label, color, title }) => {
+            const button = document.createElement('button');
+            button.textContent = label;
+            button.setAttribute('title', title);
+            this.toolsBlock.appendChild(button);
+            button.onclick = () => { this.penColor = color };
+        });
     }
 
     bindEvents() {
-        //--
         this.onMouseDown = this.onMouseDown.bind(this);
         this.onMouseUp = this.onMouseUp.bind(this);
         this.onMouseMove = this.onMouseMove.bind(this);
@@ -87,12 +77,12 @@ export class SlideRecord2D {
     onMouseDown(event) {
         //	let t1 = (new Date()).getTime;
         let XY = [event.offsetX, event.offsetY]; // записываем в объект начальное время и координаты старта
-        this.prepareCMD ('beginPath');
-        this.prepareCMD ('setPenColor', this.penColor);
-        this.prepareCMD ('setPenWidth', this.penWidth);
-        this.prepareCMD ('moveTo', norm(XY, this.width1, this.height1));
-        this.slideCanvas.addEventListener ('mousemove', this.onMouseMove);
-        this.slideCanvas.addEventListener ('mouseup', this.onMouseUp);
+        this.prepareCMD('beginPath');
+        this.prepareCMD('setPenColor', this.penColor);
+        this.prepareCMD('setPenWidth', this.penWidth);
+        this.prepareCMD('moveTo', norm(XY, this.width1, this.height1));
+        this.slideCanvas.addEventListener('mousemove', this.onMouseMove);
+        this.slideCanvas.addEventListener('mouseup', this.onMouseUp);
     }
 
     onMouseMove(event) {
@@ -113,29 +103,29 @@ export class SlideRecord2D {
         command[0] = t1 - this.t0;
         command[1] = action;
         command[2] = options;
-        this.cmdArr.push (command);
-        this.execCMD (command);
+        this.cmdArr.push(command);
+        this.execCMD(command);
     }
 
     execCMD(command) {
         let action = command [1];
         let options = command[2];
-        let XY = new Array ();
+        let XY = new Array();
         switch (action) {
             case 'beginPath' :
-                this.slideContext.beginPath ();
+                this.slideContext.beginPath();
                 break;
             case 'moveTo' :
-                XY = denorm (options, this.width1, this.height1);
-                this.slideContext.moveTo (XY[0], XY[1]);
+                XY = denorm(options, this.width1, this.height1);
+                this.slideContext.moveTo(XY[0], XY[1]);
                 break;
             case 'lineTo' :
-                XY = denorm (options, this.width1, this.height1);
-                this.slideContext.lineTo (XY[0], XY[1]);
-                this.slideContext.stroke ();
+                XY = denorm(options, this.width1, this.height1);
+                this.slideContext.lineTo(XY[0], XY[1]);
+                this.slideContext.stroke();
                 break;
             case 'closePath' :
-                this.slideContext.closePath ();
+                this.slideContext.closePath();
                 break;
             case 'setPenColor' :
                 this.slideContext.strokeStyle = options;
@@ -147,12 +137,13 @@ export class SlideRecord2D {
     }
 
     finish() {
-        this.prepareCMD ('closePath');
-        this.slideCanvas.removeEventListener ('mousemove', this.onMouseMove);
+        this.prepareCMD('closePath');
+        this.slideCanvas.removeEventListener('mousemove', this.onMouseMove);
         this.slideCanvas.removeEventListener('mousedown', this.onMouseDown);
     }
 
     getControls() {
         return this.cmdArr;
     }
+
 }
