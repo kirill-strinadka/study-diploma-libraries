@@ -1,16 +1,11 @@
-
 export class SlideRecordVideo {
-    constructor(videoElement, toolsElement, SRC1) {
+    constructor(videoElement, toolsElement, videoSrc) {
         this.slideBlock = videoElement;
         this.toolsBlock = toolsElement;
         this.cmdArr = [];
 
         // Создаем элемент видео
-        this.rVideo = document.createElement('video');
-        this.rVideo.src = SRC1;
-        this.rVideo.style.width = '100%';
-        this.rVideo.style.height = '100%';
-        this.slideBlock.appendChild(this.rVideo);
+        this.createVideoElement(videoSrc);
 
         // Создаем кнопку Play/Pause
         this.playPauseBTN = document.createElement('button');
@@ -27,6 +22,15 @@ export class SlideRecordVideo {
         this.clickOnset = this.clickOnset.bind(this);
         this.onsetBTN.onclick = this.clickOnset;
         this.toolsBlock.appendChild(this.onsetBTN);
+
+    }
+
+    createVideoElement(src) {
+        this.rVideo = document.createElement('video');
+        this.rVideo.src = src;
+        this.rVideo.style.width = '100%';
+        this.rVideo.style.height = '100%';
+        this.slideBlock.appendChild(this.rVideo);
     }
 
     start() { // Начать запись манипуляций с видео
