@@ -5,8 +5,8 @@ export class SlidePlayVideo {
         this.cmdArr = Controls;
 
         // Создаем элемент видео
-        this.rVideo = this.createVideoElement(SRC);
-        this.slideBlock.appendChild(this.rVideo);
+        this.slideVideoElement = this.createVideoElement(SRC);
+        this.slideBlock.appendChild(this.slideVideoElement);
 
         this.execCMD = this.execCMD.bind(this);
 
@@ -54,8 +54,8 @@ export class SlidePlayVideo {
     stop() { // Остановить воспроизведение
         clearTimeout(this.setTimeID);
         this.stopTime = (new Date()).getTime();
-        if (this.rVideo.paused == false) {
-            this.rVideo.pause();
+        if (this.slideVideoElement.paused == false) {
+            this.slideVideoElement.pause();
             this.pauseFLG = false;
         } else {
             this.pauseFLG = true;
@@ -67,23 +67,25 @@ export class SlidePlayVideo {
         this.interval = stopInterval - (this.stopTime - this.startTime);
         this.startTime = (new Date()).getTime();
         this.setTimeID = setTimeout(this.nextCMD, this.interval);
-        if (this.pauseFLG == false) { this.rVideo.play(); }
-        console.log(this.pauseFLG + '**' + this.rVideo.paused);
+        if (this.pauseFLG == false) { this.slideVideoElement.play(); }
+        console.log(this.pauseFLG + '**' + this.slideVideoElement.paused);
     }
 
     execCMD(cmd) { // Выполнение команды
         switch (cmd[1]) {
             case 'play':
-                this.rVideo.play();
+                this.slideVideoElement.play();
                 console.log('!play');
                 break;
             case 'pause':
                 console.log('!pause');
-                this.rVideo.pause();
+                this.slideVideoElement.pause();
                 break;
             case 'onset':
-                this.rVideo.currentTime = 0;
+                this.slideVideoElement.currentTime = 0;
                 break;
+            default:
+                console.error(`Unknown command: ${cmd[1]}`);
         }
     }
 }

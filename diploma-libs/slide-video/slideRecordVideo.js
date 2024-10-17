@@ -74,6 +74,8 @@ export class SlideRecordVideo {
             case 'onset':
                 this.rVideo.currentTime = 0;
                 break;
+            default:
+                console.error(`Unknown command: ${cmd[1]}`);
         }
     }
 
