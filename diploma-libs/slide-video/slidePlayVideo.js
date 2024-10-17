@@ -5,10 +5,7 @@ export class SlidePlayVideo {
         this.cmdArr = Controls;
 
         // Создаем элемент видео
-        this.rVideo = document.createElement('video');
-        this.rVideo.src = SRC;
-        this.rVideo.style.width = '100%';
-        this.rVideo.style.height = '100%';
+        this.rVideo = this.createVideoElement(SRC);
         this.slideBlock.appendChild(this.rVideo);
 
         this.execCMD = this.execCMD.bind(this);
@@ -19,6 +16,14 @@ export class SlidePlayVideo {
         this.stop = this.stop.bind(this);
         this.restart = this.restart.bind(this);
         this.nextCMD = this.nextCMD.bind(this);
+    }
+
+    createVideoElement(src) {
+        const video = document.createElement('video');
+        video.src = src;
+        video.style.width = '100%';
+        video.style.height = '100%';
+        return video;
     }
 
     start() { // Начать воспроизведение команд
