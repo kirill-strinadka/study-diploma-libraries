@@ -1,3 +1,4 @@
+import { executeCommandToVideo } from './videoCommands.js';
 
 export class SlidePlayVideo {
     constructor(videoElement, SRC, Controls) {
@@ -72,20 +73,6 @@ export class SlidePlayVideo {
     }
 
     execCMD(cmd) { // Выполнение команды
-        switch (cmd[1]) {
-            case 'play':
-                this.slideVideoElement.play();
-                console.log('!play');
-                break;
-            case 'pause':
-                console.log('!pause');
-                this.slideVideoElement.pause();
-                break;
-            case 'onset':
-                this.slideVideoElement.currentTime = 0;
-                break;
-            default:
-                console.error(`Unknown command: ${cmd[1]}`);
-        }
+        executeCommandToVideo(this.slideVideoElement, cmd[1]);
     }
 }

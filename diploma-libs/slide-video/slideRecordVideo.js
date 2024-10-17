@@ -1,8 +1,10 @@
+import { executeCommandToVideo } from './videoCommands.js';
+
 export class SlideRecordVideo {
     constructor(videoElement, toolsElement, videoSrc) {
         this.slideBlock = videoElement;
         this.toolsBlock = toolsElement;
-        this.cmdArr = [];
+        this.cmdByTimeArr = [];   // команды для видео
 
         // Создаем элемент видео
         this.createVideoElement(videoSrc);
@@ -26,64 +28,48 @@ export class SlideRecordVideo {
     }
 
     createVideoElement(src) {
-        this.rVideo = document.createElement('video');
-        this.rVideo.src = src;
-        this.rVideo.style.width = '100%';
-        this.rVideo.style.height = '100%';
-        this.slideBlock.appendChild(this.rVideo);
+        this.slideVideoElement = document.createElement('video');
+        this.slideVideoElement.src = src;
+        this.slideVideoElement.style.width = '100%';
+        this.slideVideoElement.style.height = '100%';
+        this.slideBlock.appendChild(this.slideVideoElement);
     }
 
     start() { // Начать запись манипуляций с видео
         let date = new Date();
-        this.t0 = date.getTime();
-        console.log('!t0=' + this.t0);
+        this.startTime = date.getTime();
+        console.log('! Recording startTime=' + this.startTime);
     }
 
     togglePlayPause() { // Переключатель Play/Pause
         if (this.playPauseBTN.textContent === '▶️') {
             this.playPauseBTN.textContent = '⏸️';
-            this.prepareCMD('play');
+            this.recordAndExecuteCommand('play');
         } else {
             this.playPauseBTN.textContent = '▶️';
-            this.prepareCMD('pause');
+            this.recordAndExecuteCommand('pause');
         }
     }
 
     clickOnset() { // Перемотка в начало
-        this.prepareCMD('onset');
+        this.recordAndExecuteCommand('onset');
     }
 
-    prepareCMD(command) { // Подготовка команды для записи
-        let arr = [];
-        let date = new Date();
-        let t1 = date.getTime();
-        arr[0] = t1 - this.t0; // Время относительно начала записи
-        arr[1] = command;
-        this.cmdArr.push(arr);
+    recordAndExecuteCommand(command) { // Подготовка команды для записи
+        const timeOffset = Date.now() - this.startTime;
+        this.cmdByTimeArr.push([timeOffset, command]);
         this.execCMD(command);
     }
 
     execCMD(cmd) { // Выполнение команды
-        switch (cmd) {
-            case 'play':
-                this.rVideo.play();
-                break;
-            case 'pause':
-                this.rVideo.pause();
-                break;
-            case 'onset':
-                this.rVideo.currentTime = 0;
-                break;
-            default:
-                console.error(`Unknown command: ${cmd[1]}`);
-        }
+        executeCommandToVideo(this.slideVideoElement, cmd);
     }
 
-    finish() { // Завершить запись
-        this.rVideo.pause();
+    stopRecording() { // Завершить запись
+        this.slideVideoElement.pause();
     }
 
     getControls() { // Получить записанные команды
-        return this.cmdArr;
+        return this.cmdByTimeArr;
     }
 }

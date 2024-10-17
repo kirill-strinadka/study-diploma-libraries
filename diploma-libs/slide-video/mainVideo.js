@@ -11,7 +11,7 @@ videoRecorder.start(); // Начать запись
 
 const startPlaybackButtonVideo = document.getElementById('start-playback-button-video');
 startPlaybackButtonVideo.addEventListener('click', () => {
-    videoRecorder.finish();
+    videoRecorder.stopRecording();
     const recordedCommandsVideo = videoRecorder.getControls();
     const videoPlayer = new SlidePlayVideo(videoElement, videoSrc, recordedCommandsVideo);
     videoPlayer.start(); // Начать воспроизведение
