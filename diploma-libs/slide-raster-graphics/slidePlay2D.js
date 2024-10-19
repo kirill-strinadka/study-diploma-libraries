@@ -14,10 +14,6 @@ export class SlidePlay2D {
         this.execCMD = this.execCMD.bind(this);
         this.iCMD = 0;
         this.lastCMD = this.cmdArr.length-1;
-
-        this.stop = this.stop.bind(this);
-        this.restart = this.restart.bind(this);
-        this.nextCMD = this.nextCMD.bind(this);
     }
 
     createCanvas(slideSRC) {
@@ -27,12 +23,15 @@ export class SlidePlay2D {
         this.slideCanvas.height = this.height1;
         this.slideBlock.appendChild (this.slideCanvas);
         this.slideContext = this.slideCanvas.getContext ('2d');
+
         let slideImg = new Image ();
-        slideImg.onload = (function () {this.slideContext.drawImage (slideImg, 0, 0, this.width1, this.height1)}).bind(this);
+        slideImg.onload = (function () {
+            this.slideContext.drawImage (slideImg, 0, 0, this.width1, this.height1)
+        }).bind(this);
         slideImg.src = slideSRC;
     }
 
-    start() {
+    start = () => {
         console.log (this.cmdArr.length);
         if (this.iCMD < this.lastCMD) {
             let cmd0 = this.cmdArr[this.iCMD];
@@ -42,7 +41,7 @@ export class SlidePlay2D {
         }
     }
 
-    nextCMD() {
+    nextCMD = () => {
         console.log (this.iCMD);
         let cmd0 = this.cmdArr[this.iCMD];
         this.execCMD (cmd0);
@@ -58,7 +57,7 @@ export class SlidePlay2D {
         }
     }
 
-    execCMD(command) {
+    execCMD = (command) => {
         let action = command [1];
         console.log (action);
         let options = command[2];
@@ -88,12 +87,12 @@ export class SlidePlay2D {
         }
     }
 
-    stop() {
+    stop = () => {
         clearTimeout (this.setTimeID);
         this.stopTime = (new Date ()).getTime();
     }
 
-    restart() {
+    restart = () => {
         let stopInterval = this.interval;
         this.interval = stopInterval - (this.stopTime - this.startTime);
         this.startTime = (new Date ()).getTime();

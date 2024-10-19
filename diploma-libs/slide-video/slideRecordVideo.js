@@ -13,7 +13,6 @@ export class SlideRecordVideo {
         this.playPauseBTN = document.createElement('button');
         this.playPauseBTN.title = 'play';
         this.playPauseBTN.appendChild(document.createTextNode('▶️'));
-        this.togglePlayPause = this.togglePlayPause.bind(this);
         this.playPauseBTN.onclick = this.togglePlayPause;
         this.toolsBlock.appendChild(this.playPauseBTN);
 
@@ -21,7 +20,6 @@ export class SlideRecordVideo {
         this.onsetBTN = document.createElement('button');
         this.onsetBTN.title = 'begin';
         this.onsetBTN.appendChild(document.createTextNode('⏪'));
-        this.clickOnset = this.clickOnset.bind(this);
         this.onsetBTN.onclick = this.clickOnset;
         this.toolsBlock.appendChild(this.onsetBTN);
 
@@ -35,13 +33,13 @@ export class SlideRecordVideo {
         this.slideBlock.appendChild(this.slideVideoElement);
     }
 
-    start() { // Начать запись манипуляций с видео
+    start = () => { // Начать запись манипуляций с видео
         let date = new Date();
         this.startTime = date.getTime();
         console.log('! Recording startTime=' + this.startTime);
     }
 
-    togglePlayPause() { // Переключатель Play/Pause
+    togglePlayPause = () => { // Переключатель Play/Pause
         if (this.playPauseBTN.textContent === '▶️') {
             this.playPauseBTN.textContent = '⏸️';
             this.recordAndExecuteCommand('play');
@@ -51,18 +49,14 @@ export class SlideRecordVideo {
         }
     }
 
-    clickOnset() { // Перемотка в начало
+    clickOnset = () => { // Перемотка в начало
         this.recordAndExecuteCommand('onset');
     }
 
     recordAndExecuteCommand(command) { // Подготовка команды для записи
         const timeOffset = Date.now() - this.startTime;
         this.cmdByTimeArr.push([timeOffset, command]);
-        this.execCMD(command);
-    }
-
-    execCMD(cmd) { // Выполнение команды
-        executeCommandToVideo(this.slideVideoElement, cmd);
+        executeCommandToVideo(this.slideVideoElement, command)
     }
 
     stopRecording() { // Завершить запись

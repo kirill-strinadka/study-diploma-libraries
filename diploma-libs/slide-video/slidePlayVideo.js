@@ -9,14 +9,8 @@ export class SlidePlayVideo {
         this.slideVideoElement = this.createVideoElement(SRC);
         this.slideBlock.appendChild(this.slideVideoElement);
 
-        this.execCMD = this.execCMD.bind(this);
-
         this.iCMD = 0;
         this.lastCMD = this.cmdArr.length - 1;
-
-        this.stop = this.stop.bind(this);
-        this.restart = this.restart.bind(this);
-        this.nextCMD = this.nextCMD.bind(this);
     }
 
     createVideoElement(src) {
@@ -27,7 +21,7 @@ export class SlidePlayVideo {
         return video;
     }
 
-    start() { // Начать воспроизведение команд
+    start = () => { // Начать воспроизведение команд
         console.log(this.cmdArr.length);
         if (this.iCMD < this.lastCMD) {
             let cmd0 = this.cmdArr[this.iCMD];
@@ -35,9 +29,10 @@ export class SlidePlayVideo {
             this.startTime = (new Date()).getTime();
             this.setTimeID = setTimeout(this.nextCMD, this.interval);
         }
-    }
+    };
 
-    nextCMD() { // Выполнение следующей команды
+    // todo - есть баг с воспроизведением последней команды (последняя команда не срабатывает). Возможно в записи дело.
+    nextCMD = () =>  { // Выполнение следующей команды
         console.log(this.iCMD);
         let cmd0 = this.cmdArr[this.iCMD];
         this.execCMD(cmd0);
@@ -52,10 +47,10 @@ export class SlidePlayVideo {
         }
     }
 
-    stop() { // Остановить воспроизведение
+    stop = () => { // Остановить воспроизведение
         clearTimeout(this.setTimeID);
         this.stopTime = (new Date()).getTime();
-        if (this.slideVideoElement.paused == false) {
+        if (this.slideVideoElement.paused === false) {
             this.slideVideoElement.pause();
             this.pauseFLG = false;
         } else {
@@ -63,16 +58,16 @@ export class SlidePlayVideo {
         }
     }
 
-    restart() { // Перезапустить воспроизведение
+    restart = () =>  { // Перезапустить воспроизведение
         let stopInterval = this.interval;
         this.interval = stopInterval - (this.stopTime - this.startTime);
         this.startTime = (new Date()).getTime();
         this.setTimeID = setTimeout(this.nextCMD, this.interval);
-        if (this.pauseFLG == false) { this.slideVideoElement.play(); }
+        if (this.pauseFLG === false) { this.slideVideoElement.play(); }
         console.log(this.pauseFLG + '**' + this.slideVideoElement.paused);
     }
 
-    execCMD(cmd) { // Выполнение команды
+    execCMD = (cmd) => { // Выполнение команды
         executeCommandToVideo(this.slideVideoElement, cmd[1]);
-    }
+    };
 }

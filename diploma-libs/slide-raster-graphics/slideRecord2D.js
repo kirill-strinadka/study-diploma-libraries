@@ -13,7 +13,6 @@ export class SlideRecord2D {
 
         this.createCanvas(slideSRC);
         this.createTools();
-        this.bindEvents();
     }
 
     createCanvas(slideSRC) {
@@ -58,15 +57,7 @@ export class SlideRecord2D {
         });
     }
 
-    bindEvents() {
-        this.onMouseDown = this.onMouseDown.bind(this);
-        this.onMouseUp = this.onMouseUp.bind(this);
-        this.onMouseMove = this.onMouseMove.bind(this);
-        this.prepareCMD = this.prepareCMD.bind(this);
-        this.execCMD = this.execCMD.bind(this);
-    }
-
-    start() {
+    start = () => {
         let date = new Date();
         this.t0 = date.getTime();
         this.penColor = 'red';
@@ -74,7 +65,7 @@ export class SlideRecord2D {
         this.slideCanvas.addEventListener('mousedown', this.onMouseDown); // включаем реагирование на рисование заметок
     }
 
-    onMouseDown(event) {
+    onMouseDown = (event) => {
         //	let t1 = (new Date()).getTime;
         let XY = [event.offsetX, event.offsetY]; // записываем в объект начальное время и координаты старта
         this.prepareCMD('beginPath');
@@ -85,17 +76,17 @@ export class SlideRecord2D {
         this.slideCanvas.addEventListener('mouseup', this.onMouseUp);
     }
 
-    onMouseMove(event) {
+    onMouseMove = (event) => {
         let XY = [event.offsetX, event.offsetY];
         this.prepareCMD('lineTo', norm(XY, this.width1, this.height1));
     }
 
-    onMouseUp() {
+    onMouseUp = () => {
         this.prepareCMD('closePath');
         this.slideCanvas.removeEventListener('mousemove', this.onMouseMove);
     }
 
-    prepareCMD(action, options) {
+    prepareCMD = (action, options) => {
         let act = action;
         let command = [];
         let date = new Date();
@@ -107,7 +98,7 @@ export class SlideRecord2D {
         this.execCMD(command);
     }
 
-    execCMD(command) {
+    execCMD = (command) => {
         let action = command [1];
         let options = command[2];
         let XY = new Array();
