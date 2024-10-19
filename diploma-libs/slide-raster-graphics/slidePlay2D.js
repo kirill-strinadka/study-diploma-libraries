@@ -1,4 +1,4 @@
-import { norm, denorm } from './utils.js';
+import {executeCommandToGraphicSlide} from './graphicsCommands.js';
 
 export class SlidePlay2D {
     constructor(slideElement, slideSRC, Controls) {
@@ -58,33 +58,12 @@ export class SlidePlay2D {
     }
 
     execCMD = (command) => {
-        let action = command [1];
-        console.log (action);
-        let options = command[2];
-        let XY = new Array ();
-        switch (action) {
-            case 'beginPath' :
-                this.slideContext.beginPath ();
-                break;
-            case 'moveTo' :
-                XY = denorm (options, this.width1, this.height1);
-                this.slideContext.moveTo (XY[0], XY[1]);
-                break;
-            case 'lineTo' :
-                XY = denorm (options, this.width1, this.height1);
-                this.slideContext.lineTo (XY[0], XY[1]);
-                this.slideContext.stroke ();
-                break;
-            case 'closePath' :
-                this.slideContext.closePath ();
-                break;
-            case 'setPenColor' :
-                this.slideContext.strokeStyle = options;
-                break;
-            case 'setPenWidth' :
-                this.slideContext.lineWidth = options;
-                break;
-        }
+        executeCommandToGraphicSlide(
+            this.slideContext,
+            command,
+            this.width1,
+            this.height1
+        )
     }
 
     stop = () => {
