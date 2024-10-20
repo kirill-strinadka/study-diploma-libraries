@@ -6,19 +6,19 @@ export class SlidePlayVideo {
         this.cmdArr = Controls;
 
         // Создаем элемент видео
-        this.slideVideoElement = this.createVideoElement(SRC);
-        this.slideBlock.appendChild(this.slideVideoElement);
+        this.createVideoElement(SRC);
 
         this.iCMD = 0;
         this.lastCMD = this.cmdArr.length - 1;
     }
 
     createVideoElement(src) {
-        const video = document.createElement('video');
-        video.src = src;
-        video.style.width = '100%';
-        video.style.height = '100%';
-        return video;
+        this.slideVideoElement = document.createElement('video');
+        this.slideVideoElement.src = src;
+        this.slideVideoElement.style.width = '100%';
+        this.slideVideoElement.style.height = '100%';
+        this.slideBlock.appendChild(this.slideVideoElement);
+        return this.slideVideoElement;
     }
 
     start = () => { // Начать воспроизведение команд
