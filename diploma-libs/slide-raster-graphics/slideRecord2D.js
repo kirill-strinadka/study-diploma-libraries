@@ -60,7 +60,7 @@ export class SlideRecord2D {
 
     start = () => {
         let date = new Date();
-        this.t0 = date.getTime();
+        this.startTime = date.getTime();
         this.penColor = 'red';
         this.penWidth = '3';
         this.slideCanvas.addEventListener('mousedown', this.onMouseDown); // включаем реагирование на рисование заметок
@@ -88,11 +88,10 @@ export class SlideRecord2D {
     }
 
     prepareCMD = (action, options) => {
-        let act = action;
         let command = [];
         let date = new Date();
         let t1 = date.getTime();
-        command[0] = t1 - this.t0;
+        command[0] = t1 - this.startTime;
         command[1] = action;
         command[2] = options;
         this.cmdArr.push(command);
