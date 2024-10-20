@@ -1,4 +1,4 @@
-import { executeCommandToVideo } from './videoCommands.js';
+import {executeCommandToVideo, videoButtons} from './videoCommands.js';
 import {SlideVideoBase} from './SlideVideoBase.js';
 
 export class SlideRecordVideo extends SlideVideoBase {
@@ -8,19 +8,21 @@ export class SlideRecordVideo extends SlideVideoBase {
         this.toolsBlock = toolsElement;
         this.cmdByTimeArr = [];   // команды для видео
 
-        // Создаем кнопку Play/Pause
-        this.playPauseBTN = document.createElement('button');
-        this.playPauseBTN.title = 'play';
-        this.playPauseBTN.appendChild(document.createTextNode('▶️'));
-        this.playPauseBTN.onclick = this.togglePlayPause;
-        this.toolsBlock.appendChild(this.playPauseBTN);
-
-        // Создаем кнопку перемотки в начало
-        this.onsetBTN = document.createElement('button');
-        this.onsetBTN.title = 'begin';
-        this.onsetBTN.appendChild(document.createTextNode('⏪'));
-        this.onsetBTN.onclick = this.clickOnset;
-        this.toolsBlock.appendChild(this.onsetBTN);
+        // Создание кнопок из массива videoButtons
+        videoButtons.forEach(({ label, command, title }) => {
+            const button = document.createElement('button');
+            button.title = title;
+            button.appendChild(document.createTextNode(label));
+            button.onclick = () => {
+                // Отдельно обрабатываем кнопку пауза/запуска, чтобы ее иконка изменялась при нажатии
+                if (command === 'play' || command === 'pause') {
+                    this.togglePlayPause(button);
+                } else {
+                    this.recordAndExecuteCommand(command);
+                }
+            };
+            this.toolsBlock.appendChild(button);
+        });
     }
 
     start = () => { // Начать запись манипуляций с видео
@@ -29,18 +31,15 @@ export class SlideRecordVideo extends SlideVideoBase {
         console.log('! Recording startTime=' + this.startTime);
     }
 
-    togglePlayPause = () => { // Переключатель Play/Pause
-        if (this.playPauseBTN.textContent === '▶️') {
-            this.playPauseBTN.textContent = '⏸️';
-            this.recordAndExecuteCommand('play');
-        } else {
-            this.playPauseBTN.textContent = '▶️';
+    togglePlayPause = (button) => { // Переключатель Play/Pause
+        if (this.isPlaying) {
+            button.textContent = '▶️'; // Устанавливаем текст кнопки на Play
             this.recordAndExecuteCommand('pause');
+        } else {
+            button.textContent = '⏸️'; // Устанавливаем текст кнопки на Pause
+            this.recordAndExecuteCommand('play');
         }
-    }
-
-    clickOnset = () => { // Перемотка в начало
-        this.recordAndExecuteCommand('onset');
+        this.isPlaying = !this.isPlaying; // Меняем состояние
     }
 
     recordAndExecuteCommand(command) { // Подготовка команды для записи
