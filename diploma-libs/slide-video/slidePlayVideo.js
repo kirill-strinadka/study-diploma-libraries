@@ -26,7 +26,7 @@ export class SlidePlayVideo extends SlideVideoBase {
         let cmd0 = this.cmdArr[this.iCMD];
         this.execCMD(cmd0);
         this.iCMD++;
-        if (this.iCMD < this.lastCMD) {
+        if (this.iCMD <= this.lastCMD) {
             let t0 = cmd0[0];
             let cmd1 = this.cmdArr[this.iCMD];
             let t1 = cmd1[0];
