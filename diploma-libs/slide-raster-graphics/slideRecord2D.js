@@ -1,10 +1,12 @@
 import {norm, denorm} from './utils.js';
 import { penWidths, penColors } from './penSettings.js';
 import { executeCommandToGraphicSlide } from './graphicsCommands.js';
+import { SlideBase2D } from './SlideBase2D.js';
 
-export class SlideRecord2D {
+export class SlideRecord2D extends SlideBase2D {
 
     constructor(slideElement, toolsElement, slideSRC) {
+        super(slideElement, slideSRC);
         this.slideBlock = slideElement;
         this.toolsBlock = toolsElement;
 
@@ -12,23 +14,7 @@ export class SlideRecord2D {
         this.height1 = this.slideBlock.clientHeight;
         this.cmdArr = [];
 
-        this.createCanvas(slideSRC);
         this.createTools();
-    }
-
-    createCanvas(slideSRC) {
-        // создаем элемент 2D
-        this.slideCanvas = document.createElement('canvas');
-        this.slideCanvas.width = this.width1;
-        this.slideCanvas.height = this.height1;
-//		this.slideCanvas.style.borderStyle= 'double';
-        this.slideBlock.appendChild(this.slideCanvas);
-        this.slideContext = this.slideCanvas.getContext('2d');
-        let slideImg = new Image();
-        slideImg.onload = (function () {
-            this.slideContext.drawImage(slideImg, 0, 0, this.width1, this.height1)
-        }).bind(this);
-        slideImg.src = slideSRC;
     }
 
     createTools() {
