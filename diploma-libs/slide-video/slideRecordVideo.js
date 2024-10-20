@@ -1,13 +1,12 @@
 import { executeCommandToVideo } from './videoCommands.js';
+import {SlideVideoBase} from './SlideVideoBase.js';
 
-export class SlideRecordVideo {
+export class SlideRecordVideo extends SlideVideoBase {
     constructor(videoElement, toolsElement, videoSrc) {
-        this.slideBlock = videoElement;
+        super(videoElement, videoSrc);
+
         this.toolsBlock = toolsElement;
         this.cmdByTimeArr = [];   // команды для видео
-
-        // Создаем элемент видео
-        this.createVideoElement(videoSrc);
 
         // Создаем кнопку Play/Pause
         this.playPauseBTN = document.createElement('button');
@@ -22,15 +21,6 @@ export class SlideRecordVideo {
         this.onsetBTN.appendChild(document.createTextNode('⏪'));
         this.onsetBTN.onclick = this.clickOnset;
         this.toolsBlock.appendChild(this.onsetBTN);
-
-    }
-
-    createVideoElement(src) {
-        this.slideVideoElement = document.createElement('video');
-        this.slideVideoElement.src = src;
-        this.slideVideoElement.style.width = '100%';
-        this.slideVideoElement.style.height = '100%';
-        this.slideBlock.appendChild(this.slideVideoElement);
     }
 
     start = () => { // Начать запись манипуляций с видео
@@ -66,4 +56,5 @@ export class SlideRecordVideo {
     getControls() { // Получить записанные команды
         return this.cmdByTimeArr;
     }
+
 }

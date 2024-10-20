@@ -1,24 +1,13 @@
 import { executeCommandToVideo } from './videoCommands.js';
+import {SlideVideoBase} from './SlideVideoBase.js';
 
-export class SlidePlayVideo {
-    constructor(videoElement, SRC, Controls) {
-        this.slideBlock = videoElement;
+export class SlidePlayVideo extends SlideVideoBase {
+    constructor(videoElement, videoSrc, Controls) {
+        super(videoElement, videoSrc);
+
         this.cmdArr = Controls;
-
-        // Создаем элемент видео
-        this.createVideoElement(SRC);
-
         this.iCMD = 0;
         this.lastCMD = this.cmdArr.length - 1;
-    }
-
-    createVideoElement(src) {
-        this.slideVideoElement = document.createElement('video');
-        this.slideVideoElement.src = src;
-        this.slideVideoElement.style.width = '100%';
-        this.slideVideoElement.style.height = '100%';
-        this.slideBlock.appendChild(this.slideVideoElement);
-        return this.slideVideoElement;
     }
 
     start = () => { // Начать воспроизведение команд
@@ -70,4 +59,5 @@ export class SlidePlayVideo {
     execCMD = (cmd) => { // Выполнение команды
         executeCommandToVideo(this.slideVideoElement, cmd[1]);
     };
+
 }
