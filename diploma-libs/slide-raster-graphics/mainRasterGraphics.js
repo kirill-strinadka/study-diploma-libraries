@@ -8,7 +8,7 @@ const commandStorage = new CommandStorage();
 // Подключение контейнеров
 const slideElement = document.getElementById('slide-container');
 const toolsElement = document.getElementById('tools-container');
-const slideSrc = './img/first-image.jpg'; // Убедитесь, что путь к изображению правильный
+const slideSrc = './img/first-image.jpg';
 
 // Переменные для управления записью
 let slideRecorder = null;
