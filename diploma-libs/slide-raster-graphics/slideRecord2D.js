@@ -5,8 +5,8 @@ import { SlideBase2D } from './SlideBase2D.js';
 
 export class SlideRecord2D extends SlideBase2D {
 
-    constructor(slideElement, toolsElement, slideSRC) {
-        super(slideElement, slideSRC);
+    constructor(slideElement, toolsElement, slide2D) {
+        super(slideElement, slide2D);
         this.slideBlock = slideElement;
         this.toolsBlock = toolsElement;
 

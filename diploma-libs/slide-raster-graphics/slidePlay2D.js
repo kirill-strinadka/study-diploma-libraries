@@ -2,8 +2,8 @@ import {executeCommandToGraphicSlide} from './graphicsCommands.js';
 import {SlideBase2D} from './SlideBase2D.js';
 
 export class SlidePlay2D extends SlideBase2D {
-    constructor(slideElement, slideSRC, Controls) {
-        super(slideElement, slideSRC);
+    constructor(slideElement, slide2D, Controls) {
+        super(slideElement, slide2D);
 
         this.slideBlock = slideElement;
         this.width1 = this.slideBlock.clientWidth;
