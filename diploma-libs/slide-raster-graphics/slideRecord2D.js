@@ -7,12 +7,12 @@ export class SlideRecord2D extends SlideBase2D {
 
     constructor(slideElement, toolsElement, slide2D) {
         super(slideElement, slide2D);
+        this.slide = slide2D;
         this.slideBlock = slideElement;
         this.toolsBlock = toolsElement;
 
         this.width1 = this.slideBlock.clientWidth;
         this.height1 = this.slideBlock.clientHeight;
-        this.cmdArr = [];
 
         this.createTools();
     }
@@ -102,7 +102,7 @@ export class SlideRecord2D extends SlideBase2D {
         command[0] = t1 - this.startTime;
         command[1] = action;
         command[2] = options;
-        this.cmdArr.push(command);
+        this.slide.cmdArr.push(command);
         this.execCMD(command);
     }
 
@@ -119,10 +119,15 @@ export class SlideRecord2D extends SlideBase2D {
         this.prepareCMD('closePath');
         this.slideCanvas.removeEventListener('mousemove', this.onMouseMove);
         this.slideCanvas.removeEventListener('mousedown', this.onMouseDown);
+        this.slide.clearCanvas()
     }
 
     getControls() {
-        return this.cmdArr;
+        return this.slide.cmdArr;
+    }
+
+    getRecordedSlide() {
+        return this.slide;
     }
 
 }

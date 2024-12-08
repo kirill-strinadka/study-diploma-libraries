@@ -2,9 +2,11 @@ import { SlideRecord2D } from './slideRecord2D.js';
 import { SlidePlay2D } from './slidePlay2D.js';
 import { CommandStorage } from './CommandStorage.js';
 import {Slide2D} from "./Slide2D.js";
+import {SlideStorage} from "./SlideStorage.js";
 
 // Создаем экземпляр хранилища команд
 const commandStorage = new CommandStorage();
+const slideStorage = new SlideStorage();
 
 // Подключение контейнеров
 const slideElement = document.getElementById('slide-container');
@@ -55,6 +57,9 @@ stopRecordingButton.addEventListener('click', () => {
     const recordedCommands = slideRecorder.getControls();
     commandStorage.saveCommands(recordingKey, recordedCommands);
 
+    const recordedSlide = slideRecorder.getRecordedSlide();
+    slideStorage.saveCommands(recordingKey, recordedSlide);
+
     // Создаем новую кнопку воспроизведения для этого набора команд
     createPlaybackButton(recordingKey);
 
@@ -72,7 +77,7 @@ function createPlaybackButton(key) {
     button.addEventListener('click', () => {
         const controls = commandStorage.getCommands(key);
         if (controls) {
-            let slide2D = new Slide2D(slideSrc);
+            let slide2D = slideStorage.getCommands(key)
             const slidePlayer = new SlidePlay2D(slideElement, slide2D, controls);
             slidePlayer.start(); // Запускаем воспроизведение
         } else {

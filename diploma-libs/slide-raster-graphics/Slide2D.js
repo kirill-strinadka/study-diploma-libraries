@@ -63,4 +63,10 @@ export class Slide2D {
     getCommands() {
         return this.cmdArr;
     }
+
+    clearCanvas() {
+        this.slideContainerWithCanvas = ''
+        this.slideContainerWithCanvas = this.createSlideContainer();
+        this.createCanvas();
+    }
 }
