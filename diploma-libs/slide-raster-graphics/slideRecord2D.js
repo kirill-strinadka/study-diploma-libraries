@@ -103,6 +103,8 @@ export class SlideRecord2D extends SlideBase2D {
         command[1] = action;
         command[2] = options;
         this.slide.cmdArr.push(command);
+
+        // Чтобы сразу отрисовалось при записи команд
         this.execCMD(command);
     }
 
