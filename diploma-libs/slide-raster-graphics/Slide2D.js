@@ -32,12 +32,13 @@ export class Slide2D extends SlideObject {
         }
     }
 
-    // TODO - не работает
     clearCanvas() {
-        if (this.slideContext) {
-            // Полностью очищаем canvas
-            this.slideContext.clearRect(0, 0, this.slideCanvas.width, this.slideCanvas.height);
+        if (this.slideCanvas) {
+            this.slideCanvas.remove();
+            this.outerSlideHtmlContainer.innerHTML = '';
         }
+
+        this.createCanvas();
     }
 
 }

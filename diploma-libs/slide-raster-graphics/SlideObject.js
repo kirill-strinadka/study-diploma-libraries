@@ -8,6 +8,7 @@ export class SlideObject {
             border
         };
 
+        this.startOuterSlideHtmlContainer = slideHtmlContainer
         this.outerSlideHtmlContainer = slideHtmlContainer
 
         this.slideWidth = this.settings.width;
@@ -16,7 +17,7 @@ export class SlideObject {
         this.cmdArr = [];
 
         // Создаем контейнер
-        this.slideContainer = this.createSlideContainer();
+        // this.slideContainer = this.createSlideContainer();
     }
 
     // Метод для создания контейнера
