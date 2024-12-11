@@ -1,6 +1,6 @@
 
 export class SlideObject {
-    constructor(backgroundImage, width = 600, height = 400, border = '1px solid black') {
+    constructor(slideHtmlContainer, width = 600, height = 400, border = '1px solid black') {
         // Настройки контейнера
         this.settings = {
             width,
@@ -8,15 +8,15 @@ export class SlideObject {
             border
         };
 
-        this.slideBackgroundImage = backgroundImage;
+        this.outerSlideHtmlContainer = slideHtmlContainer
+
         this.slideWidth = this.settings.width;
         this.slideHeight = this.settings.height;
 
         this.cmdArr = [];
 
         // Создаем контейнер
-        this.slideContainerWithCanvas = this.createSlideContainer();
-        this.createCanvas();
+        this.slideContainer = this.createSlideContainer();
     }
 
     // Метод для создания контейнера
@@ -30,32 +30,17 @@ export class SlideObject {
         return container;
     }
 
-    // TODO - вынести в Slide2D
-    createCanvas() {
-        this.slideCanvas = document.createElement('canvas');
-        this.slideCanvas.width = this.slideWidth;
-        this.slideCanvas.height = this.slideHeight;
-        this.slideContainerWithCanvas.appendChild(this.slideCanvas);
-        this.slideContext = this.slideCanvas.getContext('2d');
-
-        let slideImg = new Image();
-        slideImg.onload = () => {
-            this.slideContext.drawImage(slideImg, 0, 0, this.slideWidth, this.slideHeight);
-        };
-        slideImg.src = this.slideBackgroundImage;
-    }
-
     // Метод для возврата HTML-кода контейнера как строки
     getHTML() {
-        return this.slideContainerWithCanvas.outerHTML;
+        return this.slideContainer.outerHTML;
     }
 
     // Метод для добавления контейнера в DOM
     appendTo(target) {
         if (typeof target === 'string') {
-            document.querySelector(target).appendChild(this.slideContainerWithCanvas);
+            document.querySelector(target).appendChild(this.slideContainer);
         } else if (target instanceof HTMLElement) {
-            target.appendChild(this.slideContainerWithCanvas);
+            target.appendChild(this.slideContainer);
         } else {
             throw new Error('Invalid target: must be a selector string or an HTMLElement.');
         }
@@ -65,9 +50,4 @@ export class SlideObject {
         return this.cmdArr;
     }
 
-    clearCanvas() {
-        this.slideContainerWithCanvas = ''
-        this.slideContainerWithCanvas = this.createSlideContainer();
-        this.createCanvas();
-    }
 }

@@ -1,7 +1,7 @@
 import { SlideRecord2D } from './slideRecord2D.js';
 import { SlidePlay2D } from './slidePlay2D.js';
-import {SlideObject} from "./SlideObject.js";
 import {SlideStorage} from "./SlideStorage.js";
+import {Slide2D} from "./Slide2D.js";
 
 // Создаем экземпляр хранилища команд
 const slideStorage = new SlideStorage();
@@ -33,7 +33,7 @@ startRecordingButton.addEventListener('click', () => {
     // Очищаем предыдущие записи
     slideElement.innerHTML = '';
 
-    let slide2D = new SlideObject(slideSrc);
+    let slide2D = new Slide2D(slideElement, slideSrc);
 
     // Создаем новый экземпляр SlideRecord2D и начинаем запись
     slideRecorder = new SlideRecord2D(slideElement, toolsElement, slide2D);

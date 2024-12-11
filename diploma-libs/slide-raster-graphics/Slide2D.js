@@ -1,17 +1,43 @@
-export class Slide2D {
+import {SlideObject} from "./SlideObject.js";
 
-    constructor(slideElement, slide2D) {
-        if (slideElement.innerHTML) {
-            slideElement.innerHTML = '';
+export class Slide2D extends SlideObject {
+
+    constructor(slideHtmlContainer, backgroundImage) {
+        super(slideHtmlContainer);
+        if (slideHtmlContainer.innerHTML) {
+            slideHtmlContainer.innerHTML = '';
         }
-        this.slideBlock = slideElement;
-        this.createCanvas(slide2D);
+
+
+        this.slideBackgroundImage = backgroundImage;
+        this.createCanvas();
     }
 
-    createCanvas(slide2D) {
-        this.slideCanvas = slide2D.slideCanvas;
-        this.slideBlock.appendChild(this.slideCanvas);
+    createCanvas() {
+        this.slideCanvas = document.createElement('canvas');
+        this.slideCanvas.width = this.slideWidth;
+        this.slideCanvas.height = this.slideHeight;
+        this.outerSlideHtmlContainer.appendChild(this.slideCanvas);
+
+        // Получаем контекст рисования
         this.slideContext = this.slideCanvas.getContext('2d');
+
+        // Загружаем фоновое изображение, если оно задано
+        if (this.slideBackgroundImage) {
+            const slideImg = new Image();
+            slideImg.onload = () => {
+                this.slideContext.drawImage(slideImg, 0, 0, this.slideWidth, this.slideHeight);
+            };
+            slideImg.src = this.slideBackgroundImage;
+        }
+    }
+
+    // TODO - не работает
+    clearCanvas() {
+        if (this.slideContext) {
+            // Полностью очищаем canvas
+            this.slideContext.clearRect(0, 0, this.slideCanvas.width, this.slideCanvas.height);
+        }
     }
 
 }
