@@ -1,9 +1,9 @@
 import {norm, denorm} from './utils.js';
 import { penWidths, penColors } from './penSettings.js';
 import { executeCommandToGraphicSlide } from './graphicsCommands.js';
-import { SlideBase2D } from './SlideBase2D.js';
+import { Slide2D } from './Slide2D.js';
 
-export class SlideRecord2D extends SlideBase2D {
+export class SlideRecord2D extends Slide2D {
 
     constructor(slideElement, toolsElement, slide2D) {
         super(slideElement, slide2D);

@@ -1,7 +1,7 @@
 import {executeCommandToGraphicSlide} from './graphicsCommands.js';
-import {SlideBase2D} from './SlideBase2D.js';
+import {Slide2D} from './Slide2D.js';
 
-export class SlidePlay2D extends SlideBase2D {
+export class SlidePlay2D extends Slide2D {
     constructor(slideElement, slide2D) {
         super(slideElement, slide2D);
 
