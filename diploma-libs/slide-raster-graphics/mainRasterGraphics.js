@@ -36,7 +36,7 @@ startRecordingButton.addEventListener('click', () => {
     let slide2D = new Slide2D(slideElement, slideSrc);
 
     // Создаем новый экземпляр SlideRecord2D и начинаем запись
-    slideRecorder = new SlideRecord2D(slideElement, toolsElement, slide2D);
+    slideRecorder = new SlideRecord2D(toolsElement, slide2D);
     slideRecorder.start();
 
     // Активируем и деактивируем кнопки
@@ -71,7 +71,7 @@ function createPlaybackButton(key) {
     button.addEventListener('click', () => {
         let slide2D = slideStorage.getCommands(key)
         if (slide2D) {
-            const slidePlayer = new SlidePlay2D(slideElement, slide2D);
+            const slidePlayer = new SlidePlay2D(slide2D);
             slidePlayer.start(); // Запускаем воспроизведение
         } else {
             alert(`Команды для ключа "${key}" не найдены.`);

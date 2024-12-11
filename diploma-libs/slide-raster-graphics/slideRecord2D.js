@@ -4,9 +4,9 @@ import { executeCommandToGraphicSlide } from './graphicsCommands.js';
 
 export class SlideRecord2D  {
 
-    constructor(slideElement, toolsElement, slide2D) {
+    constructor(toolsElement, slide2D) {
         this.slide = slide2D;
-        this.slideBlock = slideElement;
+        this.slideBlock = this.slide.outerSlideHtmlContainer;
         this.toolsBlock = toolsElement;
 
         this.slideContext = slide2D.slideContext;
