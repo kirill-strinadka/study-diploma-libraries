@@ -1,14 +1,15 @@
 import { SlideRecord2D } from './slideRecord2D.js';
 import { SlidePlay2D } from './slidePlay2D.js';
-import { CommandStorage } from './CommandStorage.js';
+import {SlideStorage} from "./SlideStorage.js";
+import {Slide2D} from "./Slide2D.js";
 
 // Создаем экземпляр хранилища команд
-const commandStorage = new CommandStorage();
+const slideStorage = new SlideStorage();
 
 // Подключение контейнеров
 const slideElement = document.getElementById('slide-container');
 const toolsElement = document.getElementById('tools-container');
-const slideSrc = './img/first-image.jpg'; // Убедитесь, что путь к изображению правильный
+const slideSrc = './img/first-image.jpg';
 
 // Переменные для управления записью
 let slideRecorder = null;
@@ -32,8 +33,10 @@ startRecordingButton.addEventListener('click', () => {
     // Очищаем предыдущие записи
     slideElement.innerHTML = '';
 
+    let slide2D = new Slide2D(slideElement, slideSrc);
+
     // Создаем новый экземпляр SlideRecord2D и начинаем запись
-    slideRecorder = new SlideRecord2D(slideElement, toolsElement, slideSrc);
+    slideRecorder = new SlideRecord2D(toolsElement, slide2D);
     slideRecorder.start();
 
     // Активируем и деактивируем кнопки
@@ -48,9 +51,8 @@ stopRecordingButton.addEventListener('click', () => {
     // Останавливаем запись
     slideRecorder.finish();
 
-    // Получаем записанные команды
-    const recordedCommands = slideRecorder.getControls();
-    commandStorage.saveCommands(recordingKey, recordedCommands);
+    const recordedSlide = slideRecorder.getRecordedSlide();
+    slideStorage.saveCommands(recordingKey, recordedSlide);
 
     // Создаем новую кнопку воспроизведения для этого набора команд
     createPlaybackButton(recordingKey);
@@ -67,9 +69,9 @@ function createPlaybackButton(key) {
     const button = document.createElement('button');
     button.textContent = `Воспроизвести: ${key}`;
     button.addEventListener('click', () => {
-        const controls = commandStorage.getCommands(key);
-        if (controls) {
-            const slidePlayer = new SlidePlay2D(slideElement, slideSrc, controls);
+        let slide2D = slideStorage.getCommands(key)
+        if (slide2D) {
+            const slidePlayer = new SlidePlay2D(slide2D);
             slidePlayer.start(); // Запускаем воспроизведение
         } else {
             alert(`Команды для ключа "${key}" не найдены.`);

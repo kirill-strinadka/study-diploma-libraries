@@ -1,14 +1,16 @@
 import {executeCommandToGraphicSlide} from './graphicsCommands.js';
-import {SlideBase2D} from './SlideBase2D.js';
 
-export class SlidePlay2D extends SlideBase2D {
-    constructor(slideElement, slideSRC, Controls) {
-        super(slideElement, slideSRC);
+export class SlidePlay2D {
+    constructor(slide2D) {
 
-        this.slideBlock = slideElement;
+        this.slide = slide2D;
+        this.slide.clearCanvas();
+        this.slideBlock = this.slide.outerSlideHtmlContainer;
         this.width1 = this.slideBlock.clientWidth;
         this.height1 = this.slideBlock.clientHeight;
-        this.cmdArr = Controls;
+        this.cmdArr = slide2D.getCommands();
+
+        this.slideContext = slide2D.slideContext;
 
         this.execCMD = this.execCMD.bind(this);
         this.iCMD = 0;
@@ -16,7 +18,7 @@ export class SlidePlay2D extends SlideBase2D {
     }
 
     start = () => {
-        console.log (this.cmdArr.length);
+        console.log ('Комманд в слайде', this.cmdArr.length);
         if (this.iCMD < this.lastCMD) {
             let cmd0 = this.cmdArr[this.iCMD];
             this.interval = cmd0[0];

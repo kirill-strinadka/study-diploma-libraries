@@ -1,16 +1,16 @@
-// CommandStorage.js
 
-export class CommandStorage {
+
+export class SlideStorage {
     constructor() {
         this.storage = {}; // объект для хранения команд по ключам
     }
 
     // Метод для сохранения команд
-    saveCommands(key, commands) {
-        if (!Array.isArray(commands)) {
+    saveCommands(key, slide) {
+        if (!Array.isArray(slide.cmdArr)) {
             throw new Error('Commands must be an array');
         }
-        this.storage[key] = commands;
+        this.storage[key] = slide;
         console.log(`Commands saved under key: ${key}`);
     }
 

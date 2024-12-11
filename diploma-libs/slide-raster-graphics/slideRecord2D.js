@@ -1,18 +1,18 @@
 import {norm, denorm} from './utils.js';
 import { penWidths, penColors } from './penSettings.js';
 import { executeCommandToGraphicSlide } from './graphicsCommands.js';
-import { SlideBase2D } from './SlideBase2D.js';
 
-export class SlideRecord2D extends SlideBase2D {
+export class SlideRecord2D  {
 
-    constructor(slideElement, toolsElement, slideSRC) {
-        super(slideElement, slideSRC);
-        this.slideBlock = slideElement;
+    constructor(toolsElement, slide2D) {
+        this.slide = slide2D;
+        this.slideBlock = this.slide.outerSlideHtmlContainer;
         this.toolsBlock = toolsElement;
+
+        this.slideContext = slide2D.slideContext;
 
         this.width1 = this.slideBlock.clientWidth;
         this.height1 = this.slideBlock.clientHeight;
-        this.cmdArr = [];
 
         this.createTools();
     }
@@ -71,7 +71,7 @@ export class SlideRecord2D extends SlideBase2D {
         this.startTime = date.getTime();
         this.penColor = 'red';
         this.penWidth = '3';
-        this.slideCanvas.addEventListener('mousedown', this.onMouseDown); // включаем реагирование на рисование заметок
+        this.slide.slideCanvas.addEventListener('mousedown', this.onMouseDown); // включаем реагирование на рисование заметок
     }
 
     onMouseDown = (event) => {
@@ -81,8 +81,8 @@ export class SlideRecord2D extends SlideBase2D {
         this.prepareCMD('setPenColor', this.penColor);
         this.prepareCMD('setPenWidth', this.penWidth);
         this.prepareCMD('moveTo', norm(XY, this.width1, this.height1));
-        this.slideCanvas.addEventListener('mousemove', this.onMouseMove);
-        this.slideCanvas.addEventListener('mouseup', this.onMouseUp);
+        this.slide.slideCanvas.addEventListener('mousemove', this.onMouseMove);
+        this.slide.slideCanvas.addEventListener('mouseup', this.onMouseUp);
     }
 
     onMouseMove = (event) => {
@@ -92,7 +92,7 @@ export class SlideRecord2D extends SlideBase2D {
 
     onMouseUp = () => {
         this.prepareCMD('closePath');
-        this.slideCanvas.removeEventListener('mousemove', this.onMouseMove);
+        this.slide.slideCanvas.removeEventListener('mousemove', this.onMouseMove);
     }
 
     prepareCMD = (action, options) => {
@@ -102,7 +102,9 @@ export class SlideRecord2D extends SlideBase2D {
         command[0] = t1 - this.startTime;
         command[1] = action;
         command[2] = options;
-        this.cmdArr.push(command);
+        this.slide.cmdArr.push(command);
+
+        // Чтобы сразу отрисовалось при записи команд
         this.execCMD(command);
     }
 
@@ -117,12 +119,17 @@ export class SlideRecord2D extends SlideBase2D {
 
     finish() {
         this.prepareCMD('closePath');
-        this.slideCanvas.removeEventListener('mousemove', this.onMouseMove);
-        this.slideCanvas.removeEventListener('mousedown', this.onMouseDown);
+        this.slide.slideCanvas.removeEventListener('mousemove', this.onMouseMove);
+        this.slide.slideCanvas.removeEventListener('mousedown', this.onMouseDown);
+        this.slide.clearCanvas()
     }
 
     getControls() {
-        return this.cmdArr;
+        return this.slide.cmdArr;
+    }
+
+    getRecordedSlide() {
+        return this.slide;
     }
 
 }
