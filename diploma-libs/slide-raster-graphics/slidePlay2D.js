@@ -1,14 +1,15 @@
 import {executeCommandToGraphicSlide} from './graphicsCommands.js';
-import {Slide2D} from './Slide2D.js';
 
-export class SlidePlay2D extends Slide2D {
+export class SlidePlay2D {
     constructor(slideElement, slide2D) {
-        super(slideElement, slide2D.slideBackgroundImage);
-
+        this.slide = slide2D;
+        this.slide.clearCanvas();
         this.slideBlock = slideElement;
         this.width1 = this.slideBlock.clientWidth;
         this.height1 = this.slideBlock.clientHeight;
         this.cmdArr = slide2D.getCommands();
+
+        this.slideContext = slide2D.slideContext;
 
         this.execCMD = this.execCMD.bind(this);
         this.iCMD = 0;
