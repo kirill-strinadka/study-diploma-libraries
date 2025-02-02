@@ -1,4 +1,4 @@
-import {SlideObject} from "./SlideObject.js";
+import {SlideObject} from "../../base-slide/SlideObject.js";
 
 export class Slide2D extends SlideObject {
 
