@@ -1,6 +1,9 @@
-export class SlideVideoBase {
+import {SlideObject} from "../../base-slide/SlideObject.js";
+
+export class SlideVideo extends SlideObject {
 
     constructor(videoElement, videoSrc) {
+        super(videoElement);
         this.slideBlock = videoElement;
         this.createVideoElement(videoSrc);
     }

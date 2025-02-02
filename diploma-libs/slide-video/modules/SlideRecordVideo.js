@@ -1,16 +1,16 @@
 import {executeCommandToVideo, videoButtons} from './videoCommands.js';
-import {SlideVideoBase} from './SlideVideoBase.js';
 
-export class SlideRecordVideo extends SlideVideoBase {
-    constructor(videoElement, toolsElement, videoSrc) {
-        super(videoElement, videoSrc);
+export class SlideRecordVideoRefactor  {
+    constructor(toolsElement, slideVideo) {
 
+        this.slide = slideVideo;
         this.toolsBlock = toolsElement;
-        this.cmdByTimeArr = [];   // команды для видео
 
         // Создание кнопок из массива videoButtons
+        // todo - мне не нравится тут создание этих кнопок.
         videoButtons.forEach(({ label, command, title }) => {
             const button = document.createElement('button');
+            console.log('Кнопка ', command, title);
             button.title = title;
             button.appendChild(document.createTextNode(label));
             button.onclick = () => {
@@ -44,16 +44,20 @@ export class SlideRecordVideo extends SlideVideoBase {
 
     recordAndExecuteCommand(command) { // Подготовка команды для записи
         const timeOffset = Date.now() - this.startTime;
-        this.cmdByTimeArr.push([timeOffset, command]);
-        executeCommandToVideo(this.slideVideoElement, command)
+        this.slide.cmdArr.push([timeOffset, command]);
+        executeCommandToVideo(this.slide.slideVideoElement, command)
     }
 
     stopRecording() { // Завершить запись
-        this.slideVideoElement.pause();
+        this.slide.slideVideoElement.pause();
     }
 
     getControls() { // Получить записанные команды
-        return this.cmdByTimeArr;
+        return this.slide.cmdArr;
+    }
+
+    getRecordedSlide() {
+        return this.slide;
     }
 
 }

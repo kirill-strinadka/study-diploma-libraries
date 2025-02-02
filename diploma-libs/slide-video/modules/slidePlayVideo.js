@@ -1,13 +1,11 @@
 import { executeCommandToVideo } from './videoCommands.js';
-import {SlideVideoBase} from './SlideVideoBase.js';
 
-export class SlidePlayVideo extends SlideVideoBase {
-    constructor(videoElement, videoSrc, Controls) {
-        super(videoElement, videoSrc);
-
-        this.cmdArr = Controls;
+export class SlidePlayVideo {
+    constructor(slideVideo) {
+        this.slide = slideVideo;
+        this.cmdArr = slideVideo.cmdArr;
         this.iCMD = 0;
-        this.lastCMD = this.cmdArr.length - 1;
+        this.lastCMD = this.slide.cmdArr.length - 1;
     }
 
     start = () => { // Начать воспроизведение команд
@@ -39,8 +37,8 @@ export class SlidePlayVideo extends SlideVideoBase {
     stop = () => { // Остановить воспроизведение
         clearTimeout(this.setTimeID);
         this.stopTime = (new Date()).getTime();
-        if (this.slideVideoElement.paused === false) {
-            this.slideVideoElement.pause();
+        if (this.slide.slideVideoElement.paused === false) {
+            this.slide.slideVideoElement.pause();
             this.pauseFLG = false;
         } else {
             this.pauseFLG = true;
@@ -52,12 +50,12 @@ export class SlidePlayVideo extends SlideVideoBase {
         this.interval = stopInterval - (this.stopTime - this.startTime);
         this.startTime = (new Date()).getTime();
         this.setTimeID = setTimeout(this.nextCMD, this.interval);
-        if (this.pauseFLG === false) { this.slideVideoElement.play(); }
-        console.log(this.pauseFLG + '**' + this.slideVideoElement.paused);
+        if (this.pauseFLG === false) { this.slide.slideVideoElement.play(); }
+        console.log(this.pauseFLG + '**' + this.slide.slideVideoElement.paused);
     }
 
     execCMD = (cmd) => { // Выполнение команды
-        executeCommandToVideo(this.slideVideoElement, cmd[1]);
+        executeCommandToVideo(this.slide.slideVideoElement, cmd[1]);
     };
 
 }
