@@ -1,9 +1,9 @@
 import { SlideRecord2D } from './slideRecord2D.js';
 import { SlidePlay2D } from './slidePlay2D.js';
-import { SlideStorage } from './SlideStorage.js';
+import { SlideStorage } from '../../base-slide/SlideStorage.js';
 import { Slide2D } from './Slide2D.js';
 
-export class SlideLibrary {
+export class Slide2DLibrary {
     constructor(slideContainer, toolsContainer, slideSrc) {
         this.slideStorage = new SlideStorage();
         this.slideHtmlContainer = slideContainer;
@@ -31,7 +31,7 @@ export class SlideLibrary {
 
         this.slideRecorder.finish();
         const recordedSlide = this.slideRecorder.getRecordedSlide();
-        this.slideStorage.saveCommands(this.recordingKey, recordedSlide);
+        this.slideStorage.saveSlideCommands(this.recordingKey, recordedSlide);
 
         let recordingKey = this.recordingKey;
         this.slideRecorder = null;
@@ -42,7 +42,7 @@ export class SlideLibrary {
     }
 
     playRecording(key) {
-        const slide2D = this.slideStorage.getCommands(key);
+        const slide2D = this.slideStorage.getSlideCommands(key);
         if (slide2D) {
             const slidePlayer = new SlidePlay2D(slide2D);
             slidePlayer.start();

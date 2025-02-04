@@ -6,7 +6,7 @@ export class SlideStorage {
     }
 
     // Метод для сохранения команд
-    saveCommands(key, slide) {
+    saveSlideCommands(key, slide) {
         if (!Array.isArray(slide.cmdArr)) {
             throw new Error('Commands must be an array');
         }
@@ -15,7 +15,7 @@ export class SlideStorage {
     }
 
     // Метод для получения команд по ключу
-    getCommands(key) {
+    getSlideCommands(key) {
         const commands = this.storage[key];
         if (!commands) {
             console.warn(`No commands found for key: ${key}`);
