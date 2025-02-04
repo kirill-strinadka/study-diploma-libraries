@@ -1,4 +1,4 @@
-import {SlidePlayVideo, SlideVideoLibrary} from '../diploma-libs/slide-video';
+import {SlideVideoLibrary} from '../diploma-libs/slide-video';
 
 const videoHtmlContainer = document.getElementById('video-container');
 const toolsHtmlContainer = document.getElementById('video-tools-container');
