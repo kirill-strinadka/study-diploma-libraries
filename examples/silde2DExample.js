@@ -1,5 +1,5 @@
-import { SlideRecord2D } from './slideRecord2D.js';
-import { SlidePlay2D } from './slidePlay2D.js';
+import { SlideRecord2D } from './SlideRecord2D.js';
+import { SlidePlay2D } from './SlidePlay2D.js';
 import {SlideStorage} from "./SlideStorage.js";
 import {Slide2D} from "./Slide2D.js";
 
