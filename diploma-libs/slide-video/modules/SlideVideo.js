@@ -4,6 +4,7 @@ export class SlideVideo extends SlideObject {
 
     constructor(videoElement, videoSrc) {
         super(videoElement);
+        this.type = "video"
         this.slideBlock = videoElement;
         this.createVideoElement(videoSrc);
     }

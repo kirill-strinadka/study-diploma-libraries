@@ -4,6 +4,7 @@ export class Slide2D extends SlideObject {
 
     constructor(slideHtmlContainer, backgroundImage) {
         super(slideHtmlContainer);
+        this.type = "2d"
         if (slideHtmlContainer.innerHTML) {
             slideHtmlContainer.innerHTML = '';
         }

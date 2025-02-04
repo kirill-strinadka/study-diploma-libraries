@@ -7,6 +7,7 @@ export class SlideObject {
             height,
             border
         };
+        this.type = "abstract";
 
         this.startOuterSlideHtmlContainer = slideHtmlContainer
         this.outerSlideHtmlContainer = slideHtmlContainer
