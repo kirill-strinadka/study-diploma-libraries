@@ -1,6 +1,6 @@
 import {executeCommandToVideo, videoButtons} from './videoCommands.js';
 
-export class SlideRecordVideoRefactor  {
+export class SlideRecordVideo {
     constructor(toolsElement, slideVideo) {
 
         this.slide = slideVideo;
@@ -9,19 +9,29 @@ export class SlideRecordVideoRefactor  {
         // Создание кнопок из массива videoButtons
         // todo - мне не нравится тут создание этих кнопок.
         videoButtons.forEach(({ label, command, title }) => {
-            const button = document.createElement('button');
-            console.log('Кнопка ', command, title);
-            button.title = title;
-            button.appendChild(document.createTextNode(label));
-            button.onclick = () => {
-                // Отдельно обрабатываем кнопку пауза/запуска, чтобы ее иконка изменялась при нажатии
-                if (command === 'play' || command === 'pause') {
-                    this.togglePlayPause(button);
-                } else {
-                    this.recordAndExecuteCommand(command);
-                }
-            };
-            this.toolsBlock.appendChild(button);
+            // Проверяем, есть ли уже кнопка с таким значением команды
+            let button = this.toolsBlock.querySelector(`button[data-command="${command}"]`);
+
+            if (!button) {
+                // Если кнопка не существует, создаем новую
+                button = document.createElement('button');
+                console.log('Кнопка ', command, title);
+                button.title = title;
+                button.setAttribute('data-command', command); // Добавляем уникальный атрибут для проверки
+                button.appendChild(document.createTextNode(label));
+
+                // Обработчик клика
+                button.onclick = () => {
+                    if (command === 'play' || command === 'pause') {
+                        this.togglePlayPause(button);
+                    } else {
+                        this.recordAndExecuteCommand(command);
+                    }
+                };
+
+                // Добавляем кнопку в контейнер
+                this.toolsBlock.appendChild(button);
+            }
         });
     }
 

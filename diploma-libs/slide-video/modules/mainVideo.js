@@ -1,6 +1,6 @@
 import {SlideVideo} from "./SlideVideo.js";
-import {SlideRecordVideoRefactor} from "./SlideRecordVideo.js";
-import {SlidePlayVideo} from "./slidePlayVideo.js";
+import {SlideRecordVideo} from "./SlideRecordVideo.js";
+import {SlidePlayVideo} from "./SlidePlayVideo.js";
 
 // Инициализация для Видео
 const videoElement = document.getElementById('video-container');
@@ -9,7 +9,7 @@ const videoSrc = './video/first-video.mp4'; // Путь к видео
 
 let slideVideo = new SlideVideo(videoElement, videoSrc);
 
-const videoRecorder = new SlideRecordVideoRefactor(toolsElementVideo, slideVideo);
+const videoRecorder = new SlideRecordVideo(toolsElementVideo, slideVideo);
 videoRecorder.start();
 
 const startPlaybackButtonVideo = document.getElementById('start-playback-button-video');

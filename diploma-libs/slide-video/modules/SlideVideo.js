@@ -6,16 +6,18 @@ export class SlideVideo extends SlideObject {
         super(videoElement);
         this.type = "video"
         this.slideBlock = videoElement;
-        this.createVideoElement(videoSrc);
+
+        // Используем уже существующий video-элемент или создаем новый
+        this.slideVideoElement = this.slideBlock.querySelector("video") || this.createVideoElement();
+        this.slideVideoElement.src = videoSrc; // Обновляем src
     }
 
-    createVideoElement(src) {
-        this.slideVideoElement = document.createElement('video');
-        this.slideVideoElement.src = src;
-        this.slideVideoElement.style.width = '100%';
-        this.slideVideoElement.style.height = '100%';
-        this.slideBlock.appendChild(this.slideVideoElement);
-        return this.slideVideoElement;
+    createVideoElement() {
+        const video = document.createElement("video");
+        video.style.width = "100%";
+        video.style.height = "100%";
+        this.slideBlock.appendChild(video);
+        return video;
     }
 
 }
