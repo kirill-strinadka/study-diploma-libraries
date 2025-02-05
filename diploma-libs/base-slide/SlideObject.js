@@ -7,6 +7,7 @@ export class SlideObject {
             height,
             border
         };
+        this.type = "abstract";
 
         this.startOuterSlideHtmlContainer = slideHtmlContainer
         this.outerSlideHtmlContainer = slideHtmlContainer
@@ -33,7 +34,7 @@ export class SlideObject {
 
     // Метод для возврата HTML-кода контейнера как строки
     getHTML() {
-        return this.slideContainer.outerHTML;
+        // return this.slideContainer.outerHTML;
     }
 
     // Метод для добавления контейнера в DOM
