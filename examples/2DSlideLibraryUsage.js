@@ -1,13 +1,15 @@
 import { SlideLibrary2D } from '../diploma-libs/slide-raster-graphics/index.js';
+import { UIManager } from '../diploma-libs/control-application/UIManager.js';
 
 
 const slideHtmlElement = document.getElementById('slide-container');
 const toolsHtmlElement = document.getElementById('tools-container');
 const slideBackgroundImageSrc = './img/first-image.jpg';
 
+let uiManager = new UIManager(slideHtmlElement, toolsHtmlElement);
+
 const slideLibrary = new SlideLibrary2D(
-    slideHtmlElement,
-    toolsHtmlElement,
+    uiManager,
     slideBackgroundImageSrc
 );
 

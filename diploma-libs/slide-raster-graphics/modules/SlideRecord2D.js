@@ -4,12 +4,18 @@ import { executeCommandToGraphicSlide } from './graphicsCommands.js';
 
 export class SlideRecord2D  {
 
-    constructor(toolsElement, slide2D) {
+    constructor(toolsElement, slide2D, uiManager) {
         this.slide = slide2D;
-        this.slideBlock = this.slide.outerSlideHtmlContainer;
+        // this.slideBlock = this.slide.outerSlideHtmlContainer;
+
+        this.uiManager = uiManager;
+        this.slideBlock = uiManager.slideContainer;
         this.toolsBlock = toolsElement;
 
-        this.slideContext = slide2D.slideContext;
+        // this.slideContext = slide2D.slideContext;
+        this.slideContext = uiManager.slideContext;
+
+        this.canvas = uiManager.slideCanvas;
 
         this.width1 = this.slideBlock.clientWidth;
         this.height1 = this.slideBlock.clientHeight;
@@ -71,7 +77,7 @@ export class SlideRecord2D  {
         this.startTime = date.getTime();
         this.penColor = 'red';
         this.penWidth = '3';
-        this.slide.slideCanvas.addEventListener('mousedown', this.onMouseDown); // включаем реагирование на рисование заметок
+        this.canvas.addEventListener('mousedown', this.onMouseDown); // включаем реагирование на рисование заметок
     }
 
     onMouseDown = (event) => {
@@ -81,8 +87,8 @@ export class SlideRecord2D  {
         this.prepareCMD('setPenColor', this.penColor);
         this.prepareCMD('setPenWidth', this.penWidth);
         this.prepareCMD('moveTo', norm(XY, this.width1, this.height1));
-        this.slide.slideCanvas.addEventListener('mousemove', this.onMouseMove);
-        this.slide.slideCanvas.addEventListener('mouseup', this.onMouseUp);
+        this.canvas.addEventListener('mousemove', this.onMouseMove);
+        this.canvas.addEventListener('mouseup', this.onMouseUp);
     }
 
     onMouseMove = (event) => {
@@ -92,7 +98,7 @@ export class SlideRecord2D  {
 
     onMouseUp = () => {
         this.prepareCMD('closePath');
-        this.slide.slideCanvas.removeEventListener('mousemove', this.onMouseMove);
+        this.canvas.removeEventListener('mousemove', this.onMouseMove);
     }
 
     prepareCMD = (action, options) => {
@@ -119,9 +125,9 @@ export class SlideRecord2D  {
 
     finish() {
         this.prepareCMD('closePath');
-        this.slide.slideCanvas.removeEventListener('mousemove', this.onMouseMove);
-        this.slide.slideCanvas.removeEventListener('mousedown', this.onMouseDown);
-        this.slide.clearCanvas()
+        this.canvas.removeEventListener('mousemove', this.onMouseMove);
+        this.canvas.removeEventListener('mousedown', this.onMouseDown);
+        this.uiManager.clearCanvas()
     }
 
     getControls() {
