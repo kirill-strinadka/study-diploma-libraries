@@ -24,19 +24,9 @@ export class UIManager {
         return this._toolsPanel;
     }
 
-    get drawingSlideContext() {
+    executeSlideCommandOnCanvas() {
 
     }
-
-    // Метод для создания слайд-холста
-    // createSlideCanvas(width = 600, height = 400) {
-    //     const canvas = document.createElement('canvas');
-    //     canvas.width = width;
-    //     canvas.height = height;
-    //     this.slideContainer.innerHTML = ''; // Очищаем контейнер перед добавлением нового холста
-    //     this.slideContainer.appendChild(canvas);
-    //     return canvas;
-    // }
 
     // Метод для создания html-элемента для панели инструментов
     createToolsPanel() {
@@ -47,6 +37,24 @@ export class UIManager {
     get slideContext() {
         if (this._slideCanvas) {
             return this._slideCanvas.getContext('2d')
+        } else {
+            this.createSlideCanvas()
+            return this._slideCanvas.getContext('2d')
+        }
+    }
+
+    setBackGroundImage(imageSrc) {
+        if (!imageSrc && this.slideBackgroundImage) {
+            imageSrc = this.slideBackgroundImage;
+        }
+        if (imageSrc) {
+            this.slideBackgroundImage = imageSrc;
+            const slideImg = new Image();
+            slideImg.onload = () => {
+                let slideContext = this.slideContext;
+                slideContext.drawImage(slideImg, 0, 0, this.slideWidth, this.slideHeight);
+            };
+            slideImg.src = this.slideBackgroundImage;
         }
     }
 
@@ -65,21 +73,8 @@ export class UIManager {
             this._slideCanvas.height = this.slideHeight;
         }
 
-        // this.slideContainer.innerHTML = ''; // Очищаем контейнер перед добавлением нового холста
         this.slideContainer.appendChild(this._slideCanvas);
-
-        // Получаем контекст рисования
-        // this.slideContext = this._slideCanvas.getContext('2d');
-
         return this._slideCanvas;
-        // Загружаем фоновое изображение, если оно задано
-        // if (this.slideBackgroundImage) {
-        //     const slideImg = new Image();
-        //     slideImg.onload = () => {
-        //         this.slideContext.drawImage(slideImg, 0, 0, this.slideWidth, this.slideHeight);
-        //     };
-        //     slideImg.src = this.slideBackgroundImage;
-        // }
     }
 
     clearCanvas() {
@@ -89,5 +84,8 @@ export class UIManager {
         }
 
         this.createSlideCanvas();
+        if (this.slideBackgroundImage) {
+            this.setBackGroundImage();
+        }
     }
 }

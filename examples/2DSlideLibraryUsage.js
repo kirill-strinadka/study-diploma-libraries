@@ -7,6 +7,7 @@ const toolsHtmlElement = document.getElementById('tools-container');
 const slideBackgroundImageSrc = './img/first-image.jpg';
 
 let uiManager = new UIManager(slideHtmlElement, toolsHtmlElement);
+uiManager.setBackGroundImage(slideBackgroundImageSrc);
 
 const slideLibrary = new SlideLibrary2D(
     uiManager,
