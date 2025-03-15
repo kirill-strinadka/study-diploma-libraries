@@ -7,7 +7,7 @@ export class SlideStorage {
 
     // Метод для сохранения команд
     saveSlideCommands(key, slide) {
-        if (!Array.isArray(slide.cmdArr)) {
+        if (!Array.isArray(slide.commands)) {
             throw new Error('Commands must be an array');
         }
         this.storage[key] = slide;
