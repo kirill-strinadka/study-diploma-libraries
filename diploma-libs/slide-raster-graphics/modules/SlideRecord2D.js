@@ -1,82 +1,26 @@
-import {norm, denorm} from './utils.js';
-import { penWidths, penColors } from './penSettings.js';
+import {norm} from './utils.js';
 import { executeCommandToGraphicSlide } from './graphicsCommands.js';
 
 export class SlideRecord2D  {
 
     constructor(toolsElement, slide2D, uiManager) {
         this.slide = slide2D;
-        // this.slideBlock = this.slide.outerSlideHtmlContainer;
 
         this.uiManager = uiManager;
         this.slideBlock = uiManager.slideContainer;
-        this.toolsBlock = toolsElement;
-
-        // this.slideContext = slide2D.slideContext;
         this.slideContext = uiManager.slideContext;
 
         this.canvas = uiManager.slideCanvas;
 
         this.width1 = this.slideBlock.clientWidth;
         this.height1 = this.slideBlock.clientHeight;
-
-        this.createTools();
-    }
-
-    createTools() {
-        // импортируем набор ширины ручки
-        this.addPenWidthTools();
-        // импортируем набор цветов для ручки
-        this.addPenColorTools();
-    }
-
-    addPenWidthTools() {
-        penWidths.forEach(({ label, width, title }) => {
-            // Проверяем, есть ли уже кнопка с таким значением ширины
-            let button = this.toolsBlock.querySelector(`button[data-width="${width}"]`);
-
-            if (!button) {
-                // Если кнопка не существует, создаем новую
-                button = document.createElement('button');
-                button.textContent = label;
-                button.setAttribute('title', title);
-                button.setAttribute('data-width', width); // Добавляем уникальный атрибут для проверки
-                this.toolsBlock.appendChild(button);
-            }
-
-            // Привязываем обработчик события к текущему экземпляру
-            button.onclick = () => {
-                this.penWidth = width;
-            };
-        });
-    }
-
-    addPenColorTools() {
-        penColors.forEach(({ label, color, title }) => {
-            // Проверяем, есть ли уже кнопка с таким значением цвета
-            let button = this.toolsBlock.querySelector(`button[data-color="${color}"]`);
-
-            if (!button) {
-                // Если кнопка не существует, создаем новую
-                button = document.createElement('button');
-                button.textContent = label;
-                button.setAttribute('title', title);
-                button.setAttribute('data-color', color); // Добавляем уникальный атрибут для проверки
-                this.toolsBlock.appendChild(button);
-            }
-
-            // Привязываем обработчик события к текущему экземпляру
-            button.onclick = () => {
-                this.penColor = color;
-            };
-        });
     }
 
     start = () => {
         let date = new Date();
         this.startTime = date.getTime();
-        this.penColor = 'red';
-        this.penWidth = '3';
+        this.uiManager.penColor = 'red';
+        this.uiManager.penWidth = '3';
         this.canvas.addEventListener('mousedown', this.onMouseDown); // включаем реагирование на рисование заметок
     }
 
@@ -84,8 +28,8 @@ export class SlideRecord2D  {
         //	let t1 = (new Date()).getTime;
         let XY = [event.offsetX, event.offsetY]; // записываем в объект начальное время и координаты старта
         this.prepareCMD('beginPath');
-        this.prepareCMD('setPenColor', this.penColor);
-        this.prepareCMD('setPenWidth', this.penWidth);
+        this.prepareCMD('setPenColor', this.uiManager.penColor);
+        this.prepareCMD('setPenWidth', this.uiManager.penWidth);
         this.prepareCMD('moveTo', norm(XY, this.width1, this.height1));
         this.canvas.addEventListener('mousemove', this.onMouseMove);
         this.canvas.addEventListener('mouseup', this.onMouseUp);

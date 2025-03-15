@@ -1,7 +1,6 @@
 import { SlideRecord2D } from './SlideRecord2D.js';
 import { SlidePlay2D } from './SlidePlay2D.js';
 import { SlideStorage } from '../../base-slide/SlideStorage.js';
-import { UIManager } from '../../control-application/UIManager.js';
 import { Slide2D } from './Slide2D.js';
 
 export class Slide2DLibrary {
@@ -39,7 +38,6 @@ export class Slide2DLibrary {
         this.slideRecorder = null;
         this.recordingKey = null;
         this.slide = new Slide2D(this.uiManager.slideContainer, this.slideSrc);
-        // this.slide.cmdArr = [];
         return recordingKey;
     }
 
