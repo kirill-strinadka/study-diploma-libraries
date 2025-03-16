@@ -21,10 +21,15 @@ export class Slide {
     }
 
     startRecording() {
-        throw new Error('startRecording() должен быть реализован в подклассе');
+        this.recording = true;
+        this.startTime = new Date().getTime();
+        this.commands = [];
+        // throw new Error('startRecording() должен быть реализован в подклассе');
     }
 
     stopRecording() {
+        this.recording = false;
+        this.startTime = null;
         throw new Error('stopRecording() должен быть реализован в подклассе');
     }
 
@@ -61,6 +66,21 @@ export class Slide {
         const initialDelay = this.commands[0][0];
         this.currentTimeout = setTimeout(playNext, initialDelay);
         // throw new Error('play() должен быть реализован в подклассе');
+    }
+
+    prepareCMD(action, options) {
+        if (!this.recording || !this.startTime) {
+            console.warn('Запись не активна или startTime не установлен');
+            return;
+        }
+
+        const date = new Date();
+        const timeInterval = date.getTime() - this.startTime;
+        const command = [timeInterval, action, options];
+        this.commands.push(command);
+
+        // Вызов _executeCommand для немедленного рендеринга
+        this._executeCommand(command);
     }
 
     getCommands() {

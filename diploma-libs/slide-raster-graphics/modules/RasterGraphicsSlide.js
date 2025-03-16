@@ -76,8 +76,6 @@ export class RasterGraphicsSlide extends Slide {
         this.recording = true;
 
         this.startTime = new Date().getTime();
-        this.uiManager.penColor = 'red';
-        this.uiManager.penWidth = '3';
 
         this._recreateCanvas()
         this.canvas.addEventListener('mousedown', this._onMouseDown);
@@ -94,65 +92,27 @@ export class RasterGraphicsSlide extends Slide {
         super.play();
     }
 
-    nextCMD = () => {
-        console.log (this.iCMD);
-        let cmd0 = this.commands[this.iCMD];
-        this._executeCommand(cmd0);
-        this.iCMD ++;
-        if (this.iCMD < this.lastCMD) {
-            let t0 = cmd0[0];
-            let cmd1 = this.commands[this.iCMD];
-            let t1 = cmd1[0];
-            this.interval = t1-t0;
-            this.startTime = (new Date ()).getTime();
-            this.setTimeID = setTimeout (this.nextCMD, this.interval);
-        }
-    }
-
     _onMouseDown = (event) => {
         const start = [event.offsetX, event.offsetY];
-
 
         this.prepareCMD('beginPath');
         this.prepareCMD('setPenColor', this.penColor);
         this.prepareCMD('setPenWidth', this.penWidth);
         this.prepareCMD('moveTo', norm(start, this.settings.width, this.settings.height));
 
-        // this.commands.push(['beginPath', start]);
-
         this.canvas.addEventListener('mousemove', this._onMouseMove);
         this.canvas.addEventListener('mouseup', this._onMouseUp);
     };
 
     _onMouseMove = (event) => {
-        // this.commands.push(['lineTo', [event.offsetX, event.offsetY]]);
-        // this.render(); // Немедленная обратная связь
-
         let XY = [event.offsetX, event.offsetY];
         this.prepareCMD('lineTo', norm(XY, this.settings.width, this.settings.height));
     };
 
     _onMouseUp = () => {
-        // this.commands.push(['closePath']);
-        // this.canvas.removeEventListener('mousemove', this._onMouseMove);
-        // this.canvas.removeEventListener('mouseup', this._onMouseUp);
-
         this.prepareCMD('closePath');
         this.canvas.removeEventListener('mousemove', this._onMouseMove);
     };
-
-    prepareCMD = (action, options) => {
-        let command = [];
-        let date = new Date();
-        let t1 = date.getTime();
-        command[0] = t1 - this.startTime;
-        command[1] = action;
-        command[2] = options;
-        this.commands.push(command);
-
-        // Чтобы сразу отрисовалось при записи команд
-        this._executeCommand(command);
-    }
 
     _executeCommand(command) {
         executeCommandToGraphicSlide(

@@ -63,7 +63,6 @@ stopRecordingButton.addEventListener('click', () => {
     startRecordingButton.disabled = false;
     stopRecordingButton.disabled = true;
     slideLib.createPlaybackButton(recordingKey, playbackButtonsContainer);
-    // slideLibrary.createPlaybackButton(recordingKey, playbackButtonsContainer);
 });
 
 // slideLib.startRecording('drawing1');

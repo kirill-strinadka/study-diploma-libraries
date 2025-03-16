@@ -1,19 +1,17 @@
+import {ToolManager} from "./ToolManager.js";
+
 export class UIManager {
+
     constructor(slideContainer, toolsContainer) {
         this.slideContainer = slideContainer;
         this.toolsContainer = toolsContainer;
         this._slideCanvas = null;
+
+        this.toolManager = new ToolManager(toolsContainer);
     }
 
-    createCanvas(width = 600, height = 400) {
-        this._slideCanvas = document.createElement('canvas');
-        this._slideCanvas.width = width;
-        this._slideCanvas.height = height;
-        this.slideContainer.appendChild(this._slideCanvas);
-        return this._slideCanvas;
+    getToolManager() {
+        return this.toolManager;
     }
 
-    clearCanvas() {
-        this.slideContainer.innerHTML = '';
-    }
 }
