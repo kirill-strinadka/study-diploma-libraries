@@ -12,6 +12,10 @@ export class Slide {
     }
 
     // Абстрактные методы, которые должны быть реализованы в подклассах
+    createTools(toolManager) {
+        throw new Error('createTools() должен быть реализован в подклассе');
+    }
+
     render() {
         throw new Error('render() должен быть реализован в подклассе');
     }
@@ -24,8 +28,39 @@ export class Slide {
         throw new Error('stopRecording() должен быть реализован в подклассе');
     }
 
+    _executeCommand(command) {
+        throw new Error('_executeCommand() должен быть реализован в подклассе');
+    }
+
     play() {
-        throw new Error('play() должен быть реализован в подклассе');
+        if (this.currentTimeout) {
+            clearTimeout(this.currentTimeout); // Очищаем предыдущий таймер
+        }
+        // this._recreateCanvas();
+        // this.render(); // Отрисовываем начальное состояние
+
+        if (this.commands.length === 0) return; // Если команд нет, ничего не делаем
+
+        let i = 0;
+        const playNext = () => {
+            if (i < this.commands.length) {
+                const cmd = this.commands[i];
+                this._executeCommand(cmd);
+                i++;
+                if (i < this.commands.length) {
+                    // Вычисляем задержку до следующей команды
+                    const currentTime = cmd[0];
+                    const nextTime = this.commands[i][0];
+                    const delay = nextTime - currentTime;
+                    this.currentTimeout = setTimeout(playNext, delay);
+                }
+            }
+        };
+
+        // Первая задержка — это время от начала записи до первой команды
+        const initialDelay = this.commands[0][0];
+        this.currentTimeout = setTimeout(playNext, initialDelay);
+        // throw new Error('play() должен быть реализован в подклассе');
     }
 
     getCommands() {
