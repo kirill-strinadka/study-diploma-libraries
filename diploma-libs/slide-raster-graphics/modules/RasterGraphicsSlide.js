@@ -3,21 +3,21 @@ import {denorm, norm} from "./utils.js";
 
 // Массив настроек толщины линий ручки
 export const penWidths = [
-    { label: '❘', width: 3, title: 'thin pen' },
-    { label: '❙', width: 5, title: 'medium pen' },
-    { label: '❚', width: 7, title: 'thick pen' }
+    {label: '❘', width: 3, title: 'thin pen'},
+    {label: '❙', width: 5, title: 'medium pen'},
+    {label: '❚', width: 7, title: 'thick pen'}
 ];
 
 // Массив настроек цветов ручки
 export const penColors = [
-    { label: '🟥', color: 'red', title: 'red color' },
-    { label: '🟩', color: 'green', title: 'green color' },
-    { label: '🟦', color: 'blue', title: 'blue color' }
+    {label: '🟥', color: 'red', title: 'red color'},
+    {label: '🟩', color: 'green', title: 'green color'},
+    {label: '🟦', color: 'blue', title: 'blue color'}
 ];
 
 export class RasterGraphicsSlide extends Slide {
     constructor(container, uiManager, backgroundImage) {
-        super(container, { width: 600, height: 400 });
+        super(container, {width: 600, height: 400});
         this.type = 'raster';
         this.backgroundImage = backgroundImage;
 
@@ -33,12 +33,12 @@ export class RasterGraphicsSlide extends Slide {
 
     createTools(toolManager) {
         const toolsConfig = [
-            ...penColors.map(({ label, color, title }) => ({
+            ...penColors.map(({label, color, title}) => ({
                 label,
                 title,
                 action: () => (this.penColor = color),
             })),
-            ...penWidths.map(({ label, width, title }) => ({
+            ...penWidths.map(({label, width, title}) => ({
                 label,
                 title,
                 action: () => (this.penWidth = width),
@@ -115,12 +115,16 @@ export class RasterGraphicsSlide extends Slide {
     };
 
     _executeCommand(command) {
-        executeCommandToGraphicSlide(
-            this.context,
-            command,
-            this.settings.width,
-            this.settings.height
-        )
+        let action = command[1];  // Здесь извлекаем действие (например, moveTo)
+        let options = command[2]; // Здесь извлекаем опции
+
+        // Проверка, есть ли такая команда в slideCommands
+        if (slideCommands[action]) {
+            // Передаем context, options и другие параметры в команду
+            slideCommands[action](this.context, options, this.settings.width, this.settings.height);
+        } else {
+            console.error(`Команда "${action}" не распознана`);
+        }
     }
 
 }
@@ -156,17 +160,3 @@ export const slideCommands = {
 
     // Добавляй новые команды сюда
 };
-
-// todo - мб можно создать объект контекста слайда, чтобы сюда его передавать и выполнять над ним действия. (мб сам SlideRecord подойдет)
-export function executeCommandToGraphicSlide(slideContext, command, width1, height1) {
-    let action = command[1];  // Здесь извлекаем действие (например, moveTo)
-    let options = command[2]; // Здесь извлекаем опции
-
-    // Проверка, есть ли такая команда в slideCommands
-    if (slideCommands[action]) {
-        // Передаем context, options и другие параметры в команду
-        slideCommands[action](slideContext, options, width1, height1);
-    } else {
-        console.error(`Команда "${action}" не распознана`);
-    }
-}
