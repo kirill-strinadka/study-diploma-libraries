@@ -1,7 +1,5 @@
 import {SlideStorage} from "../../base-slide/SlideStorage.js";
 import {RasterGraphicsSlide} from "./RasterGraphicsSlide.js";
-// import {SlidePlay2D} from "./SlidePlay2D";
-
 
 export class SlideLibrary {
     constructor(uiManager) {
@@ -13,7 +11,7 @@ export class SlideLibrary {
     createSlide(type, ...args) {
         switch (type) {
             case 'raster':
-                this.currentSlide = new RasterGraphicsSlide(this.uiManager.slideContainer, ...args);
+                this.currentSlide = new RasterGraphicsSlide(this.uiManager.slideContainer, this.uiManager, ...args);
                 break;
             // case 'video':
             //     this.currentSlide = new VideoSlide(this.uiManager.slideContainer, ...args);
@@ -27,9 +25,22 @@ export class SlideLibrary {
         return this.currentSlide;
     }
 
+    recreateSlide() {
+        switch (this.currentSlide.type) {
+            case 'raster':
+                return this.createSlide(this.currentSlide.type, this.currentSlide.backgroundImage);
+
+             // todo - добавить для видео реализацию
+
+            default:
+                throw new Error('Неизвестный тип слайда');
+        }
+    }
+
     startRecording(key) {
         if (!key) throw new Error('Ключ обязателен');
         this.key = key;
+        this.currentSlide = this.recreateSlide();
         this.currentSlide.startRecording();
     }
 
@@ -42,12 +53,6 @@ export class SlideLibrary {
     playRecording(key) {
         const slide = this.slideStorage.getSlideCommands(key);
         if (slide) slide.play();
-        // if (slide) {
-        //     const slidePlayer = new RasterGraphicsSlide(slide2D, this.uiManager);
-        //     slidePlayer.start();
-        // } else {
-        //     alert(`Команды для ключа "${key}" не найдены.`);
-        // }
     }
 
     // todo - как будто это можно и вынести
@@ -57,4 +62,5 @@ export class SlideLibrary {
         button.addEventListener('click', () => this.playRecording(key));
         container.appendChild(button);
     }
+
 }
