@@ -7,13 +7,14 @@ export class SlideStorage {
 
     // Метод для сохранения команд
     saveSlideCommands(key, slide) {
-        if (!Array.isArray(slide.cmdArr)) {
+        if (!Array.isArray(slide.commands)) {
             throw new Error('Commands must be an array');
         }
         this.storage[key] = slide;
         console.log(`Commands saved under key: ${key}`);
     }
 
+    // todo - переименовать в получение слайда или отдавать только команды
     // Метод для получения команд по ключу
     getSlideCommands(key) {
         const commands = this.storage[key];

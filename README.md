@@ -10,12 +10,12 @@
 
 ### Для 2D слайдов
 ```javascript
-import { SlideLibrary2D } from '../diploma-libs/slide-raster-graphics/index.js';
+import { SlideLibrary2D } from '../multimedia-slides-library/slide-raster-graphics/index.js';
 ```
 
 ### Для видео слайдов
 ```javascript
-import { SlideVideoLibrary } from '../diploma-libs/slide-video';
+import { SlideVideoLibrary } from '../multimedia-slides-library/slide-video';
 ```
 
 ## 2. Создание экземпляра библиотеки
@@ -111,8 +111,9 @@ import { Slide2DLibrary as SlideLibrary2D, Slide2D, SlideRecord2D, SlidePlay2D }
 - `SlidePlay2D` — класс для воспроизведения записанных действий.
 
 #### Использование:
+
 ```javascript
-const slide = new Slide2D(slideHtmlElement, slideBackgroundImageSrc);
+const slide = new RasterGraphicsSlide(slideHtmlElement, slideBackgroundImageSrc);
 const recorder = new SlideRecord2D(toolsHtmlElement, slide);
 recorder.start();
 recorder.finish();
@@ -131,8 +132,9 @@ import { SlideVideoLibrary, SlideVideo, SlideRecordVideo, SlidePlayVideo } from 
 - `SlidePlayVideo` — класс для воспроизведения записанных действий.
 
 #### Использование:
+
 ```javascript
-const slideVideo = new SlideVideo(videoHtmlContainer, videoSrc);
+const slideVideo = new VideoSlide(videoHtmlContainer, videoSrc);
 const recorderVideo = new SlideRecordVideo(toolsHtmlContainer, slideVideo);
 recorderVideo.start();
 recorderVideo.stopRecording();
