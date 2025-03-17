@@ -52,6 +52,12 @@ export class VideoSlide extends Slide {
 
         this.instanceId = Math.random().toString(36).substring(2); // Уникальный ID экземпляра
         console.log(`VideoSlide created, instanceId: ${this.instanceId}`);
+
+        this.initialVideoState = {
+            currentTime: 0,
+            playbackRate: 1.0,
+            paused: true
+        };
     }
 
     createVideoElement() {
@@ -63,8 +69,9 @@ export class VideoSlide extends Slide {
     }
 
     _recreateCanvas() {
-        // this.clearContainer();
-        this.slideVideoElement = this.createVideoElement();
+        this.slideVideoElement.currentTime = this.initialVideoState.currentTime;
+        this.slideVideoElement.playbackRate = this.initialVideoState.playbackRate;
+        this.slideVideoElement.pause();
     }
 
     createTools(toolManager) {
@@ -136,6 +143,14 @@ export class VideoSlide extends Slide {
 
     startRecording() {
         // this.isPlaying = false;
+
+        // Сохраняем начальное состояние видео
+        this.initialVideoState = {
+            currentTime: this.slideVideoElement.currentTime,
+            playbackRate: this.slideVideoElement.playbackRate,
+            paused: this.slideVideoElement.paused
+        };
+
         super.startRecording(); // Инициализирует recording, startTime и очищает команды
         // this._recreateCanvas(); // Пересоздаем видео перед записью
     }
