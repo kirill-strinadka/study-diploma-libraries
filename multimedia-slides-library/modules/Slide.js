@@ -31,25 +31,18 @@ export class Slide {
         this.recording = true;
         this.startTime = new Date().getTime();
         this.commands = [];
-        // throw new Error('startRecording() должен быть реализован в подклассе');
     }
 
     stopRecording() {
         this.recording = false;
         this.startTime = null;
-        // throw new Error('stopRecording() должен быть реализован в подклассе');
     }
 
-    _executeCommand(command) {
-        throw new Error('_executeCommand() должен быть реализован в подклассе');
-    }
 
     play() {
         if (this.currentTimeout) {
             clearTimeout(this.currentTimeout); // Очищаем предыдущий таймер
         }
-        // this._recreateCanvas();
-        // this.render(); // Отрисовываем начальное состояние
 
         if (this.commands.length === 0) return; // Если команд нет, ничего не делаем
 
@@ -72,7 +65,6 @@ export class Slide {
         // Первая задержка — это время от начала записи до первой команды
         const initialDelay = this.commands[0][0];
         this.currentTimeout = setTimeout(playNext, initialDelay);
-        // throw new Error('play() должен быть реализован в подклассе');
     }
 
     _prepareCommandAndExecute(action, options) {
@@ -88,6 +80,10 @@ export class Slide {
 
         // Вызов _executeCommand для немедленного рендеринга
         this._executeCommand(command);
+    }
+
+    _executeCommand(command) {
+        throw new Error('_executeCommand() должен быть реализован в подклассе');
     }
 
     getCommands() {

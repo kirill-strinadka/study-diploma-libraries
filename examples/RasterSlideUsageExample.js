@@ -32,7 +32,7 @@
 //     slideLibrary.createPlaybackButton(recordingKey, playbackButtonsContainer);
 // });
 
-import {UIManager} from "../multimedia-slides-library/modules/UIManager.js";
+import {UIManager} from "../multimedia-slides-library/modules/utils/UIManager.js";
 import {SlideLibrary} from "../multimedia-slides-library/modules/SlideLibrary.js";
 
 const slideContainer = document.getElementById('slide-container');

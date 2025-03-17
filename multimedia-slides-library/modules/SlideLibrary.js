@@ -1,4 +1,4 @@
-import {SlideStorage} from "./SlideStorage.js";
+import {SlideStorage} from "./utils/SlideStorage.js";
 import {RasterGraphicsSlide} from "./RasterGraphicsSlide.js";
 import {VideoSlide} from "./VideoSlide.js";
 

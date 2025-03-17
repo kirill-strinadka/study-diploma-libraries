@@ -124,12 +124,6 @@ export class VideoSlide extends Slide {
         this.isPlaying = !this.isPlaying; // Меняем состояние
     }
 
-    _prepareCommandAndExecute(action, options) {
-        console.log('Slide._prepareCommandAndExecute called on:', this);
-        super._prepareCommandAndExecute(action, options)
-    }
-
-
     render() {
         // Видео рендерится автоматически в браузере
         // Можно добавить логику, если требуется начальное состояние
