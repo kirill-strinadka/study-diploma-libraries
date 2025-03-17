@@ -24,7 +24,7 @@ let rasterSlide = null;
 let videoSlide = null;
 
 
-const backImage = './img/first-image.jpg'
+const backImage = './examples/img/first-image.jpg'
 
 function initializeRasterSlide() {
     uiManager.clearUI()
@@ -39,7 +39,7 @@ function initializeRasterSlide() {
 }
 
 
-const videoSrc = '../video/first-video.mp4';
+const videoSrc = './examples/video/first-video.mp4';
 
 function initializeVideoSlide() {
     uiManager.clearUI()

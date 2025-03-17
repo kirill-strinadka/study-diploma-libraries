@@ -48,7 +48,7 @@ const playbackButtonsContainer = document.getElementById('playback-buttons-conta
 
 
 // Создание и использование различных типов слайдов
-let rasterSlide = slideLib.createSlide('raster', './img/first-image.jpg');
+let rasterSlide = slideLib.createSlide('raster', './examples/img/first-image.jpg');
 
 startRecordingButton.addEventListener('click', () => {
     const key = prompt('Введите название для этого набора команд:');

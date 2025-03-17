@@ -17,7 +17,7 @@ const uiManager = new UIManager(slideContainer, toolsContainer);
 
 const slideLib = new SlideLibrary(uiManager);
 
-const videoSrc = '../video/first-video.mp4';
+const videoSrc = './examples/video/first-video.mp4';
 
 const startRecordingButton = document.getElementById('start-recording-button');
 const stopRecordingButton = document.getElementById('stop-recording-button');
