@@ -1,5 +1,6 @@
 import {SlideStorage} from "../../base-slide/SlideStorage.js";
 import {RasterGraphicsSlide} from "./RasterGraphicsSlide.js";
+import {VideoSlide} from "../../slide-video";
 
 export class SlideLibrary {
     constructor(uiManager) {
@@ -13,9 +14,9 @@ export class SlideLibrary {
             case 'raster':
                 this.currentSlide = new RasterGraphicsSlide(this.uiManager.slideContainer, this.uiManager, ...args);
                 break;
-            // case 'video':
-            //     this.currentSlide = new VideoSlide(this.uiManager.slideContainer, ...args);
-            //     break;
+            case 'video':
+                this.currentSlide = new VideoSlide(this.uiManager.slideContainer, this.uiManager, ...args);
+                break;
             // case 'text':
             //     this.currentSlide = new TextSlide(this.uiManager.slideContainer, ...args);
             //     break;
@@ -29,8 +30,8 @@ export class SlideLibrary {
         switch (this.currentSlide.type) {
             case 'raster':
                 return this.createSlide(this.currentSlide.type, this.currentSlide.backgroundImage);
-
-             // todo - добавить для видео реализацию
+            case 'video':
+                return this.currentSlide = this.createSlide(this.currentSlide.type, this.currentSlide.videoSrc);
 
             default:
                 throw new Error('Неизвестный тип слайда');

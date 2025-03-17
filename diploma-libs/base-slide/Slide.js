@@ -5,9 +5,13 @@ export class Slide {
         this.type = 'abstract'; // Будет переопределен в подклассах
         this.settings = { width: 600, height: 400, ...settings };
         this.commands = []; // Массив для хранения команд для записи/воспроизведения
+
+        this.currentTimeout = null;
+        this.recording = false;
+        this.startTime = null;
     }
 
-    clearCanvas() {
+    clearContainer() {
         this.container.innerHTML = '';
     }
 
@@ -30,7 +34,7 @@ export class Slide {
     stopRecording() {
         this.recording = false;
         this.startTime = null;
-        throw new Error('stopRecording() должен быть реализован в подклассе');
+        // throw new Error('stopRecording() должен быть реализован в подклассе');
     }
 
     _executeCommand(command) {
@@ -68,7 +72,7 @@ export class Slide {
         // throw new Error('play() должен быть реализован в подклассе');
     }
 
-    prepareCMD(action, options) {
+    _prepareCommandAndExecute(action, options) {
         if (!this.recording || !this.startTime) {
             console.warn('Запись не активна или startTime не установлен');
             return;
