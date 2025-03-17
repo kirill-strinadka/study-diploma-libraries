@@ -35,22 +35,14 @@ export function executeCommandToVideo(videoElement, command) {
 export class VideoSlide extends Slide {
 
     constructor(container, uiManager, videoSrc) {
-        super(container);
+        super(container, uiManager, {width: 600, height: 400});
         this.type = "video"
         this.container = container;
-
-        this.uiManager = uiManager;
-        this.toolManager = uiManager.getToolManager();
 
         // Используем уже существующий video-элемент или создаем новый
         this.videoSrc = videoSrc
         this.slideVideoElement = this.container.querySelector("video") || this.createVideoElement();
         this.slideVideoElement.src = videoSrc; // Обновляем src
-
-        this.createTools(this.toolManager);
-
-        this.instanceId = Math.random().toString(36).substring(2); // Уникальный ID экземпляра
-        console.log(`VideoSlide created, instanceId: ${this.instanceId}`);
 
         // Начальное состояние видео, чтобы потом воспроизводить команды с этого момента
         this.initialVideoState = {
@@ -58,6 +50,8 @@ export class VideoSlide extends Slide {
             playbackRate: 1.0,
             paused: true
         };
+
+        this.createTools(this.toolManager);
     }
 
     createVideoElement() {
@@ -92,7 +86,6 @@ export class VideoSlide extends Slide {
 
                 // Обработчик клика
                 button.onclick = () => {
-                    console.log(`Button clicked, instanceId: ${this.instanceId}, this:`, this);
                     if (command === 'play' || command === 'pause') {
                         this.togglePlayPause(button);
                     } else {

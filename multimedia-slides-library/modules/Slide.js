@@ -1,10 +1,13 @@
 
 export class Slide {
-    constructor(container, settings = {}) {
+    constructor(container, uiManager, settings = {}) {
         this.container = container;
         this.type = 'abstract'; // Будет переопределен в подклассах
         this.settings = { width: 600, height: 400, ...settings };
         this.commands = []; // Массив для хранения команд для записи/воспроизведения
+
+        this.uiManager = uiManager;
+        this.toolManager = uiManager.getToolManager();
 
         this.currentTimeout = null;
         this.recording = false;

@@ -1,4 +1,3 @@
-// Импорт необходимых модулей
 import { SlideLibrary, UIManager } from './multimedia-slides-library';
 
 // DOM-элементы
@@ -28,33 +27,27 @@ let videoSlide = null;
 const backImage = './img/first-image.jpg'
 
 function initializeRasterSlide() {
-    // Очистка контейнера перед инициализацией
-    // slideContainer.innerHTML = '';
-    if (!rasterSlide) {
-        rasterSlide = slideLib.createSlide('raster', backImage);
-        console.log('RasterSlide initialized');
-    } else {
-        rasterSlide._recreateCanvas();
-    }
+    uiManager.clearUI()
+    rasterSlide = slideLib.createSlide('raster', backImage);
+    console.log('RasterSlide initialized');
+
     if (currentSlide && currentSlide !== rasterSlide) currentSlide.stopRecording();
     currentSlide = rasterSlide;
     setupControls();
     rasterSlideButton.classList.add('active');
     videoSlideButton.classList.remove('active');
-
 }
 
 
 const videoSrc = '../video/first-video.mp4';
 
 function initializeVideoSlide() {
-    // Очистка контейнера перед инициализацией
-    slideContainer.innerHTML = '';
-    if (!videoSlide) {
-        videoSlide = slideLib.createSlide('video', videoSrc);
-        console.log('VideoSlide initialized');
-    }
+    uiManager.clearUI()
+    videoSlide = slideLib.createSlide('video', videoSrc);
+    console.log('VideoSlide initialized');
+
     if (currentSlide && currentSlide !== videoSlide) currentSlide.stopRecording();
+
     currentSlide = videoSlide;
     setupControls();
     videoSlideButton.classList.add('active');
