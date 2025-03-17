@@ -3,31 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Slide Interaction Demo</title>
+    <title>Raster Slide Example</title>
     <style>
         #slide-container { width: 600px; height: 400px; border: 1px solid black; }
         #tools-container { margin: 10px 0; }
         #controls-container { margin: 10px 0; }
         #playback-controls-container { margin: 10px 0; }
-        .hidden { display: none; }
-        #navigation button {
-            margin: 5px;
-            padding: 5px 10px;
-        }
-        #navigation button.active {
-            background-color: #4CAF50;
-            color: white;
-        }
     </style>
 </head>
 <body>
-<!-- Кнопки переключения -->
-<div id="navigation">
-    <button id="raster-slide-button" class="active">Показать пример с рисованием</button>
-    <button id="video-slide-button">Показать пример с видео</button>
-</div>
-
-<!-- Контейнеры для слайдов -->
 <div id="slide-container"></div>
 <div id="tools-container"></div>
 <div id="controls-container">
@@ -39,7 +23,9 @@
     <div id="playback-buttons-container"></div>
 </div>
 
-<!-- Подключение index.js -->
-<script type="module" src="index.js"></script>
+<!-- Ссылка на пример с видео -->
+<p><a href="video-slide-example.html">Перейти к примеру с видео</a></p>
+
+<script type="module" src="examples/RasterSlideUsageExample.js"></script>
 </body>
 </html>
