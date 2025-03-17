@@ -56,6 +56,14 @@ export class SlideLibrary {
         if (slide) slide.play();
     }
 
+    getSlideByKey(key) {
+        return this.slideStorage.getSlideCommands(key);
+    }
+
+    clearStorage() {
+        this.slideStorage.clearStorage();
+    }
+
     // todo - как будто это можно и вынести
     createPlaybackButton(key, container) {
         const button = document.createElement('button');

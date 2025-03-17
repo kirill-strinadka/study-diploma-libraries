@@ -40,4 +40,9 @@ export class SlideStorage {
         return Object.keys(this.storage);
     }
 
+    clearStorage() {
+        this.storage = {};
+        console.log('Storage cleared');
+    }
+
 }

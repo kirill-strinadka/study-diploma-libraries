@@ -1,4 +1,4 @@
-import { SlideLibrary, UIManager } from './multimedia-slides-library';
+import { SlideLibrary, UIManager } from '../slide-sync';
 
 // DOM-элементы
 const slideContainer = document.getElementById('slide-container');
@@ -17,7 +17,6 @@ const slideLib = new SlideLibrary(uiManager);
 
 // Переменные для хранения текущего слайда и записанных команд
 let currentSlide = null;
-let recordedCommands = new Map(); // Используем Map для хранения команд по ключам
 
 // Инициализация примеров
 let rasterSlide = null;
@@ -72,8 +71,6 @@ function setupControls() {
             const recordingKey = slideLib.stopRecording();
             startRecordingButton.disabled = false;
             stopRecordingButton.disabled = true;
-            const commands = currentSlide.getCommands();
-            recordedCommands.set(recordingKey, commands);
             slideLib.createPlaybackButton(recordingKey, playbackButtonsContainer);
         }
     };
@@ -82,8 +79,8 @@ function setupControls() {
     playbackButtonsContainer.querySelectorAll('button').forEach(button => {
         const key = button.dataset.key;
         button.onclick = () => {
-            if (currentSlide && recordedCommands.has(key)) {
-                currentSlide.commands = [...recordedCommands.get(key)];
+            if (currentSlide && slideLib.getSlideByKey(key)) {
+                currentSlide.commands = [...slideLib.getSlideByKey(key).commands];
                 currentSlide.play();
             }
         };
@@ -92,13 +89,13 @@ function setupControls() {
 
 // Обработчики переключения
 rasterSlideButton.onclick = () => {
-    recordedCommands.clear();
+    slideLib.clearStorage()
     playbackButtonsContainer.innerHTML = '';
     initializeRasterSlide();
 };
 
 videoSlideButton.onclick = () => {
-    recordedCommands.clear();
+    slideLib.clearStorage()
     playbackButtonsContainer.innerHTML = '';
     initializeVideoSlide();
 };
