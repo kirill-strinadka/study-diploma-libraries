@@ -1,6 +1,6 @@
-import {SlideStorage} from "../../base-slide/SlideStorage.js";
+import {SlideStorage} from "./SlideStorage.js";
 import {RasterGraphicsSlide} from "./RasterGraphicsSlide.js";
-import {VideoSlide} from "../../slide-video";
+import {VideoSlide} from "./VideoSlide.js";
 
 export class SlideLibrary {
     constructor(uiManager) {

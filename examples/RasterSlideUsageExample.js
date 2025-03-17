@@ -1,5 +1,5 @@
-// import { SlideLibrary2D } from '../diploma-libs/slide-raster-graphics/index.js';
-// import { UIManager } from '../diploma-libs/control-application/UIManager.js';
+// import { SlideLibrary2D } from '../multimedia-slides-library/slide-raster-graphics/index.js';
+// import { UIManager } from '../multimedia-slides-library/control-application/UIManager.js';
 //
 //
 // const slideHtmlElement = document.getElementById('slide-container');
@@ -32,8 +32,8 @@
 //     slideLibrary.createPlaybackButton(recordingKey, playbackButtonsContainer);
 // });
 
-import {UIManager} from "../diploma-libs/slide-raster-graphics/modules/UIManager.js";
-import {SlideLibrary} from "../diploma-libs/slide-raster-graphics/modules/SlideLibrary.js";
+import {UIManager} from "../multimedia-slides-library/modules/UIManager.js";
+import {SlideLibrary} from "../multimedia-slides-library/modules/SlideLibrary.js";
 
 const slideContainer = document.getElementById('slide-container');
 const toolsContainer = document.getElementById('tools-container');

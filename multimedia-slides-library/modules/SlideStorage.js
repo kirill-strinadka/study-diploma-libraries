@@ -14,6 +14,7 @@ export class SlideStorage {
         console.log(`Commands saved under key: ${key}`);
     }
 
+    // todo - переименовать в получение слайда или отдавать только команды
     // Метод для получения команд по ключу
     getSlideCommands(key) {
         const commands = this.storage[key];

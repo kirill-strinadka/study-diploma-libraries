@@ -1,5 +1,12 @@
-import {Slide} from "../../base-slide/Slide.js";
-import {denorm, norm} from "./utils.js";
+import {Slide} from "./Slide.js";
+
+export function norm(XY, width, height) {
+    return [Math.ceil((10000 * XY[0]) / width), Math.ceil((10000 * XY[1]) / height)];
+}
+
+export function denorm(xy, width, height) {
+    return [Math.ceil((xy[0] * width) / 10000), Math.ceil((xy[1] * height) / 10000)];
+}
 
 // Массив настроек толщины линий ручки
 export const penWidths = [
@@ -48,7 +55,7 @@ export class RasterGraphicsSlide extends Slide {
     }
 
     _recreateCanvas() {
-        this.clearCanvas()
+        this.clearContainer()
         this.canvas = document.createElement('canvas');
         this.canvas.width = this.settings.width;
         this.canvas.height = this.settings.height;
@@ -95,10 +102,10 @@ export class RasterGraphicsSlide extends Slide {
     _onMouseDown = (event) => {
         const start = [event.offsetX, event.offsetY];
 
-        this.prepareCMD('beginPath');
-        this.prepareCMD('setPenColor', this.penColor);
-        this.prepareCMD('setPenWidth', this.penWidth);
-        this.prepareCMD('moveTo', norm(start, this.settings.width, this.settings.height));
+        this._prepareCommandAndExecute('beginPath');
+        this._prepareCommandAndExecute('setPenColor', this.penColor);
+        this._prepareCommandAndExecute('setPenWidth', this.penWidth);
+        this._prepareCommandAndExecute('moveTo', norm(start, this.settings.width, this.settings.height));
 
         this.canvas.addEventListener('mousemove', this._onMouseMove);
         this.canvas.addEventListener('mouseup', this._onMouseUp);
@@ -106,11 +113,11 @@ export class RasterGraphicsSlide extends Slide {
 
     _onMouseMove = (event) => {
         let XY = [event.offsetX, event.offsetY];
-        this.prepareCMD('lineTo', norm(XY, this.settings.width, this.settings.height));
+        this._prepareCommandAndExecute('lineTo', norm(XY, this.settings.width, this.settings.height));
     };
 
     _onMouseUp = () => {
-        this.prepareCMD('closePath');
+        this._prepareCommandAndExecute('closePath');
         this.canvas.removeEventListener('mousemove', this._onMouseMove);
     };
 

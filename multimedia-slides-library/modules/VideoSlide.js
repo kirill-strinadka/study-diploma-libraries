@@ -1,4 +1,4 @@
-import {Slide} from "../../base-slide/Slide.js";
+import {Slide} from "./Slide.js";
 
 
 export const videoButtons = [
@@ -21,7 +21,6 @@ export const videoCommands = {
     slowDown: (videoElement) => {videoElement.playbackRate =
         Math.max(0.2, videoElement.playbackRate - 0.2);}
 
-    // Добавляй новые команды сюда
 };
 
 export function executeCommandToVideo(videoElement, command) {
@@ -53,6 +52,7 @@ export class VideoSlide extends Slide {
         this.instanceId = Math.random().toString(36).substring(2); // Уникальный ID экземпляра
         console.log(`VideoSlide created, instanceId: ${this.instanceId}`);
 
+        // Начальное состояние видео, чтобы потом воспроизводить команды с этого момента
         this.initialVideoState = {
             currentTime: 0,
             playbackRate: 1.0,
@@ -68,7 +68,7 @@ export class VideoSlide extends Slide {
         return video;
     }
 
-    _recreateCanvas() {
+    _toInitialState() {
         this.slideVideoElement.currentTime = this.initialVideoState.currentTime;
         this.slideVideoElement.playbackRate = this.initialVideoState.playbackRate;
         this.slideVideoElement.pause();
@@ -105,6 +105,7 @@ export class VideoSlide extends Slide {
             }
         });
 
+        // todo - реализовать добавление кнопок через конфиг как в растровом слайде
         // const toolsConfig = videoButtons.map(({ label, command, title }) => ({
         //     label,
         //     title,
@@ -137,12 +138,11 @@ export class VideoSlide extends Slide {
 
 
     render() {
-        // Видео рендерится автоматически через элемент
+        // Видео рендерится автоматически в браузере
         // Можно добавить логику, если требуется начальное состояние
     }
 
     startRecording() {
-        // this.isPlaying = false;
 
         // Сохраняем начальное состояние видео
         this.initialVideoState = {
@@ -151,28 +151,21 @@ export class VideoSlide extends Slide {
             paused: this.slideVideoElement.paused
         };
 
-        super.startRecording(); // Инициализирует recording, startTime и очищает команды
-        // this._recreateCanvas(); // Пересоздаем видео перед записью
+        super.startRecording();
     }
 
     stopRecording() {
-        super.stopRecording(); // Сбрасывает recording и startTime
-        // this.slideVideoElement.pause(); // Останавливаем видео
-        // this.isPlaying = false;
+        super.stopRecording();
         return this;
     }
 
     play() {
-        this._recreateCanvas(); // Пересоздаем видео перед воспроизведением (в начальное состояние)
+        this._toInitialState(); // Пересоздаем видео перед воспроизведением (в начальное состояние сбрасываем)
         super.play(); // Используем общую логику воспроизведения
     }
 
     _executeCommand(command) {
-
         executeCommandToVideo(this.slideVideoElement, command)
-        // if (command[1] === 'play') this.isPlaying = true;
-        // if (command[1] === 'pause') this.isPlaying = false;
-
     }
 
 }
