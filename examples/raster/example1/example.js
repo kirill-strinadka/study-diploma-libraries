@@ -22,12 +22,13 @@ async function loadExample(exampleId) {
     uiManager.clearUI();
     if (exampleId === 'example1') {
         // Загрузка JSON с командами
-        const response = await fetch('./example1/example1.json');
+        const response = await fetch('./examples/raster/example1/example.json');
         const data = await response.json();
         exampleCommands = data; // Сохраняем команды
 
         // Инициализация растрового слайда с фоном из example1.png
-        currentSlide = slideLib.createSlide('raster', './example1/example1.png');
+        currentSlide = slideLib.createSlide('raster', './examples/raster/example1/example.png');
+        currentSlide.uiManager.getToolManager().clearTools()
         playExampleButton.disabled = false;
         console.log('Example 1 loaded with commands:', exampleCommands);
     }

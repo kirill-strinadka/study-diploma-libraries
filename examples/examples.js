@@ -24,6 +24,7 @@ let videoSlide = null;
 
 
 const backImage = './examples/img/first-image.jpg'
+// const backImage = './examples/raster/example1/example.png'
 
 function initializeRasterSlide() {
     uiManager.clearUI()
