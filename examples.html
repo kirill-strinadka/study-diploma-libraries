@@ -14,11 +14,38 @@
             margin: 5px;
             padding: 5px 10px;
         }
+        /* Стили для кнопки возврата */
+        #go-back-button {
+            position: relative;
+            top: 10px;
+            margin: 10px auto;
+            display: block;
+            width: 250px;
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            background: linear-gradient(90deg, #4CAF50, #45a049); /* Градиент зеленого */
+            border: none;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: transform 0.2s, background 0.3s;
+        }
+        #go-back-button:hover {
+            transform: translateY(-2px);
+            background: linear-gradient(90deg, #45a049, #3d8b40); /* Темнее при наведении */
+        }
+        #go-back-button:active {
+            transform: translateY(0);
+        }
     </style>
 </head>
 <body>
 <!-- Кнопка возврата на главную -->
 <button id="go-back-button">Вернуться на главную</button>
+
+<p></p>
 
 <!-- Контейнеры для слайдов -->
 <div id="slide-container"></div>

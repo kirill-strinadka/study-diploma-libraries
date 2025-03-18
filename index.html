@@ -18,9 +18,37 @@
             background-color: #4CAF50;
             color: white;
         }
+        /* Стили для кнопки перехода к примерам */
+        #go-to-examples-button {
+            position: relative;
+            top: 10px;
+            margin: 10px auto;
+            display: block;
+            width: 250px;
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            background: linear-gradient(90deg, #4CAF50, #45a049); /* Градиент зеленого */
+            border: none;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: transform 0.2s, background 0.3s;
+        }
+        #go-to-examples-button:hover {
+            transform: translateY(-2px);
+            background: linear-gradient(90deg, #45a049, #3d8b40); /* Темнее при наведении */
+        }
+        #go-to-examples-button:active {
+            transform: translateY(0);
+        }
     </style>
 </head>
 <body>
+<!-- Кнопка перехода к заготовленным примерам (сверху) -->
+<button id="go-to-examples-button">Перейти к заготовленным примерам</button>
+
 <!-- Кнопки переключения -->
 <div id="navigation">
     <button id="raster-slide-button" class="active">Показать пример с рисованием</button>
@@ -37,11 +65,6 @@
 <div id="playback-controls-container">
     <h2>Записанные наборы команд:</h2>
     <div id="playback-buttons-container"></div>
-</div>
-
-<!-- Кнопка для перехода на страницу примеров -->
-<div>
-    <button id="go-to-examples-button">Перейти к заготовленным примерам</button>
 </div>
 
 <!-- Подключение examples.js -->
