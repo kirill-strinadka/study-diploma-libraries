@@ -75,16 +75,18 @@ function setupControls() {
         }
     };
 
+    // todo - не работает этот код
     // Обновление обработчиков воспроизведения для всех кнопок
-    playbackButtonsContainer.querySelectorAll('button').forEach(button => {
-        const key = button.dataset.key;
-        button.onclick = () => {
-            if (currentSlide && slideLib.getSlideByKey(key)) {
-                currentSlide.commands = [...slideLib.getSlideByKey(key).commands];
-                currentSlide.play();
-            }
-        };
-    });
+    // playbackButtonsContainer.querySelectorAll('button').forEach(button => {
+    //     const key = button.dataset.key;
+    //     button.onclick = () => {
+    //         if (currentSlide && slideLib.getSlideByKey(key)) {
+    //             console.log(JSON.stringify(currentSlide.commands));
+    //             // currentSlide.commands = [...slideLib.getSlideByKey(key).commands];
+    //             currentSlide.play();
+    //         }
+    //     };
+    // });
 }
 
 // Обработчики переключения
@@ -98,6 +100,14 @@ videoSlideButton.onclick = () => {
     slideLib.clearStorage()
     playbackButtonsContainer.innerHTML = '';
     initializeVideoSlide();
+};
+
+
+// Обработчик для перехода к примерам
+const goToExamplesButton = document.getElementById('go-to-examples-button');
+
+goToExamplesButton.onclick = () => {
+    window.location.href = 'examples.html';
 };
 
 // Инициализация по умолчанию

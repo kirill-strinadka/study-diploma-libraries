@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Заготовленные примеры</title>
+    <style>
+        #slide-container { width: 600px; height: 400px; border: 1px solid black; }
+        #tools-container { margin: 10px 0; }
+        #examples-container { margin: 10px 0; }
+        #controls-container { margin: 10px 0; }
+        .hidden { display: none; }
+        button {
+            margin: 5px;
+            padding: 5px 10px;
+        }
+    </style>
+</head>
+<body>
+<!-- Кнопка возврата на главную -->
+<button id="go-back-button">Вернуться на главную</button>
+
+<!-- Контейнеры для слайдов -->
+<div id="slide-container"></div>
+<div id="tools-container"></div>
+
+<!-- Контейнер для примеров -->
+<div id="examples-container">
+    <h2>Выберите пример:</h2>
+    <button id="example1-button">Пример 1 (Рисование)</button>
+</div>
+
+<div id="controls-container">
+    <button id="play-example-button" disabled>Запустить просмотр</button>
+</div>
+
+<!-- Подключение example1.js -->
+<script type="module" src="examples/raster/example1/example.js"></script>
+</body>
+</html>

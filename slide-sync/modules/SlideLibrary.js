@@ -47,17 +47,18 @@ export class SlideLibrary {
 
     stopRecording() {
         const slideData = this.currentSlide.stopRecording();
-        this.slideStorage.saveSlideCommands(this.key, slideData);
+        this.slideStorage.saveRecordedSlide(this.key, slideData);
         return this.key;
     }
 
     playRecording(key) {
-        const slide = this.slideStorage.getSlideCommands(key);
+        const slide = this.slideStorage.getRecordedSlide(key);
+        console.log(JSON.stringify(slide.commands));
         if (slide) slide.play();
     }
 
     getSlideByKey(key) {
-        return this.slideStorage.getSlideCommands(key);
+        return this.slideStorage.getRecordedSlide(key);
     }
 
     clearStorage() {

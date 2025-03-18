@@ -1,12 +1,12 @@
 
-
+// todo - Можно будет использовать как интерфейс для обращения к БД
 export class SlideStorage {
     constructor() {
         this.storage = {}; // объект для хранения команд по ключам
     }
 
     // Метод для сохранения команд
-    saveSlideCommands(key, slide) {
+    saveRecordedSlide(key, slide) {
         if (!Array.isArray(slide.commands)) {
             throw new Error('Commands must be an array');
         }
@@ -14,9 +14,8 @@ export class SlideStorage {
         console.log(`Commands saved under key: ${key}`);
     }
 
-    // todo - переименовать в получение слайда или отдавать только команды
     // Метод для получения команд по ключу
-    getSlideCommands(key) {
+    getRecordedSlide(key) {
         const commands = this.storage[key];
         if (!commands) {
             console.warn(`No commands found for key: ${key}`);
@@ -26,7 +25,7 @@ export class SlideStorage {
     }
 
     // Метод для удаления команд по ключу
-    removeCommands(key) {
+    removeRecordedSlide(key) {
         if (this.storage[key]) {
             delete this.storage[key];
             console.log(`Commands removed for key: ${key}`);
