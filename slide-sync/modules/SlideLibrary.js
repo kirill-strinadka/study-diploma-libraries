@@ -1,6 +1,7 @@
 import {SlideStorage} from "./utils/SlideStorage.js";
 import {RasterGraphicsSlide} from "./RasterGraphicsSlide.js";
 import {VideoSlide} from "./VideoSlide.js";
+import {TextSlide} from "./TextSlide.js";
 
 export class SlideLibrary {
     constructor(uiManager) {
@@ -17,9 +18,9 @@ export class SlideLibrary {
             case 'video':
                 this.currentSlide = new VideoSlide(this.uiManager.slideContainer, this.uiManager, ...args);
                 break;
-            // case 'text':
-            //     this.currentSlide = new TextSlide(this.uiManager.slideContainer, ...args);
-            //     break;
+            case 'text':
+                this.currentSlide = new TextSlide(this.uiManager.slideContainer, this.uiManager, ...args);
+                break;
             default:
                 throw new Error('Неизвестный тип слайда');
         }
@@ -32,6 +33,8 @@ export class SlideLibrary {
                 return this.createSlide(this.currentSlide.type, this.currentSlide.backgroundImage);
             case 'video':
                 return this.currentSlide = this.createSlide(this.currentSlide.type, this.currentSlide.videoSrc);
+            case 'text':
+                return this.currentSlide = this.createSlide(this.currentSlide.type, this.currentSlide.backgroundImage);
 
             default:
                 throw new Error('Неизвестный тип слайда');

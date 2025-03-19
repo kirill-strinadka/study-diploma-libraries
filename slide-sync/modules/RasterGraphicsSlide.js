@@ -23,7 +23,7 @@ export const penColors = [
 ];
 
 export class RasterGraphicsSlide extends Slide {
-    constructor(container, uiManager, backgroundImage) {
+    constructor(container, uiManager, backgroundImage, settings = {}) {
         super(container, uiManager, {width: 600, height: 400});
         this.type = 'raster';
         this.backgroundImage = backgroundImage;

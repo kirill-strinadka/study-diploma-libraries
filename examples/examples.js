@@ -8,6 +8,7 @@ const stopRecordingButton = document.getElementById('stop-recording-button');
 const playbackButtonsContainer = document.getElementById('playback-buttons-container');
 const rasterSlideButton = document.getElementById('raster-slide-button');
 const videoSlideButton = document.getElementById('video-slide-button');
+const textSlideButton = document.getElementById('text-slide-button');
 
 // Инициализация UIManager
 const uiManager = new UIManager(slideContainer, toolsContainer);
@@ -20,6 +21,7 @@ let currentSlide = null;
 
 // Инициализация примеров
 let rasterSlide = null;
+let textSlide = null;
 let videoSlide = null;
 
 
@@ -36,6 +38,7 @@ function initializeRasterSlide() {
     setupControls();
     rasterSlideButton.classList.add('active');
     videoSlideButton.classList.remove('active');
+    textSlideButton.classList.remove('active');
 }
 
 
@@ -51,6 +54,20 @@ function initializeVideoSlide() {
     currentSlide = videoSlide;
     setupControls();
     videoSlideButton.classList.add('active');
+    rasterSlideButton.classList.remove('active');
+    textSlideButton.classList.remove('active');
+}
+
+function initializeTextSlide() {
+    uiManager.clearUI()
+    textSlide = slideLib.createSlide('text', backImage);
+    console.log('TextSlide initialized');
+
+    if (currentSlide && currentSlide !== textSlide) currentSlide.stopRecording();
+    currentSlide = textSlide;
+    setupControls();
+    textSlideButton.classList.add('active');
+    videoSlideButton.classList.remove('active');
     rasterSlideButton.classList.remove('active');
 }
 
@@ -101,6 +118,12 @@ videoSlideButton.onclick = () => {
     slideLib.clearStorage()
     playbackButtonsContainer.innerHTML = '';
     initializeVideoSlide();
+};
+
+textSlideButton.onclick = () => {
+    slideLib.clearStorage()
+    playbackButtonsContainer.innerHTML = '';
+    initializeTextSlide();
 };
 
 
