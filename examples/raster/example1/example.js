@@ -21,7 +21,6 @@ let videoElement = null;
 let exampleCommands = null;
 
 async function loadExample() {
-    uiManager.clearUI();
 
     // Загрузка JSON с командами для растрового слайда
     const response = await fetch('./examples/raster/example1/example.json');

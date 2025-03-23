@@ -29,7 +29,6 @@ const backImage = './examples/img/first-image.jpg'
 // const backImage = './examples/raster/example1/example.png'
 
 async function initializeRasterSlide() {
-    uiManager.clearUI()
     rasterSlide = slideLib.createSlide('raster', backImage);
     console.log('RasterSlide initialized');
 
@@ -45,7 +44,6 @@ async function initializeRasterSlide() {
 const videoSrc = './examples/video/first-video.mp4';
 
 async function initializeVideoSlide() {
-    uiManager.clearUI()
     videoSlide = slideLib.createSlide('video', videoSrc);
     console.log('VideoSlide initialized');
 
@@ -59,7 +57,6 @@ async function initializeVideoSlide() {
 }
 
 async function initializeTextSlide() {
-    uiManager.clearUI()
     textSlide = slideLib.createSlide('text', backImage);
     console.log('TextSlide initialized');
 

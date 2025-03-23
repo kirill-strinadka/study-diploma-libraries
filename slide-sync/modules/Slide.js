@@ -1,6 +1,7 @@
 
 export class Slide {
     constructor(container, uiManager, settings = {}) {
+        uiManager.clearUI()
         this.container = container;
         this.type = 'abstract'; // Будет переопределен в подклассах
         this.settings = { width: 600, height: 400, ...settings };
