@@ -14,7 +14,7 @@ export const textColors = [
     { label: '🟦', color: 'blue', title: 'Blue color' }
 ];
 
-export class TextSlide extends Slide {
+export default class TextSlide extends Slide {
     constructor(container, uiManager, settings = {}) {
         super(container, uiManager, { width: 600, height: 400, ...settings });
         this.type = 'text';

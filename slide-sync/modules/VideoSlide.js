@@ -32,7 +32,7 @@ export function executeCommandToVideo(videoElement, command) {
 }
 
 
-export class VideoSlide extends Slide {
+export default class VideoSlide extends Slide {
 
     constructor(container, uiManager, videoSrc, settings = {}) {
         super(container, uiManager, {width: 600, height: 400});

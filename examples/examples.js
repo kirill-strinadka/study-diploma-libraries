@@ -28,7 +28,7 @@ let videoSlide = null;
 const backImage = './examples/img/first-image.jpg'
 // const backImage = './examples/raster/example1/example.png'
 
-function initializeRasterSlide() {
+async function initializeRasterSlide() {
     uiManager.clearUI()
     rasterSlide = slideLib.createSlide('raster', backImage);
     console.log('RasterSlide initialized');
@@ -44,7 +44,7 @@ function initializeRasterSlide() {
 
 const videoSrc = './examples/video/first-video.mp4';
 
-function initializeVideoSlide() {
+async function initializeVideoSlide() {
     uiManager.clearUI()
     videoSlide = slideLib.createSlide('video', videoSrc);
     console.log('VideoSlide initialized');
@@ -58,7 +58,7 @@ function initializeVideoSlide() {
     textSlideButton.classList.remove('active');
 }
 
-function initializeTextSlide() {
+async function initializeTextSlide() {
     uiManager.clearUI()
     textSlide = slideLib.createSlide('text', backImage);
     console.log('TextSlide initialized');
@@ -108,22 +108,22 @@ function setupControls() {
 }
 
 // Обработчики переключения
-rasterSlideButton.onclick = () => {
+rasterSlideButton.onclick = async() => {
     slideLib.clearStorage()
     playbackButtonsContainer.innerHTML = '';
-    initializeRasterSlide();
+    await initializeRasterSlide();
 };
 
-videoSlideButton.onclick = () => {
+videoSlideButton.onclick = async() => {
     slideLib.clearStorage()
     playbackButtonsContainer.innerHTML = '';
-    initializeVideoSlide();
+    await initializeVideoSlide();
 };
 
-textSlideButton.onclick = () => {
+textSlideButton.onclick = async() => {
     slideLib.clearStorage()
     playbackButtonsContainer.innerHTML = '';
-    initializeTextSlide();
+    await initializeTextSlide();
 };
 
 
@@ -134,8 +134,11 @@ goToExamplesButton.onclick = () => {
     window.location.href = 'examples.html';
 };
 
+// // Инициализация по умолчанию
+// initializeRasterSlide();
+
 // Инициализация по умолчанию
-initializeRasterSlide();
+initializeRasterSlide().then(() => setupControls());
 
 // Обновление обработчиков воспроизведения после инициализации
 setupControls();

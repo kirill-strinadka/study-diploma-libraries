@@ -1,7 +1,8 @@
 
 import {Slide} from "./modules/Slide.js";
-import {RasterGraphicsSlide} from "./modules/RasterGraphicsSlide.js";
-import {VideoSlide} from "./modules/VideoSlide.js";
+import RasterGraphicsSlide from "./modules/RasterGraphicsSlide.js";
+import VideoSlide from "./modules/VideoSlide.js";
+import TextSlide from "./modules/TextSlide.js";
 import {SlideLibrary} from "./modules/SlideLibrary.js";
 import {SlideStorage} from "./modules/utils/SlideStorage.js";
 import {UIManager} from "./modules/utils/UIManager.js";

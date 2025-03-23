@@ -22,7 +22,7 @@ export const penColors = [
     {label: '🟦', color: 'blue', title: 'blue color'}
 ];
 
-export class RasterGraphicsSlide extends Slide {
+export default class RasterGraphicsSlide extends Slide {
     constructor(container, uiManager, backgroundImage, settings = {}) {
         super(container, uiManager, {width: 600, height: 400});
         this.type = 'raster';
