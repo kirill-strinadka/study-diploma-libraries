@@ -93,18 +93,6 @@ function setupControls() {
         }
     };
 
-    // todo - не работает этот код
-    // Обновление обработчиков воспроизведения для всех кнопок
-    // playbackButtonsContainer.querySelectorAll('button').forEach(button => {
-    //     const key = button.dataset.key;
-    //     button.onclick = () => {
-    //         if (currentSlide && slideLib.getSlideByKey(key)) {
-    //             console.log(JSON.stringify(currentSlide.commands));
-    //             // currentSlide.commands = [...slideLib.getSlideByKey(key).commands];
-    //             currentSlide.play();
-    //         }
-    //     };
-    // });
 }
 
 // Обработчики переключения
@@ -133,9 +121,6 @@ const goToExamplesButton = document.getElementById('go-to-examples-button');
 goToExamplesButton.onclick = () => {
     window.location.href = 'examples.html';
 };
-
-// // Инициализация по умолчанию
-// initializeRasterSlide();
 
 // Инициализация по умолчанию
 initializeRasterSlide().then(() => setupControls());

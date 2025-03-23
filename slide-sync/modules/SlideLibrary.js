@@ -1,13 +1,4 @@
 import {SlideStorage} from "./utils/SlideStorage.js";
-// import {RasterGraphicsSlide} from "./RasterGraphicsSlide.js";
-// import {VideoSlide} from "./VideoSlide.js";
-// import {TextSlide} from "./TextSlide.js";
-
-// const slideModules = {
-//     'raster': './RasterGraphicsSlide.js',
-//     'video': './VideoSlide.js',
-//     'text': './TextSlide.js',
-// };
 
 export class SlideLibrary {
     constructor(uiManager, otherModules) {
@@ -49,51 +40,12 @@ export class SlideLibrary {
         return this.currentSlide;
     }
 
-    // Пересоздание слайда
     async recreateSlide() {
-        const type = this.currentSlide.type;
+        const type = this.currentSlide.type; // Используется только для загрузки модуля
         const SlideClass = await this.loadSlideModule(type);
-
-        // todo - проблема с условиями. В динамической подгрузке такого не должно быть
-        if (type === 'raster' || type === 'text') {
-            return new SlideClass(this.uiManager.slideContainer, this.uiManager, this.currentSlide.backgroundImage);
-        } else if (type === 'video') {
-            return new SlideClass(this.uiManager.slideContainer, this.uiManager, this.currentSlide.videoSrc);
-        } else {
-            throw new Error('Неизвестный тип слайда');
-        }
+        const creationArgs = this.currentSlide.getCreationArgs(); // Получаем аргументы от текущего слайда
+        return new SlideClass(this.uiManager.slideContainer, this.uiManager, ...creationArgs);
     }
-
-    // createSlide(type, ...args) {
-    //     switch (type) {
-    //         case 'raster':
-    //             this.currentSlide = new RasterGraphicsSlide(this.uiManager.slideContainer, this.uiManager, ...args);
-    //             break;
-    //         case 'video':
-    //             this.currentSlide = new VideoSlide(this.uiManager.slideContainer, this.uiManager, ...args);
-    //             break;
-    //         case 'text':
-    //             this.currentSlide = new TextSlide(this.uiManager.slideContainer, this.uiManager, ...args);
-    //             break;
-    //         default:
-    //             throw new Error('Неизвестный тип слайда');
-    //     }
-    //     return this.currentSlide;
-    // }
-
-    // recreateSlide() {
-    //     switch (this.currentSlide.type) {
-    //         case 'raster':
-    //             return this.createSlide(this.currentSlide.type, this.currentSlide.backgroundImage);
-    //         case 'video':
-    //             return this.currentSlide = this.createSlide(this.currentSlide.type, this.currentSlide.videoSrc);
-    //         case 'text':
-    //             return this.currentSlide = this.createSlide(this.currentSlide.type, this.currentSlide.backgroundImage);
-    //
-    //         default:
-    //             throw new Error('Неизвестный тип слайда');
-    //     }
-    // }
 
     async startRecording(key) {
         if (!key) throw new Error('Ключ обязателен');

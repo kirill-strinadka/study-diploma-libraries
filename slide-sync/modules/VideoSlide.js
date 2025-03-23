@@ -62,6 +62,10 @@ export default class VideoSlide extends Slide {
         return video;
     }
 
+    getCreationArgs() {
+        return [this.videoSrc];
+    }
+
     _toInitialState() {
         this.slideVideoElement.currentTime = this.initialVideoState.currentTime;
         this.slideVideoElement.playbackRate = this.initialVideoState.playbackRate;

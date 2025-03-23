@@ -14,6 +14,11 @@ export class Slide {
         this.startTime = null;
     }
 
+    // Метод для получения аргументов создания, который должен быть переопределен
+    getCreationArgs() {
+        throw new Error('Метод getCreationArgs должен быть реализован в наследнике');
+    }
+
     clearContainer() {
         this.container.innerHTML = '';
     }

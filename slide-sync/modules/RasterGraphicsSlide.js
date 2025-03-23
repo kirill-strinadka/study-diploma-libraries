@@ -51,6 +51,10 @@ export default class RasterGraphicsSlide extends Slide {
         toolManager.registerTools(toolsConfig);
     }
 
+    getCreationArgs() {
+        return [this.backgroundImage];
+    }
+
     _recreateCanvas() {
         this.clearContainer()
         this.canvas = document.createElement('canvas');

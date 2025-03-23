@@ -42,6 +42,10 @@ export default class TextSlide extends Slide {
         toolManager.registerTools(toolsConfig);
     }
 
+    getCreationArgs() {
+        return [];
+    }
+
     render() {
         this.clearContainer();
         this.commands.forEach(cmd => this._executeCommand(cmd));
