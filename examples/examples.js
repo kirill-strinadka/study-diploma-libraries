@@ -13,9 +13,6 @@ const textSlideButton = document.getElementById('text-slide-button');
 // Инициализация UIManager
 const uiManager = new UIManager(slideContainer, toolsContainer);
 
-// Создание экземпляра SlideLibrary
-const slideLib = new SlideLibrary(uiManager);
-
 // Переменные для хранения текущего слайда и записанных команд
 let currentSlide = null;
 
@@ -27,6 +24,13 @@ let videoSlide = null;
 
 const backImage = './examples/img/first-image.jpg'
 // const backImage = './examples/raster/example1/example.png'
+
+const slideModules = {
+    'text': './TextSlide.js'
+}
+
+// Создание экземпляра SlideLibrary
+const slideLib = new SlideLibrary(uiManager, slideModules);
 
 async function initializeRasterSlide() {
     rasterSlide = slideLib.createSlide('raster', backImage);

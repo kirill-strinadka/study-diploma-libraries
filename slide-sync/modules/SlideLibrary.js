@@ -1,20 +1,19 @@
 import {SlideStorage} from "./utils/SlideStorage.js";
 
+// Базовые модули по умолчанию
+const defaultModules = {
+    'raster': './RasterGraphicsSlide.js',
+    'video': './VideoSlide.js'
+};
+
 export class SlideLibrary {
     constructor(uiManager, otherModules) {
         this.uiManager = uiManager;
         this.slideStorage = new SlideStorage();
         this.currentSlide = null;
 
-        this.slideModules = {
-            'raster': './RasterGraphicsSlide.js',
-            'video': './VideoSlide.js',
-            'text': './TextSlide.js',
-        };
-
-        if (otherModules) {
-            this.slideModules.add(otherModules);
-        }
+        // Объединяем базовые модули с переданными извне
+        this.slideModules = { ...defaultModules, ...otherModules };
 
         this.loadedModules = {}; // Кэш для загруженных модулей
     }
