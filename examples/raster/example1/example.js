@@ -1,5 +1,5 @@
 // examples/raster/example1/example.js
-import {SlideLibrary, UIManager} from '../../../slide-sync';
+import {SlideLibrary, UIManager} from '../../../slide-sync/index.js';
 
 // DOM-элементы
 const slideContainer = document.getElementById('slide-container');
