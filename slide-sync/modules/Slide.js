@@ -1,6 +1,18 @@
 
+// Список разрешенных тегов (блочные элементы)
+const allowedTags = ['DIV', 'SECTION', 'ARTICLE', 'MAIN', 'ASIDE', 'HEADER', 'FOOTER'];
+
 export class Slide {
     constructor(container, uiManager, settings = {}) {
+
+        if (!(container instanceof HTMLElement)) {
+            throw new Error('Контейнер должен быть HTML-элементом');
+        }
+        if (!allowedTags.includes(container.tagName)) {
+            throw new Error(`Контейнер должен быть блочным элементом (разрешены: ${allowedTags.join(', ')})`);
+        }
+
+
         uiManager.clearUI()
         this.container = container;
         this.type = 'abstract'; // Будет переопределен в подклассах
