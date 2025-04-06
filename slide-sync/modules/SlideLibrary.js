@@ -1,4 +1,5 @@
 import {SlideStorage} from "./utils/SlideStorage.js";
+import {UIManager} from "./utils/UIManager.js";
 
 // Базовые модули по умолчанию
 const defaultModules = {
@@ -7,8 +8,8 @@ const defaultModules = {
 };
 
 export class SlideLibrary {
-    constructor(uiManager, otherModules) {
-        this.uiManager = uiManager;
+    constructor(slideContainer, toolsContainer, otherModules) {
+        this.uiManager = new UIManager(slideContainer, toolsContainer);
         this.slideStorage = new SlideStorage();
         this.currentSlide = null;
 

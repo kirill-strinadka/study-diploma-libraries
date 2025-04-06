@@ -1,5 +1,4 @@
-import { SlideLibrary, UIManager } from '../slide-sync/index.js';
-
+import { SlideLibrary } from '../slide-sync/index.js';
 
 // DOM-элементы
 const slideContainer = document.getElementById('slide-container');
@@ -11,8 +10,6 @@ const rasterSlideButton = document.getElementById('raster-slide-button');
 const videoSlideButton = document.getElementById('video-slide-button');
 const textSlideButton = document.getElementById('text-slide-button');
 
-// Инициализация UIManager
-const uiManager = new UIManager(slideContainer, toolsContainer);
 
 // Переменные для хранения текущего слайда и записанных команд
 let currentSlide = null;
@@ -31,7 +28,7 @@ const slideModules = {
 }
 
 // Создание экземпляра SlideLibrary
-const slideLib = new SlideLibrary(uiManager, slideModules);
+const slideLib = new SlideLibrary(slideContainer, toolsContainer, slideModules);
 
 async function initializeRasterSlide() {
     rasterSlide = slideLib.createSlide('raster', backImage);
