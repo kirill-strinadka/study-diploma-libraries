@@ -23,7 +23,7 @@ export const penColors = [
 ];
 
 export default class RasterGraphicsSlide extends Slide {
-    constructor(container, uiManager, backgroundImage, settings = {}) {
+    constructor(container, uiManager, backgroundImage, ...restArgs) {
         super(container, uiManager, {width: 600, height: 400});
         this.type = 'raster';
         this.backgroundImage = backgroundImage;
@@ -52,7 +52,7 @@ export default class RasterGraphicsSlide extends Slide {
     }
 
     getCreationArgs() {
-        return [this.backgroundImage];
+        return [...this.getContent()];
     }
 
     _recreateCanvas() {
@@ -133,6 +133,11 @@ export default class RasterGraphicsSlide extends Slide {
         } else {
             console.error(`Команда "${action}" не распознана`);
         }
+    }
+
+    // todo - превратить в массив или более сложный объект
+    getContent() {
+        return [this.backgroundImage]; // Контент — путь к изображению или само изображение
     }
 
 }

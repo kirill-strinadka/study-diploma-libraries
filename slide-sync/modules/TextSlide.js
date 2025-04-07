@@ -15,8 +15,8 @@ export const textColors = [
 ];
 
 export default class TextSlide extends Slide {
-    constructor(container, uiManager, settings = {}) {
-        super(container, uiManager, { width: 600, height: 400, ...settings });
+    constructor(container, uiManager, ...restArgs) {
+        super(container, uiManager, { width: 600, height: 400 });
         this.type = 'text';
 
         this.textColor = 'black';
@@ -43,7 +43,7 @@ export default class TextSlide extends Slide {
     }
 
     getCreationArgs() {
-        return [];
+        return [...this.getContent()];
     }
 
     render() {
@@ -91,6 +91,12 @@ export default class TextSlide extends Slide {
             console.error(`Команда "${action}" не распознана`);
         }
     }
+
+    // todo - превратить в массив или более сложный объект
+    getContent() {
+        return [];
+    }
+
 }
 
 export const textCommands = {

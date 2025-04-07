@@ -34,7 +34,7 @@ export function executeCommandToVideo(videoElement, command) {
 
 export default class VideoSlide extends Slide {
 
-    constructor(container, uiManager, videoSrc, settings = {}) {
+    constructor(container, uiManager, videoSrc, ...restArgs) {
         super(container, uiManager, {width: 600, height: 400});
         this.type = "video"
         this.container = container;
@@ -63,7 +63,7 @@ export default class VideoSlide extends Slide {
     }
 
     getCreationArgs() {
-        return [this.videoSrc];
+        return [...this.getContent()];
     }
 
     _toInitialState() {
@@ -157,6 +157,11 @@ export default class VideoSlide extends Slide {
 
     _executeCommand(command) {
         executeCommandToVideo(this.slideVideoElement, command)
+    }
+
+    // todo - превратить в массив или более сложный объект
+    getContent() {
+        return [this.videoSrc]; // Контент — путь к видео или само видео
     }
 
 }

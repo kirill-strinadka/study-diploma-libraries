@@ -108,4 +108,7 @@ export class Slide {
         return this.commands;
     }
 
+    getContent() {
+        throw new Error('getContent() должен быть реализован в подклассе');
+    }
 }
