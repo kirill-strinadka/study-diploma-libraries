@@ -1,4 +1,4 @@
-import { SlideLibrary } from '../slide-sync/index.js';
+import {SlideLibraryUsage} from "./SlideLibraryUsage.js";
 
 // DOM-элементы
 const slideContainer = document.getElementById('slide-container');
@@ -28,7 +28,7 @@ const slideModules = {
 }
 
 // Создание экземпляра SlideLibrary
-const slideLib = new SlideLibrary(slideContainer, toolsContainer, slideModules);
+const slideLib = new SlideLibraryUsage(slideContainer, toolsContainer, slideModules);
 
 async function initializeRasterSlide() {
     rasterSlide = slideLib.createSlide('raster', backImage);

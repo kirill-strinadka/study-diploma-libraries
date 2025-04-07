@@ -1,4 +1,3 @@
-import {SlideStorage} from "./utils/SlideStorage.js";
 import {UIManager} from "./utils/UIManager.js";
 
 // Базовые модули по умолчанию
@@ -10,12 +9,11 @@ const defaultModules = {
 export class SlideLibrary {
     constructor(slideContainer, toolsContainer, otherModules) {
         this.uiManager = new UIManager(slideContainer, toolsContainer);
-        this.slideStorage = new SlideStorage();
+
         this.currentSlide = null;
 
         // Объединяем базовые модули с переданными извне
         this.slideModules = { ...defaultModules, ...otherModules };
-
         this.loadedModules = {}; // Кэш для загруженных модулей
     }
 
@@ -45,41 +43,6 @@ export class SlideLibrary {
         const SlideClass = await this.loadSlideModule(type);
         const creationArgs = this.currentSlide.getCreationArgs(); // Получаем аргументы от текущего слайда
         return new SlideClass(this.uiManager.slideContainer, this.uiManager, ...creationArgs);
-    }
-
-    async startRecording(key) {
-        if (!key) throw new Error('Ключ обязателен');
-        this.key = key;
-        this.currentSlide = await this.recreateSlide();
-        this.currentSlide.startRecording();
-    }
-
-    stopRecording() {
-        const slideData = this.currentSlide.stopRecording();
-        this.slideStorage.saveRecordedSlide(this.key, slideData);
-        return this.key;
-    }
-
-    playRecording(key) {
-        const slide = this.slideStorage.getRecordedSlide(key);
-        console.log(JSON.stringify(slide.commands));
-        if (slide) slide.play();
-    }
-
-    getSlideByKey(key) {
-        return this.slideStorage.getRecordedSlide(key);
-    }
-
-    clearStorage() {
-        this.slideStorage.clearStorage();
-    }
-
-    // todo - как будто это можно и вынести
-    createPlaybackButton(key, container) {
-        const button = document.createElement('button');
-        button.textContent = `Воспроизвести: ${key}`;
-        button.addEventListener('click', () => this.playRecording(key));
-        container.appendChild(button);
     }
 
 }
