@@ -21,14 +21,15 @@ let videoSlide = null;
 
 
 const backImage = './examples/img/first-image.jpg'
-// const backImage = './examples/raster/example1/example.png'
+// const backImage = './examples/raster-slide/example1/example.png'
 
 const slideModules = {
-    'text': './TextSlide.js'
+    'text': '../slide-sync/text-slide/RecordingRasterSlide.js'
 }
 
 // Создание экземпляра SlideLibrary
 const slideLib = new SlideLibraryUsage(slideContainer, toolsContainer, slideModules);
+const playSlideLib = new SlideLibraryUsage(slideContainer, toolsContainer, slideModules);
 
 async function initializeRasterSlide() {
     rasterSlide = slideLib.createSlide('raster', backImage);
@@ -43,7 +44,7 @@ async function initializeRasterSlide() {
 }
 
 
-const videoSrc = './examples/video/first-video.mp4';
+const videoSrc = './examples/video-slide/first-video-slide.mp4';
 
 async function initializeVideoSlide() {
     videoSlide = slideLib.createSlide('video', videoSrc);
@@ -84,7 +85,7 @@ function setupControls() {
     };
 
     stopRecordingButton.onclick = () => {
-        if (currentSlide) {
+        if (currentSlide) {1
             const recordingKey = slideLib.stopRecording();
             startRecordingButton.disabled = false;
             stopRecordingButton.disabled = true;

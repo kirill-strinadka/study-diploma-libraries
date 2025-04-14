@@ -1,14 +1,13 @@
 
 // Базовые модули по умолчанию
 const defaultModules = {
-    'raster': './raster-slide/RecordingRasterSlide.js',
-    'video': './video-slide/RecordingVideoSlide.js'
+    'raster': './raster-slide/PlaybackRasterSlide.js',
+    'video': './video-slide/PlaybackVideoSlide.js'
 };
 
-export class SlideLibrary {
-    constructor(slideContainer, toolsContainer, otherModules) {
+export class PlaybackSlideLibrary {
+    constructor(slideContainer, otherModules) {
         this.slideContainer = slideContainer;
-        this.toolsContainer = toolsContainer;
 
         this.currentSlide = null;
 
@@ -34,7 +33,7 @@ export class SlideLibrary {
     // Создание слайда с динамической подгрузкой
     async createSlide(type, ...args) {
         const SlideClass = await this.loadSlideModule(type);
-        this.currentSlide = new SlideClass(this.slideContainer, this.toolsContainer, ...args);
+        this.currentSlide = new SlideClass(this.slideContainer, ...args);
         return this.currentSlide;
     }
 
@@ -42,7 +41,7 @@ export class SlideLibrary {
         const type = this.currentSlide.getType(); // Используется только для загрузки модуля
         const SlideClass = await this.loadSlideModule(type);
         const creationArgs = this.currentSlide.getCreationArgs(); // Получаем аргументы от текущего слайда
-        return new SlideClass(this.slideContainer, this.toolsContainer, ...creationArgs);
+        return new SlideClass(this.slideContainer, ...creationArgs);
     }
 
 }

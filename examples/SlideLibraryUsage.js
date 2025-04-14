@@ -1,15 +1,19 @@
 import {SlideLibrary} from "../slide-sync/index.js";
 import {SlideStorage} from "./SlideStorage.js";
+import {PlaybackSlideLibrary} from "../slide-sync/modules/PlaybackSlideLibrary.js";
 
-// Базовые модули по умолчанию
-const defaultModules = {
-    'raster': './RasterGraphicsSlide.js',
-    'video': './VideoSlide.js'
-};
+const recordingOtherModules = {
+    'text': '../slide-sync/text-slide/PlaybackRasterSlide.js'
+}
+
+const playbackOtherModules = {
+    'text': '../slide-sync/text-slide/PlaybackRasterSlide.js'
+}
 
 export class SlideLibraryUsage {
-    constructor(slideContainer, toolsContainer, otherModules) {
-        this.slideLib = new SlideLibrary(slideContainer, toolsContainer, otherModules);
+    constructor(slideContainer, toolsContainer) {
+        this.recordingSlideLib = new SlideLibrary(slideContainer, toolsContainer, recordingOtherModules);
+        this.playbackSlideLib = new PlaybackSlideLibrary(slideContainer, playbackOtherModules);
 
         // todo - вынести на уровень приложения
         this.slideStorage = new SlideStorage();
@@ -17,30 +21,36 @@ export class SlideLibraryUsage {
     }
 
     async createSlide(type, ...args) {
-        return this.slideLib.createSlide(type, ...args);
+        return this.recordingSlideLib.createSlide(type, ...args);
     }
 
     async recreateSlide() {
-        return this.slideLib.recreateSlide();
+        return this.recordingSlideLib.recreateSlide();
     }
 
     async startRecording(key) {
         if (!key) throw new Error('Ключ обязателен');
         this.key = key;
-        this.currentSlide = await this.slideLib.recreateSlide();
+        this.currentSlide = await this.recordingSlideLib.recreateSlide();
         this.currentSlide.startRecording();
     }
 
     // todo - вынести сохранение на уровень приложения
     stopRecording() {
-        const slideData = this.currentSlide.stopRecording();
-        this.slideStorage.saveRecordedSlide(this.key, slideData);
+        const slideDTO = this.currentSlide.stopRecording();
+        this.slideStorage.saveRecordedSlide(this.key, slideDTO);
         return this.key;
     }
 
-    playRecording(key) {
-        const slide = this.slideStorage.getRecordedSlide(key);
-        // console.log(JSON.stringify(slide.commands));
+    async playRecording(key) {
+        const slideDTO = this.slideStorage.getRecordedSlide(key);
+
+        let slide = await this.playbackSlideLib.createSlide(
+            slideDTO.type, slideDTO.content, slideDTO.commands
+        );
+        // создать слайд по типу и запустить его проигрывание
+
+        // console.log(JSON.stringify(base-slide.commands));
         if (slide) slide.play();
     }
 

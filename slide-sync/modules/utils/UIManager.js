@@ -2,7 +2,7 @@ import {ToolManager} from "./ToolManager.js";
 
 export class UIManager {
 
-    constructor(slideContainer, toolsContainer) {
+    constructor(slideContainer, toolsContainer, settings = {}) {
 
         if (!(slideContainer instanceof HTMLElement)) {
             throw new Error('Контейнер должен быть HTML-элементом');
@@ -13,18 +13,23 @@ export class UIManager {
             throw new Error(`Контейнер должен быть блочным элементом (разрешены: ${allowedTags.join(', ')})`);
         }
 
-        if (!(toolsContainer instanceof HTMLElement)) {
-            throw new Error('Контейнер для инструментов должен быть HTML-элементом');
+        this.slideContainer = slideContainer;
+
+        if (toolsContainer) {
+            if (!(toolsContainer instanceof HTMLElement)) {
+                throw new Error('Контейнер для инструментов должен быть HTML-элементом');
+            }
+
+            this.toolsContainer = toolsContainer;
+            this.toolManager = new ToolManager(toolsContainer);
         }
+
 
         // Установка размеров контейнера (опционально)
         // this.container.style.width = `${this.settings.width}px`;
         // this.container.style.height = `${this.settings.height}px`;
 
-
-        this.slideContainer = slideContainer;
-        this.toolsContainer = toolsContainer;
-        this.toolManager = new ToolManager(toolsContainer);
+        this.settings = { width: 600, height: 400, ...settings };
     }
 
     getToolManager() {
@@ -32,7 +37,9 @@ export class UIManager {
     }
 
     clearUI() {
-        this.getToolManager().clearTools()
+        if (this.toolsContainer) {
+            this.getToolManager().clearTools()
+        }
         this.slideContainer.innerHTML = '';
     }
 

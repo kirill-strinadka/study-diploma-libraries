@@ -1,4 +1,4 @@
-// examples/raster/example1/example.js
+// examples/raster-slide/example1/example.js
 import {SlideLibrary, UIManager} from '../../../slide-sync/index.js';
 
 // DOM-элементы
@@ -27,12 +27,12 @@ async function loadExample() {
     exampleCommands = await response.json(); // Сохраняем команды для рисования
 
     // Инициализация растрового слайда с фоном из example.png
-    rasterSlide = await slideLib.createSlide('raster', './examples/raster/example1/example.png');
+    rasterSlide = await slideLib.createSlide('raster', './examples/raster-slide/example1/example.png');
     console.log('RasterSlide initialized with commands:', exampleCommands);
 
-    // Создание и настройка элемента <video>
+    // Создание и настройка элемента <video-slide>
     videoElement = document.createElement('video');
-    videoElement.src = './examples/raster/example1/example.mkv';
+    videoElement.src = './examples/raster-slide/example1/example.mkv';
     videoElement.controls = false; // Добавляем элементы управления (опционально)
     videoElement.style.width = '100%';
     videoElement.style.height = '100%';
@@ -50,9 +50,9 @@ function setupExampleControls() {
             rasterSlide.play();
 
             // Воспроизведение видео
-            videoElement.play().catch(error => console.error('Error playing video:', error));
+            videoElement.play().catch(error => console.error('Error playing video-slide:', error));
 
-            console.log('Playing example commands (raster) and video:', exampleCommands);
+            console.log('Playing example commands (raster-slide) and video-slide:', exampleCommands);
         }
     };
 }
