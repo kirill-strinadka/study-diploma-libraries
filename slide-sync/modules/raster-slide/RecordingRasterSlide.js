@@ -16,19 +16,6 @@ export const penColors = [
     {label: '🟦', color: 'blue', title: 'blue color'}
 ];
 
-const toolsConfig = [
-    ...penColors.map(({label, color, title}) => ({
-        label,
-        title,
-        action: () => (this.penColor = color),
-    })),
-    ...penWidths.map(({label, width, title}) => ({
-        label,
-        title,
-        action: () => (this.penWidth = width),
-    })),
-];
-
 export default class RecordingRasterSlide extends RecordingSlide {
     constructor(container, toolsContainer, backgroundImage, ...restArgs) {
         super(container, toolsContainer, new PlaybackRasterSlide(container, [], backgroundImage));
@@ -47,6 +34,19 @@ export default class RecordingRasterSlide extends RecordingSlide {
     }
 
     createTools(toolManager) {
+        const toolsConfig = [
+            ...penColors.map(({label, color, title}) => ({
+                label,
+                title,
+                action: () => (this.penColor = color),
+            })),
+            ...penWidths.map(({label, width, title}) => ({
+                label,
+                title,
+                action: () => (this.penWidth = width),
+            })),
+        ];
+
         toolManager.registerTools(toolsConfig);
     }
 

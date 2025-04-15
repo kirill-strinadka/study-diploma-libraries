@@ -39,7 +39,7 @@ export class SlideLibrary {
     }
 
     async recreateSlide() {
-        const type = this.currentSlide.getType(); // Используется только для загрузки модуля
+        const type = this.currentSlide.playbackSlide.getType(); // Используется только для загрузки модуля
         const SlideClass = await this.loadSlideModule(type);
         const creationArgs = this.currentSlide.getCreationArgs(); // Получаем аргументы от текущего слайда
         return new SlideClass(this.slideContainer, this.toolsContainer, ...creationArgs);

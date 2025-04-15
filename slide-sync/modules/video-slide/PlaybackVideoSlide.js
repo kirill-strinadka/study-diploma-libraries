@@ -40,8 +40,6 @@ export default class PlaybackVideoSlide extends PlaybackSlide {
             playbackRate: 1.0,
             paused: true
         };
-
-        this.createTools(this.toolManager);
     }
 
     _toInitState() {
@@ -84,9 +82,13 @@ export default class PlaybackVideoSlide extends PlaybackSlide {
         super.play(); // Используем общую логику воспроизведения
     }
 
+    _executeCommand(command) {
+        executeCommandToVideo(this.slideVideoElement, command)
+    }
+
     // todo - превратить в массив или более сложный объект
     getContent() {
-        return [this.videoSrc]; // Контент — путь к видео или само видео
+        return this.videoSrc; // Контент — путь к видео или само видео
     }
 
     getType() {

@@ -44,7 +44,7 @@ async function initializeRasterSlide() {
 }
 
 
-const videoSrc = './examples/video-slide/first-video-slide.mp4';
+const videoSrc = './examples/video/first-video.mp4';
 
 async function initializeVideoSlide() {
     videoSlide = slideLib.createSlide('video', videoSrc);
