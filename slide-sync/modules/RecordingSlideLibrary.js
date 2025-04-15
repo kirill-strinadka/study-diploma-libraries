@@ -5,7 +5,7 @@ const defaultModules = {
     'video': './video-slide/RecordingVideoSlide.js'
 };
 
-export class SlideLibrary {
+export class RecordingSlideLibrary {
     constructor(slideContainer, toolsContainer, otherModules) {
         this.slideContainer = slideContainer;
         this.toolsContainer = toolsContainer;

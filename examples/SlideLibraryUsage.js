@@ -1,4 +1,4 @@
-import {SlideLibrary} from "../slide-sync/index.js";
+import {RecordingSlideLibrary} from "../slide-sync/index.js";
 import {SlideStorage} from "./SlideStorage.js";
 import {PlaybackSlideLibrary} from "../slide-sync/modules/PlaybackSlideLibrary.js";
 
@@ -12,7 +12,7 @@ const playbackOtherModules = {
 
 export class SlideLibraryUsage {
     constructor(slideContainer, toolsContainer) {
-        this.recordingSlideLib = new SlideLibrary(slideContainer, toolsContainer, recordingOtherModules);
+        this.recordingSlideLib = new RecordingSlideLibrary(slideContainer, toolsContainer, recordingOtherModules);
         this.playbackSlideLib = new PlaybackSlideLibrary(slideContainer, playbackOtherModules);
 
         // todo - вынести на уровень приложения

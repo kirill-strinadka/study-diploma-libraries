@@ -29,7 +29,6 @@ const slideModules = {
 
 // Создание экземпляра SlideLibrary
 const slideLib = new SlideLibraryUsage(slideContainer, toolsContainer, slideModules);
-const playSlideLib = new SlideLibraryUsage(slideContainer, toolsContainer, slideModules);
 
 async function initializeRasterSlide() {
     rasterSlide = slideLib.createSlide('raster', backImage);

@@ -35,9 +35,9 @@ constructor(uiManager, otherModules)
 - `slideModules` (Object): Объект, содержащий типы слайдов (ключи) и пути к их модулям (значения). Например:
   ```javascript
   {
-      'raster': './RasterGraphicsSlide.js',
-      'video': './VideoSlide.js',
-      'custom': './CustomSlide.js'
+      'raster': './PlaybackRasterGraphicsSlide.js',
+      'video': './PlaybackVideoSlide.js',
+      'custom': './PlaybackCustomSlide.js'
   }
   ```
 - `loadedModules` (Object): Кэш загруженных модулей, где ключ — тип слайда, значение — класс слайда.
@@ -105,7 +105,7 @@ import { UIManager } from './UIManager.js';
 
 const uiManager = new UIManager(document.getElementById('slide-container'));
 const customModules = {
-    'text': './TextSlide.js'
+    'text': './PlaybackTextSlide.js'
 };
 const slideLib = new SlideLibrary(uiManager, customModules);
 ```
@@ -123,7 +123,7 @@ initSlide();
 ##### Запись и воспроизведение
 Запустите запись, остановите её и создайте кнопку воспроизведения:
 ```javascript
-await slideLib.startRecording('my-slide');
+await slideLib.startRecording('my-base-slide');
 setTimeout(() => {
     const key = slideLib.stopRecording();
     slideLib.createPlaybackButton(key, document.getElementById('playback-container'));
@@ -135,7 +135,7 @@ setTimeout(() => {
 - **Добавление модулей**: Передавайте свои модули через `otherModules` в конструкторе. Например:
   ```javascript
   const myModules = { 'custom': 'https://example.com/CustomSlide.js' };
-  const slideLib = new SlideLibrary(uiManager, myModules);
+  const slideLib = new RecordingSlideLibrary(uiManager, myModules);
   ```
 - **Требования к слайдам**: Все модули должны экспортировать класс, наследующийся от `Slide`, с реализованными методами `getCreationArgs`, `render` и т.д.
 - **Хранение**: Записи сохраняются в `slideStorage`. Очищайте хранилище с помощью `clearStorage()`, если нужно сбросить данные.
