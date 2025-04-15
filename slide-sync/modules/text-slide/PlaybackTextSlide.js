@@ -20,7 +20,8 @@ export default class PlaybackTextSlide extends PlaybackSlide {
         this.container.style.position = 'relative';
     }
 
-    _toInitState() {}
+    _toInitState() {
+    }
 
     _getCanvas() {
         return this.canvas;
@@ -36,18 +37,6 @@ export default class PlaybackTextSlide extends PlaybackSlide {
         super.play();
     }
 
-    // _onContainerClick = (event) => {
-    //     if (!this.recording) return;
-    //
-    //     const position = [event.offsetX, event.offsetY];
-    //     const text = prompt('Введите текст:');
-    //     if (text) {
-    //         this._prepareCommandAndExecute('setTextColor', this.textColor);
-    //         this._prepareCommandAndExecute('setTextFont', this.textFont);
-    //         this._prepareCommandAndExecute('addText', { position: norm(position, this.uiManager.settings.width, this.uiManager.settings.height), text });
-    //     }
-    // };
-
     _executeCommand(command) {
         const action = command[1];
         const options = command[2];
@@ -59,7 +48,6 @@ export default class PlaybackTextSlide extends PlaybackSlide {
         }
     }
 
-    // todo - превратить в массив или более сложный объект
     getContent() {
         return [];
     }

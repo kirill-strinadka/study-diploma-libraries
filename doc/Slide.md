@@ -1,51 +1,99 @@
 
 ---
 
-### Класс `Slide`
+### Базовые классы слайдов
+
+[PlaybackSlide](../slide-sync/modules/base-slide/PlaybackSlide.js) - слайд реализующий функционал воспроизведения команд слайда
+
+[RecordingSlide](../slide-sync/modules/base-slide/RecordingSlide.js) - слайд реализующий функционал записи команд слайда.
 
 #### Описание
-`Slide` — это базовый абстрактный класс в полиморфной библиотеке для работы с динамическими слайдами. Он предоставляет общий интерфейс и базовую функциональность для всех типов слайдов (например, растровых, видео, текстовых), которые наследуются от него. Этот класс не предназначен для прямого использования — вместо этого он служит основой для создания конкретных реализаций слайдов, обеспечивая единообразие их поведения и взаимодействия с системой управления интерфейсом (`UIManager`).
+Это базовые абстрактные классы в полиморфной библиотеке для работы с динамическими слайдами. 
+Они предоставляют общий интерфейс и базовую функциональность для всех типов реализаций слайдов 
+(например, растровых, видео, текстовых), которые наследуются от них. 
+Эти классы не предназначены для прямого использования — вместо этого они служат основой 
+для создания конкретных реализаций слайдов, обеспечивая единообразие их поведения.
 
-Класс реализует механизмы записи и воспроизведения команд, управления контейнером и базовыми настройками, а также определяет абстрактные методы, которые должны быть переопределены в подклассах для реализации специфической логики.
+Классы определяют абстрактные методы, которые должны быть переопределены в подклассах 
+для реализации конкретной логики.
 
-`command` (Array) — массив `[timeInterval, action, options]`
+`command` (Array) — массив `[timeInterval, action, options]` - единый интерфейс для команд.
 
 #### Назначение
 - **Унификация**: Обеспечивает единый интерфейс для всех типов слайдов, упрощая их интеграцию в библиотеку.
 - **Полиморфизм**: Позволяет подклассам переопределять методы для реализации уникального поведения, сохраняя общую структуру.
-- **Управление командами**: Поддерживает запись и воспроизведение действий пользователя, что полезно для интерактивных или обучающих приложений.
-- **Гибкость**: Служит основой для динамической подгрузки слайдов из различных источников.
+
+
+### [PlaybackSlide](../slide-sync/modules/base-slide/PlaybackSlide.js)
+
+Объект для воспроизведения команд.
 
 #### Конструктор
 ```javascript
-constructor(container, uiManager, settings = {})
+constructor(container, commands = [])
 ```
-- **Параметры:**
-    - `container` (HTMLElement): DOM-элемент, в котором будет отображаться слайд.
-    - `uiManager` (UIManager): Экземпляр менеджера интерфейса для взаимодействия с UI и инструментами.
-    - `settings` (Object, опционально): Настройки слайда, такие как размеры (`width`, `height`) и другие параметры. По умолчанию: `{ width: 600, height: 400 }`.
 
-#### Свойства
-- `container` (HTMLElement): Контейнер, в котором рендерится слайд.
-- `type` (string): Тип слайда (по умолчанию `'abstract'`). Должен быть переопределен в подклассах (например, `'raster'`, `'video'`).
-- `settings` (Object): Объект настроек слайда, включая ширину и высоту.
-- `commands` (Array): Массив команд для записи и воспроизведения действий пользователя. Каждая команда — это массив `[timeInterval, action, options]`.
-- `uiManager` (UIManager): Ссылка на менеджер интерфейса для управления UI.
-- `toolManager` (ToolManager): Ссылка на менеджер инструментов, полученный из `uiManager`.
-- `currentTimeout` (number|null): Идентификатор текущего таймера для воспроизведения команд.
-- `recording` (boolean): Флаг, указывающий, идет ли запись команд.
-- `startTime` (number|null): Время начала записи в миллисекундах.
+- **Параметры:**
+  - `container` (HTMLElement): DOM-элемент, в котором будет отображаться слайд.
+  - `commands` (Array): Массив команд для воспроизведения слайда.
+  - `settings` (Object, опционально): Настройки слайда, такие как размеры (`width`, `height`) и другие параметры. По умолчанию: `{ width: 600, height: 400 }`.
 
 #### Методы
 
-##### `getCreationArgs()`
-- **Описание**: Абстрактный метод для получения аргументов, необходимых для пересоздания слайда. Должен быть переопределен в подклассах.
-- **Возвращает**: Массив аргументов (например, `[backgroundImage]` для растрового слайда).
-- **Выбрасывает**: `Error`, если не реализован в подклассе.
+##### `play()`
+- **Описание**: Запускает воспроизведение команд слайда. Для него должен быть реализован метод `_executeCommand(command)`.
+
+##### `getType()`
+- **Описание**: Возвращает строку с названием типа конкретной реализации слайда.
+
+##### `getSlideDTO()`
+- **Описание**: Возвращает `SlideDTO` - объект необходимый для создания слайда из конструктора.
+```js
+export class SlideDTO {
+    constructor(commands, content, type) {
+        this.commands = commands; // Массив команд
+        this.content = content;   // Контент слайда
+        this.type = type;         // Тип слайда
+    }
+}
+```
+
+##### `getContent()`
+- **Описание**: Возвращает дополнительный контент слайда (изображения, видео и т.п.). Зависист от реализации.
 
 ##### `clearContainer()`
 - **Описание**: Очищает содержимое контейнера слайда в графическом интерфейса.
 - **Использование**: Подготовка контейнера перед рендерингом нового содержимого.
+
+##### `_executeCommand(command)`
+- **Описание**: Применяет команду к HTML контейнеру слайда.
+
+##### `_toInitState()`
+- **Описание**: Очищает содержимое контейнера слайда в графическом интерфейса. 
+Возвращает слайд к начальному состоянию, чтобы можно было его заново воспроизвести через `play()`
+
+
+### [RecordingSlide](../slide-sync/modules/base-slide/RecordingSlide.js)
+
+Объект для записи команд.
+
+#### Конструктор
+```javascript
+constructor(container, toolsContainer, playbackSlide)
+```
+
+- **Параметры:**
+  - `container` (HTMLElement): DOM-элемент, в котором будет отображаться слайд.
+  - `toolsContainer` (HTMLElement): DOM-элемент, в котором будет отображаться панель инструментов
+  - `playbackSlide` (PlaybackSlide): Объект реализации `PlaybackSlide`. 
+Если его не передать, то в конструкторе создастся новый экземпляр. 
+Его методы воспроизведения необходимы для моментального отображения действий команд на экране при записи.
+
+#### Методы
+
+##### `play()`
+- **Описание**: Запускает воспроизведение команд слайда. Для него должен быть реализован метод `_executeCommand(command)`.
+
 
 ##### `createTools(toolManager)`
 - **Описание**: Абстрактный метод для создания инструментов, специфичных для данного типа слайда. Вызывается с менеджером инструментов (`toolManager`). 
@@ -53,71 +101,129 @@ constructor(container, uiManager, settings = {})
 - **Параметры**: `toolManager` (ToolManager) — объект для управления инструментами UI.
 - **Выбрасывает**: `Error`, если не реализован в подклассе.
 
-##### `render()`
-- **Описание**: Абстрактный метод для отрисовки содержимого слайда в контейнере. Должен быть переопределен в подклассах.
-- **Выбрасывает**: `Error`, если не реализован в подклассе.
-
 ##### `startRecording()`
-- **Описание**: Запускает запись команд пользователя. Устанавливает флаг `recording` в `true`, фиксирует время начала записи (`startTime`) и очищает массив `commands`.
-
-- **Использование**: Вызывается перед началом записи действий.
+- **Описание**: Запускает таймер. Начинает запись команд.
 
 ##### `stopRecording()`
-- **Описание**: Останавливает запись команд, сбрасывая флаг `recording` и `startTime`.
-
-##### `play()`
-- **Описание**: Воспроизводит записанные команды с учетом временных интервалов между ними. Использует таймеры для последовательного выполнения команд.
-- **Логика**:
-    - Выполняет команды из массива `commands`.
-    - Вызывает `_executeCommand` для каждой команды.
+- **Описание**: Останавливает запись команд. Возвращает `SlideDTO`
 
 ##### `_prepareCommandAndExecute(action, options)`
-- **Описание**: Подготавливает и выполняет команду, добавляя её в массив `commands`, если запись активна. Вызывает `_executeCommand` для немедленного выполнения.
-Выполнение команды необходимо, чтобы пользователь видел результат своих действий.
+- **Описание**: Запускает таймер. Начинает запись команд. 
 - **Параметры**:
-    - `action` (string): Тип действия (например, `'draw'` или `'move'`).
-    - `options` (Object): Параметры действия.
+  - `action` (string): Тип действия (например, `'draw'` или `'move'`) (необходимо переопределять в реализации).
+  - `options` (Object): Параметры действия (необходимо переопределять в реализации).
 - **Примечание**: Работает только во время записи (`recording === true`).
 
-##### `_executeCommand(command)`
-- **Описание**: Абстрактный метод для выполнения конкретной команды. Должен быть переопределен в подклассах.
-- **Параметры**: `command` (Array) — массив `[timeInterval, action, options]`.
-- **Выбрасывает**: `Error`, если не реализован в подклассе.
 
-##### `getCommands()`
-- **Описание**: Возвращает массив записанных команд.
-- **Возвращает**: `Array` — текущий массив `commands`.
-
-#### Примечания
-- Этот класс является абстрактным и не предназначен для создания экземпляров напрямую. Все подклассы должны переопределять методы `getCreationArgs`, `createTools`, `render` и `_executeCommand`.
-- Библиотека использует полиморфизм, позволяя подключать различные реализации слайдов (например, из разных репозиториев) через динамическую подгрузку модулей.
-- Подходит для систем, где требуется запись и воспроизведение действий пользователя, например, в обучающих или презентационных приложениях.
-
-#### Пример использования
+#### Пример реализации
 ```javascript
-class RasterGraphicsSlide extends Slide {
-    constructor(container, uiManager, backgroundImage) {
-        super(container, uiManager);
-        this.type = 'raster';
-        this.backgroundImage = backgroundImage;
-    }
+export default class PlaybackTextSlide extends PlaybackSlide {
+  constructor(container, content, commands = [], ...restArgs) {
+    super(container, commands);
 
-    getCreationArgs() {
-        return [this.backgroundImage];
-    }
+    this.type = 'text';
 
-    createTools(toolManager) {
-        toolManager.addTool('brush', () => console.log('Brush tool'));
-    }
+    this.textColor = 'black';
+    this.textFont = '16px Arial';
+    this.container.style.position = 'relative';
+  }
 
-    render() {
-        this.container.innerHTML = `<img src="${this.backgroundImage}" />`;
-    }
+  _toInitState() {}
 
-    _executeCommand(command) {
-        const [, action, options] = command;
-        console.log(`Executing ${action} with`, options);
+  _getCanvas() {
+    return this.canvas;
+  }
+
+  render() {
+    this.clearContainer();
+    this.commands.forEach(cmd => this._executeCommand(cmd));
+  }
+
+  play() {
+    this._toInitState();
+    super.play();
+  }
+
+  _executeCommand(command) {
+    const action = command[1];
+    const options = command[2];
+
+    if (textCommands[action]) {
+      textCommands[action](this, options, this.uiManager.settings.width, this.uiManager.settings.height);
+    } else {
+      console.error(`Команда "${action}" не распознана`);
     }
+  }
+
+  getContent() {
+    return [];
+  }
+
+  getType() {
+    return this.type;
+  }
+
+}
+```
+
+```js
+export default class RecordingTextSlide extends RecordingSlide {
+  constructor(container, toolsContainer, ...restArgs) {
+    super(container, toolsContainer, new PlaybackTextSlide(container, []));
+    this.playbackSlide = new PlaybackTextSlide(container, [])
+    this.container = container;
+  }
+
+  createTools(toolManager) {
+    const toolsConfig = [
+      ...textColors.map(({ label, color, title }) => ({
+        label,
+        title,
+        action: () => (this.textColor = color),
+      })),
+      ...textFonts.map(({ label, font, title }) => ({
+        label,
+        title,
+        action: () => (this.textFont = font),
+      })),
+    ];
+
+    toolManager.registerTools(toolsConfig);
+  }
+
+  getCreationArgs() {
+    return [...this.getContent()];
+  }
+
+  render() {
+    this.playbackSlide.render();
+  }
+
+  startRecording() {
+    this.recording = true;
+    this.startTime = new Date().getTime();
+    this.playbackSlide.clearContainer();
+    this.container.addEventListener('click', this._onContainerClick);
+  }
+
+  stopRecording() {
+    this.recording = false;
+    this.container.removeEventListener('click', this._onContainerClick);
+    return this.getSlideDTO();
+  }
+
+  _onContainerClick = (event) => {
+    if (!this.recording) return;
+
+    const position = [event.offsetX, event.offsetY];
+    const text = prompt('Введите текст:');
+    if (text) {
+      this._prepareCommandAndExecute('setTextColor', this.textColor);
+      this._prepareCommandAndExecute('setTextFont', this.textFont);
+      this._prepareCommandAndExecute('addText', { position: norm(position, this.uiManager.settings.width, this.uiManager.settings.height), text });
+    }
+  };
+
 }
 ```
 

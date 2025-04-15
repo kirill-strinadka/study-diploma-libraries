@@ -73,28 +73,6 @@ export default class PlaybackRasterSlide extends PlaybackSlide {
         return this.backgroundImage; // Контент — путь к изображению или само изображение
     }
 
-    // _onMouseDown = (event) => {
-    //     const start = [event.offsetX, event.offsetY];
-    //
-    //     this._prepareCommandAndExecute('beginPath');
-    //     this._prepareCommandAndExecute('setPenColor', this.penColor);
-    //     this._prepareCommandAndExecute('setPenWidth', this.penWidth);
-    //     this._prepareCommandAndExecute('moveTo', norm(start, this.uiManager.settings.width, this.uiManager.settings.height));
-    //
-    //     this.playbackSlide._getCanvas().addEventListener('mousemove', this._onMouseMove);
-    //     this.playbackSlide._getCanvas().addEventListener('mouseup', this._onMouseUp);
-    // };
-    //
-    // _onMouseMove = (event) => {
-    //     let XY = [event.offsetX, event.offsetY];
-    //     this._prepareCommandAndExecute('lineTo', norm(XY, this.uiManager.settings.width, this.uiManager.settings.height));
-    // };
-    //
-    // _onMouseUp = () => {
-    //     this._prepareCommandAndExecute('closePath');
-    //     this.playbackSlide._getCanvas().removeEventListener('mousemove', this._onMouseMove);
-    // };
-
 }
 
 export const slideCommands = {
