@@ -1,4 +1,4 @@
-import {Slide} from "./Slide.js";
+
 import {RecordingSlide} from "../base-slide/RecordingSlide.js";
 import PlaybackVideoSlide from "./PlaybackVideoSlide.js";
 
@@ -25,7 +25,7 @@ export default class RecordingVideoSlide extends RecordingSlide {
 
 
     getCreationArgs() {
-        this.playbackSlide.getCreationArgs()
+        return [...this.getContent()]
     }
 
     _toInitialState() {
@@ -110,12 +110,17 @@ export default class RecordingVideoSlide extends RecordingSlide {
         super.play(); // Используем общую логику воспроизведения
     }
 
+    _executeCommand(command) {
+        this.playbackSlide._executeCommand(command)
+    }
+
     getContent() {
-        return this.playbackSlide.getContent(); // Контент — путь к видео или само видео
+        return [this.playbackSlide.getContent()]; // Контент — путь к видео или само видео
     }
 
     getType() {
         this.playbackSlide.getType();
     }
+
 }
 

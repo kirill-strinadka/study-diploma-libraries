@@ -1,6 +1,6 @@
 
 import {RecordingSlide} from "../base-slide/RecordingSlide.js";
-import PlaybackTextSlide from "./PlaybackTextSlide.js";
+import PlaybackTextSlide, {norm} from "./PlaybackTextSlide.js";
 
 export const textFonts = [
     { label: '🅰️ Small', font: '16px Arial', title: 'Small font' },
@@ -12,19 +12,6 @@ export const textColors = [
     { label: '🟥', color: 'red', title: 'Red color' },
     { label: '🟩', color: 'green', title: 'Green color' },
     { label: '🟦', color: 'blue', title: 'Blue color' }
-];
-
-const toolsConfig = [
-    ...textColors.map(({ label, color, title }) => ({
-        label,
-        title,
-        action: () => (this.textColor = color),
-    })),
-    ...textFonts.map(({ label, font, title }) => ({
-        label,
-        title,
-        action: () => (this.textFont = font),
-    })),
 ];
 
 export default class RecordingTextSlide extends RecordingSlide {
@@ -42,6 +29,19 @@ export default class RecordingTextSlide extends RecordingSlide {
     }
 
     createTools(toolManager) {
+        const toolsConfig = [
+            ...textColors.map(({ label, color, title }) => ({
+                label,
+                title,
+                action: () => (this.textColor = color),
+            })),
+            ...textFonts.map(({ label, font, title }) => ({
+                label,
+                title,
+                action: () => (this.textFont = font),
+            })),
+        ];
+
         toolManager.registerTools(toolsConfig);
     }
 
@@ -56,7 +56,7 @@ export default class RecordingTextSlide extends RecordingSlide {
     startRecording() {
         this.recording = true;
         this.startTime = new Date().getTime();
-        this.clearContainer();
+        this.playbackSlide.clearContainer();
         this.container.addEventListener('click', this._onContainerClick);
     }
 
@@ -71,12 +71,28 @@ export default class RecordingTextSlide extends RecordingSlide {
         super.play();
     }
 
+    _onContainerClick = (event) => {
+        if (!this.recording) return;
+
+        const position = [event.offsetX, event.offsetY];
+        const text = prompt('Введите текст:');
+        if (text) {
+            this._prepareCommandAndExecute('setTextColor', this.textColor);
+            this._prepareCommandAndExecute('setTextFont', this.textFont);
+            this._prepareCommandAndExecute('addText', { position: norm(position, this.uiManager.settings.width, this.uiManager.settings.height), text });
+        }
+    };
+
     _executeCommand(command) {
         this.playbackSlide._executeCommand(command)
     }
 
     getContent() {
         return this.playbackSlide.getContent();
+    }
+
+    getType() {
+        return this.playbackSlide.getType();
     }
 
 }

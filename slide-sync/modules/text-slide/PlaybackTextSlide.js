@@ -10,7 +10,7 @@ export function denorm(xy, width, height) {
 }
 
 export default class PlaybackTextSlide extends PlaybackSlide {
-    constructor(container,  commands = [], ...restArgs) {
+    constructor(container, content, commands = [], ...restArgs) {
         super(container, commands);
 
         this.type = 'text';
@@ -38,24 +38,24 @@ export default class PlaybackTextSlide extends PlaybackSlide {
         super.play();
     }
 
-    _onContainerClick = (event) => {
-        if (!this.recording) return;
-
-        const position = [event.offsetX, event.offsetY];
-        const text = prompt('Введите текст:');
-        if (text) {
-            this._prepareCommandAndExecute('setTextColor', this.textColor);
-            this._prepareCommandAndExecute('setTextFont', this.textFont);
-            this._prepareCommandAndExecute('addText', { position: norm(position, this.uiManager.settings.width, this.uiManager.settings.height), text });
-        }
-    };
+    // _onContainerClick = (event) => {
+    //     if (!this.recording) return;
+    //
+    //     const position = [event.offsetX, event.offsetY];
+    //     const text = prompt('Введите текст:');
+    //     if (text) {
+    //         this._prepareCommandAndExecute('setTextColor', this.textColor);
+    //         this._prepareCommandAndExecute('setTextFont', this.textFont);
+    //         this._prepareCommandAndExecute('addText', { position: norm(position, this.uiManager.settings.width, this.uiManager.settings.height), text });
+    //     }
+    // };
 
     _executeCommand(command) {
         const action = command[1];
         const options = command[2];
 
         if (textCommands[action]) {
-            textCommands[action](this, options, this.uiManager.settings.width, this.settings.height);
+            textCommands[action](this, options, this.uiManager.settings.width, this.uiManager.settings.height);
         } else {
             console.error(`Команда "${action}" не распознана`);
         }

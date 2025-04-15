@@ -3,11 +3,11 @@ import {SlideStorage} from "./SlideStorage.js";
 import {PlaybackSlideLibrary} from "../slide-sync/modules/PlaybackSlideLibrary.js";
 
 const recordingOtherModules = {
-    'text': '../slide-sync/text-slide/PlaybackRasterSlide.js'
+    'text': '../modules/text-slide/RecordingTextSlide.js'
 }
 
 const playbackOtherModules = {
-    'text': '../slide-sync/text-slide/PlaybackRasterSlide.js'
+    'text': '../modules/text-slide/PlaybackTextSlide.js'
 }
 
 export class SlideLibraryUsage {
