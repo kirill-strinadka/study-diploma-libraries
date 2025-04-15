@@ -17,19 +17,11 @@ export default class RecordingVideoSlide extends RecordingSlide {
     constructor(container, toolsContainer, videoSrc, ...restArgs) {
         super(container, toolsContainer, new PlaybackVideoSlide(container, videoSrc, []));
         this.playbackSlide = new PlaybackVideoSlide(container, videoSrc, [])
-
         this.type = "video"
-
-        this.createTools(this.toolManager);
     }
-
 
     getCreationArgs() {
         return [...this.getContent()]
-    }
-
-    _toInitialState() {
-        this.playbackSlide._toInitState();
     }
 
     createTools(toolManager) {
@@ -103,11 +95,6 @@ export default class RecordingVideoSlide extends RecordingSlide {
     stopRecording() {
         super.stopRecording();
         return this.getSlideDTO();
-    }
-
-    play() {
-        this._toInitialState(); // Пересоздаем видео перед воспроизведением (в начальное состояние сбрасываем)
-        super.play(); // Используем общую логику воспроизведения
     }
 
     _executeCommand(command) {

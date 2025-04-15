@@ -19,13 +19,6 @@ export default class RecordingTextSlide extends RecordingSlide {
         super(container, toolsContainer, new PlaybackTextSlide(container, []));
         this.playbackSlide = new PlaybackTextSlide(container, [])
         this.container = container;
-
-        this._toInitState()
-        // this.createTools(this.toolManager);
-    }
-
-    _toInitState() {
-        this.playbackSlide._toInitState();
     }
 
     createTools(toolManager) {

@@ -18,8 +18,6 @@ export default class PlaybackRasterSlide extends PlaybackSlide {
 
         this.penColor = 'black';
         this.penWidth = 1;
-
-        this._toInitState()
     }
 
     _toInitState() {

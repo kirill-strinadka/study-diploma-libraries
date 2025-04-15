@@ -31,6 +31,7 @@ export class PlaybackSlide {
     }
 
     play() {
+        this._toInitState()
         if (this.currentTimeout) {
             clearTimeout(this.currentTimeout); // Очищаем предыдущий таймер
         }

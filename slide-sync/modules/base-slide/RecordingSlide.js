@@ -69,9 +69,7 @@ export class RecordingSlide {
     }
 
     _toInitState() {
-        throw new Error(
-            '_toInitState() должен быть реализован в подклассе. Рекомендуется использовать метод из Playback реализации'
-        );
+        this.playbackSlide._toInitState();
     }
 
     _pushCommand(command) {

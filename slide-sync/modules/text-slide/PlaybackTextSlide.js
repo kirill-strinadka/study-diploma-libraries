@@ -14,12 +14,10 @@ export default class PlaybackTextSlide extends PlaybackSlide {
         super(container, commands);
 
         this.type = 'text';
+
         this.textColor = 'black';
         this.textFont = '16px Arial';
-
         this.container.style.position = 'relative';
-
-        this._toInitState()
     }
 
     _toInitState() {}

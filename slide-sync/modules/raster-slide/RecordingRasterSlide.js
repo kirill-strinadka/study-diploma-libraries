@@ -24,13 +24,6 @@ export default class RecordingRasterSlide extends RecordingSlide {
         // todo - команды воспроизводятся на слайде воспроизведения => тут определение команд даже для инструментов не нужно
         this.penColor = 'black';
         this.penWidth = 1;
-
-        this._toInitState()
-        // this.createTools(this.toolManager);
-    }
-
-    _toInitState() {
-        this.playbackSlide._toInitState();
     }
 
     createTools(toolManager) {
