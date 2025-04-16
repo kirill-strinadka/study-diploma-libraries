@@ -1,5 +1,4 @@
-import { SlideLibrary, UIManager } from '../slide-sync/index.js';
-
+import {SlideLibraryUsage} from "./SlideLibraryUsage.js";
 
 // DOM-элементы
 const slideContainer = document.getElementById('slide-container');
@@ -11,8 +10,6 @@ const rasterSlideButton = document.getElementById('raster-slide-button');
 const videoSlideButton = document.getElementById('video-slide-button');
 const textSlideButton = document.getElementById('text-slide-button');
 
-// Инициализация UIManager
-const uiManager = new UIManager(slideContainer, toolsContainer);
 
 // Переменные для хранения текущего слайда и записанных команд
 let currentSlide = null;
@@ -24,14 +21,14 @@ let videoSlide = null;
 
 
 const backImage = './examples/img/first-image.jpg'
-// const backImage = './examples/raster/example1/example.png'
+// const backImage = './examples/raster-slide/example1/example.png'
 
 const slideModules = {
-    'text': './TextSlide.js'
+    'text': '../slide-sync/text-slide/RecordingRasterSlide.js'
 }
 
 // Создание экземпляра SlideLibrary
-const slideLib = new SlideLibrary(uiManager, slideModules);
+const slideLib = new SlideLibraryUsage(slideContainer, toolsContainer, slideModules);
 
 async function initializeRasterSlide() {
     rasterSlide = slideLib.createSlide('raster', backImage);
@@ -87,7 +84,7 @@ function setupControls() {
     };
 
     stopRecordingButton.onclick = () => {
-        if (currentSlide) {
+        if (currentSlide) {1
             const recordingKey = slideLib.stopRecording();
             startRecordingButton.disabled = false;
             stopRecordingButton.disabled = true;

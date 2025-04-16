@@ -6,22 +6,22 @@ export class SlideStorage {
     }
 
     // Метод для сохранения команд
-    saveRecordedSlide(key, slide) {
-        if (!Array.isArray(slide.commands)) {
-            throw new Error('Commands must be an array');
-        }
-        this.storage[key] = slide;
+    saveRecordedSlide(key, slideDTO) {
+        // if (!Array.isArray(slide.commands)) {
+        //     throw new Error('Commands must be an array');
+        // }
+        this.storage[key] = slideDTO;
         console.log(`Commands saved under key: ${key}`);
     }
 
     // Метод для получения команд по ключу
     getRecordedSlide(key) {
-        const commands = this.storage[key];
-        if (!commands) {
+        const slideDTO = this.storage[key];
+        if (!slideDTO) {
             console.warn(`No commands found for key: ${key}`);
             return null;
         }
-        return commands;
+        return slideDTO;
     }
 
     // Метод для удаления команд по ключу

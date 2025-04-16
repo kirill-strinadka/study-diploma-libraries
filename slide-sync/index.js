@@ -1,18 +1,30 @@
 
-import {Slide} from "./modules/Slide.js";
-import RasterGraphicsSlide from "./modules/RasterGraphicsSlide.js";
-import VideoSlide from "./modules/VideoSlide.js";
-import TextSlide from "./modules/TextSlide.js";
-import {SlideLibrary} from "./modules/SlideLibrary.js";
-import {SlideStorage} from "./modules/utils/SlideStorage.js";
-import {UIManager} from "./modules/utils/UIManager.js";
-import {ToolManager} from "./modules/utils/ToolManager.js";
+import {PlaybackSlide} from "./modules/base-slide/PlaybackSlide.js";
+import {RecordingSlide} from "./modules/base-slide/RecordingSlide.js";
 
+import PlaybackRasterSlide from "./modules/raster-slide/PlaybackRasterSlide.js";
+import RecordingRasterSlide from "./modules/raster-slide/RecordingRasterSlide.js";
 
-export {Slide};
-export {RasterGraphicsSlide};
-export {VideoSlide};
-export {SlideLibrary};
-export {SlideStorage};
-export {UIManager};
-export {ToolManager};
+import PlaybackVideoSlide from "./modules/video-slide/PlaybackVideoSlide.js";
+import RecordingVideoSlide from "./modules/video-slide/RecordingVideoSlide.js";
+
+import PlaybackTextSlide from "./modules/text-slide/PlaybackTextSlide.js";
+import RecordingTextSlide from "./modules/text-slide/RecordingTextSlide.js";
+
+import {PlaybackSlideLibrary} from "./modules/PlaybackSlideLibrary.js";
+import {RecordingSlideLibrary} from "./modules/RecordingSlideLibrary.js";
+
+export {PlaybackSlide};
+export {RecordingSlide};
+
+export {PlaybackRasterSlide};
+export {RecordingRasterSlide};
+
+export {PlaybackVideoSlide};
+export {RecordingVideoSlide};
+
+export {PlaybackTextSlide};
+export {RecordingTextSlide};
+
+export {PlaybackSlideLibrary};
+export {RecordingSlideLibrary};

@@ -1,6 +1,21 @@
 
+// Список разрешенных тегов (блочные элементы)
+import {SlideDTO} from "./utils/SlideDTO.js";
+
+const allowedTags = ['DIV', 'SECTION', 'ARTICLE', 'MAIN', 'ASIDE', 'HEADER', 'FOOTER'];
+
 export class Slide {
     constructor(container, uiManager, settings = {}) {
+
+        if (!(container instanceof HTMLElement)) {
+            throw new Error('Контейнер должен быть HTML-элементом');
+        }
+        if (!allowedTags.includes(container.tagName)) {
+            throw new Error(`Контейнер должен быть блочным элементом (разрешены: ${allowedTags.join(', ')})`);
+        }
+
+
+        // todo - так-то прям здесь можно UI Manager создавать
         uiManager.clearUI()
         this.container = container;
         this.type = 'abstract'; // Будет переопределен в подклассах
@@ -42,6 +57,7 @@ export class Slide {
     stopRecording() {
         this.recording = false;
         this.startTime = null;
+        return this.getSlideDTO();
     }
 
 
@@ -92,8 +108,24 @@ export class Slide {
         throw new Error('_executeCommand() должен быть реализован в подклассе');
     }
 
+    // Получение текущих команд
     getCommands() {
         return this.commands;
+    }
+
+    // Новый метод для получения контента слайда
+    // todo - превратить в массив или более сложный объект
+    getContent() {
+        throw new Error('getContent() должен быть реализован в подклассе');
+    }
+
+    // Получение типа слайда
+    getType() {
+        return this.type;
+    }
+
+    getSlideDTO() {
+        return new SlideDTO(this.commands, this.getContent(), this.type);
     }
 
 }

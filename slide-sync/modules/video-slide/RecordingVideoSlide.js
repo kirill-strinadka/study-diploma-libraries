@@ -1,4 +1,6 @@
-import {Slide} from "./Slide.js";
+
+import {RecordingSlide} from "../base-slide/RecordingSlide.js";
+import PlaybackVideoSlide from "./PlaybackVideoSlide.js";
 
 
 export const videoButtons = [
@@ -10,66 +12,16 @@ export const videoButtons = [
     { label: '-0.2x', command: 'slowDown', title: 'Slow down' }
 ];
 
-export const videoCommands = {
-    play: (videoElement) => videoElement.play(),
-    pause: (videoElement) => videoElement.pause(),
-    onset: (videoElement) => { videoElement.currentTime = 0; },
-    skipForward: (videoElement) => { videoElement.currentTime += 2.5; },
-    skipBackward: (videoElement) => { videoElement.currentTime -= 2.5; },
-    speedUp: (videoElement) => {videoElement.playbackRate =
-        Math.min(3.0, videoElement.playbackRate + 0.2); },
-    slowDown: (videoElement) => {videoElement.playbackRate =
-        Math.max(0.2, videoElement.playbackRate - 0.2);}
+export default class RecordingVideoSlide extends RecordingSlide {
 
-};
-
-export function executeCommandToVideo(videoElement, command) {
-    if (videoCommands[command[1]]) {
-        videoCommands[command[1]](videoElement);
-    } else {
-        console.error(`Команда "${command[1]}" не распознана`);
-    }
-}
-
-
-export default class VideoSlide extends Slide {
-
-    constructor(container, uiManager, videoSrc, settings = {}) {
-        super(container, uiManager, {width: 600, height: 400});
+    constructor(container, toolsContainer, videoSrc, ...restArgs) {
+        super(container, toolsContainer, new PlaybackVideoSlide(container, videoSrc, []));
+        this.playbackSlide = new PlaybackVideoSlide(container, videoSrc, [])
         this.type = "video"
-        this.container = container;
-
-        // Используем уже существующий video-элемент или создаем новый
-        this.videoSrc = videoSrc
-        this.slideVideoElement = this.container.querySelector("video") || this.createVideoElement();
-        this.slideVideoElement.src = videoSrc; // Обновляем src
-
-        // Начальное состояние видео, чтобы потом воспроизводить команды с этого момента
-        this.initialVideoState = {
-            currentTime: 0,
-            playbackRate: 1.0,
-            paused: true
-        };
-
-        this.createTools(this.toolManager);
-    }
-
-    createVideoElement() {
-        const video = document.createElement("video");
-        video.style.width = "100%";
-        video.style.height = "100%";
-        this.container.appendChild(video);
-        return video;
     }
 
     getCreationArgs() {
-        return [this.videoSrc];
-    }
-
-    _toInitialState() {
-        this.slideVideoElement.currentTime = this.initialVideoState.currentTime;
-        this.slideVideoElement.playbackRate = this.initialVideoState.playbackRate;
-        this.slideVideoElement.pause();
+        return [...this.getContent()]
     }
 
     createTools(toolManager) {
@@ -134,29 +86,27 @@ export default class VideoSlide extends Slide {
     }
 
     startRecording() {
-
         // Сохраняем начальное состояние видео
-        this.initialVideoState = {
-            currentTime: this.slideVideoElement.currentTime,
-            playbackRate: this.slideVideoElement.playbackRate,
-            paused: this.slideVideoElement.paused
-        };
+        this.playbackSlide._saveInitialVideoState();
 
         super.startRecording();
     }
 
     stopRecording() {
         super.stopRecording();
-        return this;
-    }
-
-    play() {
-        this._toInitialState(); // Пересоздаем видео перед воспроизведением (в начальное состояние сбрасываем)
-        super.play(); // Используем общую логику воспроизведения
+        return this.getSlideDTO();
     }
 
     _executeCommand(command) {
-        executeCommandToVideo(this.slideVideoElement, command)
+        this.playbackSlide._executeCommand(command)
+    }
+
+    getContent() {
+        return [this.playbackSlide.getContent()]; // Контент — путь к видео или само видео
+    }
+
+    getType() {
+        this.playbackSlide.getType();
     }
 
 }
