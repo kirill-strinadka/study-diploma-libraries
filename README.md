@@ -160,11 +160,7 @@ constructor(container, toolsContainer, playbackSlide)
 - **Описание**: Останавливает запись команд. Возвращает `SlideDTO`
 
 ##### `_prepareCommandAndExecute(action, options)`
-- **Описание**: Запускает таймер. Начинает запись команд.
-- **Параметры**:
-    - `action` (string): Тип действия (например, `'draw'` или `'move'`) (необходимо переопределять в реализации).
-    - `options` (Object): Параметры действия (необходимо переопределять в реализации).
-- **Примечание**: Работает только во время записи (`recording === true`).
+- **Описание**: Применяет команду к HTML контейнеру и сохраняет ее в массив команд.
 
 
 #### Пример реализации
@@ -288,19 +284,6 @@ export default class RecordingTextSlide extends RecordingSlide {
 1. Скачайте папку `slide-sync` с GitHub-репозитория проекта.
 2. Скопируйте её в ваш проект в директорию, например, `src/modules/slide-sync`.
 3. Подключите необходимые модули в вашем JavaScript-коде через импорт.
-
-Доступны такие импорты
-```
-import { 
-    Slide, 
-    RasterGraphicsSlide,
-    VideoSlide,
-    SlideLibrary,
-    SlideStorage,
-    UIManager,
-    ToolManager
-} from './slide-sync';
-```
 
 
 ---
