@@ -24,6 +24,11 @@ export class PlaybackSlide {
         this.currentTimeout = null;
         this.recording = false;
         this.startTime = null;
+
+        // Состояние воспроизведения. Используется для play/pause/resume
+        this.isPlaying = false;
+        this.currentCommandIndex = 0;
+        this.elapsedTime = 0; // Время, прошедшее с начала текущей команды
     }
 
     clearContainer() {
@@ -31,32 +36,80 @@ export class PlaybackSlide {
     }
 
     play() {
-        this._toInitState()
+
+        if (this.isPlaying || this.currentCommandIndex >= this.commands.length)
+            return; // Ничего не делаем, если уже воспроизводится или команды закончились
+
+        this.isPlaying = true;
+
+        // Восстанавливаем состояние, выполняя все предыдущие команды
+        this._toInitState(); // Сбрасываем в начальное состояние
+        for (let i = 0; i < this.currentCommandIndex; i++) {
+            this._executeCommand(this.commands[i]); // Выполняем команды до текущей без задержек
+        }
+
+        if (this.currentCommandIndex === 0) {
+            this._toInitState(); // Сбрасываем состояние, если начинаем с начала
+        }
+
+        if (this.commands.length === 0) {
+            this.isPlaying = false;
+            return; // Если команд нет, выходим
+        }
+
         if (this.currentTimeout) {
             clearTimeout(this.currentTimeout); // Очищаем предыдущий таймер
         }
 
         if (this.commands.length === 0) return; // Если команд нет, ничего не делаем
 
-        let i = 0;
         const playNext = () => {
-            if (i < this.commands.length) {
-                const cmd = this.commands[i];
+            if (!this.isPlaying) return; // Прерываем, если на паузе
+
+            if (this.currentCommandIndex < this.commands.length) {
+                const cmd = this.commands[this.currentCommandIndex];
                 this._executeCommand(cmd);
-                i++;
-                if (i < this.commands.length) {
+                this.currentCommandIndex++;
+
+                if (this.currentCommandIndex < this.commands.length) {
                     // Вычисляем задержку до следующей команды
                     const currentTime = cmd[0];
-                    const nextTime = this.commands[i][0];
-                    const delay = nextTime - currentTime;
+                    const nextTime = this.commands[this.currentCommandIndex][0];
+                    const delay = nextTime - currentTime /*- this.elapsedTime*/;
+                    this.elapsedTime = 0; // Сбрасываем для следующей команды
                     this.currentTimeout = setTimeout(playNext, delay);
+                } else {
+                    this.isPlaying = false; // Воспроизведение завершено
                 }
             }
         };
 
         // Первая задержка — это время от начала записи до первой команды
-        const initialDelay = this.commands[0][0];
+        // Если это начало или возобновление, учитываем elapsedTime
+        const initialDelay = this.currentCommandIndex === 0 ? this.commands[0][0] : 0;
         this.currentTimeout = setTimeout(playNext, initialDelay);
+    }
+
+    pause() {
+        if (!this.isPlaying) return; // Если не воспроизводится, ничего не делаем
+
+        this.isPlaying = false;
+        if (this.currentTimeout) {
+            clearTimeout(this.currentTimeout);
+            this.currentTimeout = null;
+
+            // Сохраняем время, прошедшее с последней команды
+            const lastCommandTime = this.commands[this.currentCommandIndex - 1][0];
+            const nextCommandTime = this.commands[this.currentCommandIndex][0];
+            this.elapsedTime = Date.now() - lastCommandTime; // Примерное время
+        }
+    }
+
+    stop() {
+        this.pause();
+        this.currentCommandIndex = 0;
+        this.elapsedTime = 0;
+        this._toInitState();
     }
 
     getCommands() {

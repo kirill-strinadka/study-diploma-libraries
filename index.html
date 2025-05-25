@@ -43,6 +43,24 @@
         #go-to-examples-button:active {
             transform: translateY(0);
         }
+        #play-button, #pause-button, #stop-button {
+            padding: 8px 16px;
+            margin-right: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #play-button:hover, #pause-button:hover {
+            background-color: #0056b3;
+        }
+
+        #pause-button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
     </style>
 </head>
 <body>
@@ -59,6 +77,11 @@
 <!-- Контейнеры для слайдов -->
 <div id="slide-container"></div>
 <div id="tools-container"></div>
+<div id="slide-playback-controls">
+    <button id="play-button">Play</button>
+    <button id="pause-button">Pause</button>
+    <button id="stop-button">Stop</button>
+</div>
 <div id="controls-container">
     <button id="start-recording-button">Начать запись</button>
     <button id="stop-recording-button" disabled>Остановить запись</button>

@@ -11,8 +11,10 @@ const videoSlideButton = document.getElementById('video-slide-button');
 const textSlideButton = document.getElementById('text-slide-button');
 
 
+
 // Переменные для хранения текущего слайда и записанных команд
-let currentSlide = null;
+let currentRecordingSlide = null;
+let currentPlayingSlide = null;
 
 // Инициализация примеров
 let rasterSlide = null;
@@ -34,8 +36,8 @@ async function initializeRasterSlide() {
     rasterSlide = slideLib.createSlide('raster', backImage);
     console.log('RasterSlide initialized');
 
-    if (currentSlide && currentSlide !== rasterSlide) currentSlide.stopRecording();
-    currentSlide = rasterSlide;
+    if (currentRecordingSlide && currentRecordingSlide !== rasterSlide) currentRecordingSlide.stopRecording();
+    currentRecordingSlide = rasterSlide;
     setupControls();
     rasterSlideButton.classList.add('active');
     videoSlideButton.classList.remove('active');
@@ -49,9 +51,9 @@ async function initializeVideoSlide() {
     videoSlide = slideLib.createSlide('video', videoSrc);
     console.log('VideoSlide initialized');
 
-    if (currentSlide && currentSlide !== videoSlide) currentSlide.stopRecording();
+    if (currentRecordingSlide && currentRecordingSlide !== videoSlide) currentRecordingSlide.stopRecording();
 
-    currentSlide = videoSlide;
+    currentRecordingSlide = videoSlide;
     setupControls();
     videoSlideButton.classList.add('active');
     rasterSlideButton.classList.remove('active');
@@ -62,8 +64,8 @@ async function initializeTextSlide() {
     textSlide = slideLib.createSlide('text', backImage);
     console.log('TextSlide initialized');
 
-    if (currentSlide && currentSlide !== textSlide) currentSlide.stopRecording();
-    currentSlide = textSlide;
+    if (currentRecordingSlide && currentRecordingSlide !== textSlide) currentRecordingSlide.stopRecording();
+    currentRecordingSlide = textSlide;
     setupControls();
     textSlideButton.classList.add('active');
     videoSlideButton.classList.remove('active');
@@ -76,7 +78,7 @@ function setupControls() {
 
     startRecordingButton.onclick = () => {
         const key = prompt('Введите название для этого набора команд:');
-        if (key && currentSlide) {
+        if (key && currentRecordingSlide) {
             slideLib.startRecording(key);
             startRecordingButton.disabled = true;
             stopRecordingButton.disabled = false;
@@ -84,7 +86,7 @@ function setupControls() {
     };
 
     stopRecordingButton.onclick = () => {
-        if (currentSlide) {1
+        if (currentRecordingSlide) {
             const recordingKey = slideLib.stopRecording();
             startRecordingButton.disabled = false;
             stopRecordingButton.disabled = true;
