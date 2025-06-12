@@ -1,3 +1,4 @@
+// ─────────────────────────── PlaybackRasterSlide.js ──────────────────────────────────
 
 import {PlaybackSlide} from "../base-slide/PlaybackSlide.js";
 

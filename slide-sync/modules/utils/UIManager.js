@@ -1,3 +1,5 @@
+// ─────────────────────────── UIManager.js ──────────────────────────────────
+
 import {ToolManager} from "./ToolManager.js";
 
 export class UIManager {

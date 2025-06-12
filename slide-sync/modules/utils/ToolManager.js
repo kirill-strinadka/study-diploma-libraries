@@ -1,3 +1,4 @@
+// ─────────────────────────── ToolManager.js ──────────────────────────────────
 
 export class ToolManager {
     constructor(toolsContainer) {

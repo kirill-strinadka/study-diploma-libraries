@@ -1,3 +1,4 @@
+// ─────────────────────────── SlideDTO.js ──────────────────────────────────
 
 export class SlideDTO {
     constructor(commands, content, type) {

@@ -1,3 +1,4 @@
+// ─────────────────────────── PlaybackSlide.js ──────────────────────────────────
 
 import {SlideDTO} from "../utils/SlideDTO.js";
 import {UIManager} from "../utils/UIManager.js";

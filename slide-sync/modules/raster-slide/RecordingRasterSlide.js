@@ -1,3 +1,4 @@
+// ─────────────────────────── RecordingRasterSlide.js ──────────────────────────────────
 
 import {RecordingSlide} from "../base-slide/RecordingSlide.js";
 import PlaybackRasterSlide, {norm} from "./PlaybackRasterSlide.js";

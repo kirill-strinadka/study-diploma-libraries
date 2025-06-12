@@ -1,3 +1,4 @@
+// ─────────────────────────── RecordingSlide.js ──────────────────────────────────
 
 import {ToolManager} from "../utils/ToolManager.js";
 import {UIManager} from "../utils/UIManager.js";
