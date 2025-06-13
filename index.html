@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Slide Interaction Demo</title>
     <style>
-        #slide-container { width: 600px; height: 400px; border: 1px solid black; }
+        /*#slide-container { width: 600px; height: 400px; border: 1px solid black; }*/
         #tools-container { margin: 10px 0; }
         #controls-container { margin: 10px 0; }
         #playback-controls-container { margin: 10px 0; }
@@ -75,7 +75,16 @@
 </div>
 
 <!-- Контейнеры для слайдов -->
-<div id="slide-container"></div>
+<div
+        id="slide-container"
+        style="
+    resize: both;
+    overflow: auto;
+    width: 800px;
+    height: 600px;
+    border: 1px solid #ccc;
+  "
+></div>
 <div id="tools-container"></div>
 <div id="slide-playback-controls">
     <button id="play-button">Play</button>

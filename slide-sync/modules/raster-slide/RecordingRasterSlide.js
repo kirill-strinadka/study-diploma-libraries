@@ -82,6 +82,10 @@ export default class RecordingRasterSlide extends RecordingSlide {
         return this.playbackSlide.getType();
     }
 
+    onResize(newWidth, newHeight) {
+        this.playbackSlide.onResize(newWidth, newHeight);
+    }
+
     _onMouseDown = (event) => {
         const start = [event.offsetX, event.offsetY];
 

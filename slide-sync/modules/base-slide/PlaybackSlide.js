@@ -125,6 +125,10 @@ export class PlaybackSlide {
         return new SlideDTO(this.commands, this.getContent(), this.type);
     }
 
+    onResize(newWidth, newHeight) {
+        throw new Error('onResize(newWidth, newHeight) должен быть реализован в подклассе');
+    }
+
     _executeCommand(command) {
         throw new Error('_executeCommand() должен быть реализован в подклассе');
     }

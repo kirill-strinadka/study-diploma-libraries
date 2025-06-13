@@ -45,8 +45,9 @@ export default class PlaybackRasterSlide extends PlaybackSlide {
 
     render() {
         // Очистка и перерисовка на основе команд
-        this.context.clearRect(0, 0, this.uiManager.settings.width, this.uiManager.settings.height);
-        this._setupBackground();
+        // this.context.clearRect(0, 0, this.uiManager.settings.width, this.uiManager.settings.height);
+        this._toInitState();
+        // this._setupBackground();
         this.commands.forEach(cmd => this._executeCommand(cmd));
     }
 
@@ -72,6 +73,14 @@ export default class PlaybackRasterSlide extends PlaybackSlide {
     // todo - превратить в массив или более сложный объект
     getContent() {
         return this.backgroundImage; // Контент — путь к изображению или само изображение
+    }
+
+    onResize(newWidth, newHeight) {
+        this.uiManager.settings.width = newWidth
+        this.uiManager.settings.height = newHeight
+        // this.canvas.width  = newWidth;
+        // this.canvas.height = newHeight;
+        this.render();
     }
 
 }

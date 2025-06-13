@@ -69,6 +69,10 @@ export class RecordingSlide {
         this._executeCommand(command);
     }
 
+    onResize(newWidth, newHeight) {
+        this.playbackSlide.onResize(newWidth, newHeight);
+    }
+
     _toInitState() {
         this.playbackSlide._toInitState();
     }
