@@ -11,8 +11,7 @@ import RecordingVideoSlide from "./modules/video-slide/RecordingVideoSlide.js";
 import PlaybackTextSlide from "./modules/text-slide/PlaybackTextSlide.js";
 import RecordingTextSlide from "./modules/text-slide/RecordingTextSlide.js";
 
-import {PlaybackSlideLibrary} from "./modules/PlaybackSlideLibrary.js";
-import {RecordingSlideLibrary} from "./modules/RecordingSlideLibrary.js";
+import {SlideFactory} from "./modules/SlideFactory.js";
 
 export {PlaybackSlide};
 export {RecordingSlide};
@@ -26,5 +25,4 @@ export {RecordingVideoSlide};
 export {PlaybackTextSlide};
 export {RecordingTextSlide};
 
-export {PlaybackSlideLibrary};
-export {RecordingSlideLibrary};
+export {SlideFactory};

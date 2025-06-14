@@ -1,14 +1,15 @@
-import {RecordingSlideLibrary} from "../slide-sync/index.js";
 import {SlideStorage} from "./SlideStorage.js";
-import {PlaybackSlideLibrary} from "../slide-sync/modules/PlaybackSlideLibrary.js";
+import {SlideFactory} from "../slide-sync/modules/SlideFactory.js";
 
-const recordingOtherModules = {
-    'text': '../modules/text-slide/RecordingTextSlide.js'
-}
 
-const playbackOtherModules = {
-    'text': '../modules/text-slide/PlaybackTextSlide.js'
-}
+const otherModules = {
+    recording: {
+        text: './text-slide/RecordingTextSlide.js',
+    },
+    playback: {
+        text: './text-slide/PlaybackTextSlide.js',
+    }
+};
 
 const playButton = document.getElementById('play-button');
 const pauseButton = document.getElementById('pause-button');
@@ -16,8 +17,7 @@ const stopButton = document.getElementById('stop-button');
 
 export class SlideLibraryUsage {
     constructor(slideContainer, toolsContainer) {
-        this.recordingSlideLib = new RecordingSlideLibrary(slideContainer, toolsContainer, recordingOtherModules);
-        this.playbackSlideLib = new PlaybackSlideLibrary(slideContainer, playbackOtherModules);
+        this.slideFactory = new SlideFactory(slideContainer, toolsContainer, otherModules);
 
         // todo - вынести на уровень приложения
         this.slideStorage = new SlideStorage();
@@ -26,17 +26,26 @@ export class SlideLibraryUsage {
     }
 
     async createSlide(type, ...args) {
-        return this.recordingSlideLib.createSlide(type, ...args);
+        // return this.recordingSlideLib.createSlide(type, ...args);
+        return this.slideFactory.createRecordingSlide(type, ...args);
     }
 
-    async recreateSlide() {
-        return this.recordingSlideLib.recreateSlide();
+    async recreateSlide(slide) {
+        // return this.recordingSlideLib.recreateSlide();
+        return this.slideFactory.recreateRecordingSlide(slide);
     }
 
-    async startRecording(key) {
+    async startRecording(key, slideForRecording) {
         if (!key) throw new Error('Ключ обязателен');
         this.key = key;
-        this.currentRecordingSlide = await this.recordingSlideLib.recreateSlide();
+
+        if (!this.currentRecordingSlide) {
+            this.currentRecordingSlide = slideForRecording;
+        }
+
+        // todo - разобраться зачем тут пересоздавать и как не пересоздавать
+        // this.currentRecordingSlide = await this.recordingSlideLib.recreateSlide();
+        this.currentRecordingSlide = await this.recreateSlide(this.currentRecordingSlide);
         this.currentRecordingSlide.startRecording();
     }
 
@@ -50,7 +59,7 @@ export class SlideLibraryUsage {
     async playRecordingOld(key) {
         const slideDTO = this.slideStorage.getRecordedSlide(key);
 
-        let slide = await this.playbackSlideLib.createSlide(
+        let slide = await this.slideFactory.createPlaybackSlide(
             slideDTO.type, slideDTO.content, slideDTO.commands
         );
         // создать слайд по типу и запустить его проигрывание
@@ -64,8 +73,8 @@ export class SlideLibraryUsage {
         if (!slideDTO) throw new Error(`Слайд с ключом ${key} не найден`);
 
         // Создаём слайд для воспроизведения
-        this.currentPlaybackSlide = await this.playbackSlideLib.createSlide(
-            slideDTO.type, slideDTO.content, slideDTO.commands
+        this.currentPlaybackSlide = await this.slideFactory.createPlaybackSlide(
+            slideDTO
         );
 
         // Создаём кнопки Play, Pause, Stop
