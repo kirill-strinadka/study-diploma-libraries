@@ -11,6 +11,9 @@ const videoSlideButton = document.getElementById('video-slide-button');
 const textSlideButton = document.getElementById('text-slide-button');
 
 
+const resizeButton = document.getElementById('resize-slide-button');
+
+
 
 // Переменные для хранения текущего слайда и записанных команд
 let currentRecordingSlide = null;
@@ -114,6 +117,19 @@ textSlideButton.onclick = async() => {
     playbackButtonsContainer.innerHTML = '';
     await initializeTextSlide();
 };
+
+resizeButton.onclick = () => {
+    if (!currentRecordingSlide) return;
+
+    // slideLib.doResize()
+    // currentRecordingSlide — это Promise<Slide>
+    currentRecordingSlide
+        .then(slide => {
+            if (slide?.doResize) slide.doResize();
+        })
+        .catch(err => console.error("Не удалось получить слайд:", err));
+};
+
 
 
 // Обработчик для перехода к примерам
