@@ -19,8 +19,11 @@ export const penColors = [
 
 export default class RecordingRasterSlide extends RecordingSlide {
     constructor(container, toolsContainer, backgroundImage, ...restArgs) {
-        super(container, toolsContainer, new PlaybackRasterSlide(container, [], backgroundImage));
-        this.playbackSlide = new PlaybackRasterSlide(container, backgroundImage, [])
+        super(container, toolsContainer, new PlaybackRasterSlide(container, backgroundImage, []));
+
+        if (!this.playbackSlide) {
+            this.playbackSlide = new PlaybackRasterSlide(container, backgroundImage, [])
+        }
 
         // todo - команды воспроизводятся на слайде воспроизведения => тут определение команд даже для инструментов не нужно
         this.penColor = 'black';
