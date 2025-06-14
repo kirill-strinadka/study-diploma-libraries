@@ -2,10 +2,7 @@
 ---
 
 ### Классы 
-`SlideLibrary`
-[PlaybackSlideLibrary](../slide-sync/modules/PlaybackSlideLibrary.js) - создает полиморфно слайды для воспроизведения
-
-[RecordingSlideLibrary](../slide-sync/modules/RecordingSlideLibrary.js) - создает полиморфно слайды для записи
+`SlideFactory`
 
 
 #### Описание
@@ -74,7 +71,6 @@ constructor(slideContainer, otherModules)
 - **Добавление модулей**: Передавайте свои модули через `otherModules` в конструкторе. Например:
   ```javascript
   const myModules = { 'custom': 'https://example.com/CustomSlide.js' };
-  const slideLib = new RecordingSlideLibrary(uiManager, myModules);
   ```
 - **Требования к слайдам**: Все модули должны экспортировать класс, наследующийся от `PlaybackSlide` или `RecordingSlide` соответственно, 
 с реализацией необходимых методов.

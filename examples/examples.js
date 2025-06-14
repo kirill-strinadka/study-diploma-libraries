@@ -11,8 +11,13 @@ const videoSlideButton = document.getElementById('video-slide-button');
 const textSlideButton = document.getElementById('text-slide-button');
 
 
+const resizeButton = document.getElementById('resize-slide-button');
+
+
+
 // Переменные для хранения текущего слайда и записанных команд
-let currentSlide = null;
+let currentRecordingSlide = null;
+let currentPlayingSlide = null;
 
 // Инициализация примеров
 let rasterSlide = null;
@@ -31,11 +36,13 @@ const slideModules = {
 const slideLib = new SlideLibraryUsage(slideContainer, toolsContainer, slideModules);
 
 async function initializeRasterSlide() {
-    rasterSlide = slideLib.createSlide('raster', backImage);
+    rasterSlide = await slideLib.createSlide('raster', backImage);
     console.log('RasterSlide initialized');
 
-    if (currentSlide && currentSlide !== rasterSlide) currentSlide.stopRecording();
-    currentSlide = rasterSlide;
+    // if (currentRecordingSlide && currentRecordingSlide !== rasterSlide)
+        // currentRecordingSlide.stopRecording();
+
+    currentRecordingSlide = rasterSlide;
     setupControls();
     rasterSlideButton.classList.add('active');
     videoSlideButton.classList.remove('active');
@@ -46,12 +53,13 @@ async function initializeRasterSlide() {
 const videoSrc = './examples/video/first-video.mp4';
 
 async function initializeVideoSlide() {
-    videoSlide = slideLib.createSlide('video', videoSrc);
+    videoSlide = await slideLib.createSlide('video', videoSrc);
     console.log('VideoSlide initialized');
 
-    if (currentSlide && currentSlide !== videoSlide) currentSlide.stopRecording();
+    // if (currentRecordingSlide && currentRecordingSlide !== videoSlide)
+        // currentRecordingSlide.stopRecording();
 
-    currentSlide = videoSlide;
+    currentRecordingSlide = videoSlide;
     setupControls();
     videoSlideButton.classList.add('active');
     rasterSlideButton.classList.remove('active');
@@ -59,11 +67,11 @@ async function initializeVideoSlide() {
 }
 
 async function initializeTextSlide() {
-    textSlide = slideLib.createSlide('text', backImage);
+    textSlide = await slideLib.createSlide('text', backImage);
     console.log('TextSlide initialized');
 
-    if (currentSlide && currentSlide !== textSlide) currentSlide.stopRecording();
-    currentSlide = textSlide;
+    // if (currentRecordingSlide && currentRecordingSlide !== textSlide) currentRecordingSlide.stopRecording();
+    currentRecordingSlide = textSlide;
     setupControls();
     textSlideButton.classList.add('active');
     videoSlideButton.classList.remove('active');
@@ -76,15 +84,15 @@ function setupControls() {
 
     startRecordingButton.onclick = () => {
         const key = prompt('Введите название для этого набора команд:');
-        if (key && currentSlide) {
-            slideLib.startRecording(key);
+        if (key && currentRecordingSlide) {
+            slideLib.startRecording(key, currentRecordingSlide);
             startRecordingButton.disabled = true;
             stopRecordingButton.disabled = false;
         }
     };
 
     stopRecordingButton.onclick = () => {
-        if (currentSlide) {1
+        if (currentRecordingSlide) {
             const recordingKey = slideLib.stopRecording();
             startRecordingButton.disabled = false;
             stopRecordingButton.disabled = true;
@@ -112,6 +120,21 @@ textSlideButton.onclick = async() => {
     playbackButtonsContainer.innerHTML = '';
     await initializeTextSlide();
 };
+
+resizeButton.onclick = () => {
+    if (!currentRecordingSlide) return;
+
+    // slideLib.doResize()
+    // currentRecordingSlide — это Promise<Slide>
+    // currentRecordingSlide
+    //     .then(slide => {
+    //         if (slide?.doResize) slide.doResize();
+    //     })
+    //     .catch(err => console.error("Не удалось получить слайд:", err));
+
+    // currentRecordingSlide.doResize()
+};
+
 
 
 // Обработчик для перехода к примерам

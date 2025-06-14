@@ -1,5 +1,6 @@
 // examples/raster-slide/example1/example.js
-import {PlaybackSlideLibrary} from "../../../slide-sync/modules/PlaybackSlideLibrary.js";
+import {SlideFactory} from "../../../slide-sync/modules/SlideFactory.js";
+import {SlideDTO} from "../../../slide-sync/modules/utils/SlideDTO.js";
 
 // DOM-элементы
 const slideContainer = document.getElementById('slide-container');
@@ -9,7 +10,7 @@ const example1Button = document.getElementById('example1-button');
 const playExampleButton = document.getElementById('play-example-button');
 
 // Создание экземпляра SlideLibrary
-const slideLib = new PlaybackSlideLibrary(slideContainer);
+const slideFactory = new SlideFactory(slideContainer);
 
 // Переменные для хранения слайдов и команд примера
 let rasterSlide = null;
@@ -23,7 +24,8 @@ async function loadExample() {
     exampleCommands = await response.json(); // Сохраняем команды для рисования
 
     // Инициализация растрового слайда с фоном из example.png
-    rasterSlide = await slideLib.createSlide('raster', './examples/raster/example1/example.png', exampleCommands);
+    let slideDTO = new SlideDTO(exampleCommands, './examples/raster/example1/example.png', 'raster');
+    rasterSlide = await slideFactory.createPlaybackSlide(slideDTO);
     console.log('RasterSlide initialized with commands:', exampleCommands);
 
     // Создание и настройка элемента <video-slide>

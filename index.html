@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Slide Interaction Demo</title>
     <style>
-        #slide-container { width: 600px; height: 400px; border: 1px solid black; }
+        /*#slide-container { width: 600px; height: 400px; border: 1px solid black; }*/
         #tools-container { margin: 10px 0; }
         #controls-container { margin: 10px 0; }
         #playback-controls-container { margin: 10px 0; }
@@ -43,6 +43,24 @@
         #go-to-examples-button:active {
             transform: translateY(0);
         }
+        #play-button, #pause-button, #stop-button {
+            padding: 8px 16px;
+            margin-right: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #play-button:hover, #pause-button:hover {
+            background-color: #0056b3;
+        }
+
+        #pause-button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
     </style>
 </head>
 <body>
@@ -57,8 +75,25 @@
 </div>
 
 <!-- Контейнеры для слайдов -->
-<div id="slide-container"></div>
+<div
+        id="slide-container"
+        style="
+    resize: both;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+    width: 800px;
+    height: 600px;
+    border: 1px solid #ccc;
+  "
+></div>
 <div id="tools-container"></div>
+<div id="slide-playback-controls">
+    <button id="play-button">Play</button>
+    <button id="pause-button">Pause</button>
+    <button id="stop-button">Stop</button>
+    <button id="resize-slide-button">Resize</button>
+</div>
 <div id="controls-container">
     <button id="start-recording-button">Начать запись</button>
     <button id="stop-recording-button" disabled>Остановить запись</button>

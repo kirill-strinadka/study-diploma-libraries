@@ -1,3 +1,4 @@
+// ─────────────────────────── RecordingSlide.js ──────────────────────────────────
 
 import {ToolManager} from "../utils/ToolManager.js";
 import {UIManager} from "../utils/UIManager.js";
@@ -66,6 +67,10 @@ export class RecordingSlide {
 
         // Вызов _executeCommand для немедленного рендеринга
         this._executeCommand(command);
+    }
+
+    onResize(newWidth, newHeight) {
+        this.playbackSlide.onResize(newWidth, newHeight);
     }
 
     _toInitState() {
